@@ -2,17 +2,18 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 require('dotenv/config');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 //routes
-const userRoutes = requrie('./routes/userRoutes.js');
-const managerRoutes = requrie('./routes/managerRoutes.js');
-const adminRoutes = requrie('./routes/adminRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+const managerRoutes = require('./routes/managerRoutes.js');
+const adminRoutes = require('./routes/adminRoutes.js');
 
 //middlewares
 app.use(express.json());
 
 //databaseConnection
+mongoose.set("strictQuery", false);  
 mongoose.connect(process.env.mongodb);
 
 //serverPort
