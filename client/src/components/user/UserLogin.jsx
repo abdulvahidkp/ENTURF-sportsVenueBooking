@@ -9,21 +9,21 @@ function UserLogin() {
 
   return (
     <div className='pb-0 sm:pb-32'>
-        <div className='container mx-auto'>
+        <div className='w-screen sm:container mx-auto'>
         <div className='flex flex-col sm:flex-row justify-between items-center'>
           <div className='hidden sm:block'>
             <img src={Login} alt="" />
           </div>
           <div className='py-8 sm:pt-40'>
             <div className='rounded-lg shadow-xl w-96 h-auto'>
-              <div className='px-4'>
+              <div className='px-10 sm:px-4'>
                 <h1 className="text-4xl select-none font-semibold font-roboto ">Sign in</h1>
                 <p className='text-md py-2 font-sans'>Keep playing stay healthy</p>
                 <div>
                   <input type="text" id="first_name" className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" placeholder="Email" required/>
                   <div className='flex items-center'>
                     <input type={passwordHide?"text":"password"} id="first_name" className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" placeholder="Password" required/>
-                    <p className='text-green-700 -ml-12 cursor-pointer select-none' onClick={()=>hideChange(!passwordHide)}>show</p>
+                    <p className='text-green-700 -ml-12 cursor-pointer select-none' onClick={()=>hideChange(!passwordHide)}>{passwordHide?`hide`:`show`}</p>
                   </div>
                 </div>
                 <p className='font-semibold text-emerald-600 font-roboto'>Forgot password?</p>
@@ -38,7 +38,7 @@ function UserLogin() {
                 <button className='border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3'>
                     Sign in with Google
                 </button>
-                <img src={Google} className="h-6 ml-16 -mt-10 select-none" alt="" s />
+                <img src={Google} className="h-6 ml-10 sm:ml-16 -mt-10 select-none" alt="" />
                 </div>
               </div>
                 <div className='place-content-center'>

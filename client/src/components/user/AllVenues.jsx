@@ -9,9 +9,9 @@ function AllVenues() {
   return (
     <div className='bg-gradient-to-r from-emerald-50 to-emerald-100'>
       <div className='container mx-auto'>
-        <div className='grid grid-cols-2 gap-3 lg:grid-cols-3 place-items-center xl:grid-cols-4 py-24 '>
+        <div className='grid grid-cols-2 gap-3 lg:grid-cols-3 place-items-center 2xl:grid-cols-4 py-24 '>
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover rounded-lg shadow-md ' />
             </div>
@@ -46,7 +46,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover object-center rounded-lg shadow-md' />
             </div>
@@ -81,7 +81,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover rounded-lg shadow-md ' />
             </div>
@@ -116,7 +116,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover object-center rounded-lg shadow-md' />
             </div>
@@ -151,7 +151,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover rounded-lg shadow-md ' />
             </div>
@@ -186,7 +186,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover object-center rounded-lg shadow-md' />
             </div>
@@ -221,7 +221,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover rounded-lg shadow-md ' />
             </div>
@@ -256,7 +256,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover object-center rounded-lg shadow-md' />
             </div>
@@ -291,7 +291,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover rounded-lg shadow-md ' />
             </div>
@@ -326,7 +326,7 @@ function AllVenues() {
           </div>
           {/* end */} 
           {/* start */}
-          <div className="w-full p-4 lg:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
+          <div className="w-full p-4 lg:w-72 2xl:w-80 rounded-lg shadow-xl mt-20 scale-100 hover:scale-105 ease-in duration-200 bg-white">
             <div className='wrapper antialiased -mt-16'>
               <img src={turfImage} alt="" className='h-44 w-full object-cover object-center rounded-lg shadow-md' />
             </div>

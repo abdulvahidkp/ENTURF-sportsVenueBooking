@@ -8,14 +8,14 @@ function UserSignup() {
   return (
     <div>
       <div className='pb-0 sm:pb-32'>
-        <div className='container mx-auto'>
-          <div className='flex flex-col sm:flex-row justify-between items-center'>
+        <div className='w-screen sm:container mx-auto'>
+          <div className='flex flex-col sm:flex-row sm:justify-between items-center'>
             <div className='hidden sm:block'>
                 <img src={Signup} alt="" />
             </div>
-            <div className='py-8 sm:pt-40'>
+            <div className='py-10 sm:pt-40'>
                 <div className='rounded-lg shadow-xl w-96 h-auto'>
-                <div className='px-4'>
+                <div className='px-10 sm:px-4'>
                     <h1 className="text-4xl select-none font-semibold font-roboto ">Sign up</h1>
                     <p className='text-md py-2 font-sans'>Just play. Have fun. Enjoy the game.</p>
                     <div>
@@ -38,11 +38,11 @@ function UserSignup() {
                     <button className='border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3'>
                         Sign in with Google
                     </button>
-                    <img src={Google} className="h-6 ml-16 -mt-10 select-none" alt="" s />
+                    <img src={Google} className="h-6 ml-10 sm:ml-16  -mt-10 select-none" alt="" s />
                     </div>
                 </div>
                     <div className='place-content-center'>
-                    <p className='px-16 py-10'>Already have an account?<span className='text-green-800 hover:text-green-900 hover:underline cursor-pointer'> Signin</span></p>
+                    <p className='px-16 py-10'>already have an account?<span className='text-green-800 hover:text-green-900 hover:underline cursor-pointer'> Signin</span></p>
                     </div>
                 </div>
             </div>
