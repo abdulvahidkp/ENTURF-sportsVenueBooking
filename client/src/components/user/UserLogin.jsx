@@ -27,7 +27,7 @@ function UserLogin() {
                   </div>
                 </div>
                 <p className='font-semibold text-emerald-600 font-roboto'>Forgot password?</p>
-                <button className='w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800'>Sign in</button>
+                  <button className='w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800'>Sign in</button>
                 <div className='flex items-center my-4'>
                   <hr className='w-1/2 ' />
                   <p className='mx-3'>or</p>

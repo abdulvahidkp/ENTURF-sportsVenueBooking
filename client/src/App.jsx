@@ -10,18 +10,11 @@ import UserFooter from './components/user/UserFooter'
 import BookingSection from './components/user/BookingSection'
 import SingleVenue from './components/user/SingleVenue'
 import TurfDetailsPart from './components/user/TurfDetailsPart'
-
-
-import turfImage from './assets/turfImage.jpeg'
-import { ShareIcon } from './assets/ShareIcon'
-import { LocationIcon,GetDirection,PercentageRound } from './assets/LocationIcon'
-import { Cricket,Football } from './assets/Sports'
-import { EmptyCart } from './assets/CartIcon'
-
-import { DocsIcon,BookingCancel } from './assets/DescriptionIcon'
-import Profile from './pages/user/Profile'
-
-
+import VenueManagerSignup from './components/user/venueManagerSignup/VenueManagerSignup'
+import ManagerSignup from './pages/user/ManagerSignup'
+import VMLogin from './pages/manager/VMLogin'
+import VMDashboard from './pages/manager/VMDashboard'
+import FlowBiteAdminSidebar from './pages/manager/FlowBiteAdminSidebar'
 
 
 
@@ -29,15 +22,8 @@ import Profile from './pages/user/Profile'
 function App() {
 
   return (
-    <div className='bg-gradient-to-r from-emerald-50 to-emerald-100'> 
-      <div className='container'>
-        <div className='grid grid-cols-2'>
-          <div className='bg-white'>
-
-          </div>
-
-        </div>
-      </div>
+    <div >
+      <VMDashboard/>
     </div>
   )
 }

@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+
+@layer base {
+    .font-roboto  {
+        font-family: 'Roboto', sans-serif;
+    }
+    .input_Field{
+        @apply border my-3 border-gray-300 text-gray-900  rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+    }
+     
+}
