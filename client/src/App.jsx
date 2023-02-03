@@ -15,6 +15,12 @@ import ManagerSignup from './pages/user/ManagerSignup'
 import VMLogin from './pages/manager/VMLogin'
 import VMDashboard from './pages/manager/VMDashboard'
 import FlowBiteAdminSidebar from './pages/manager/FlowBiteAdminSidebar'
+import AdminLogin from './pages/admin/adminLogin'
+import Dashboard from './pages/admin/Dashboard'
+import SportsManage from './pages/admin/SportsManage'
+import UsersManage from './pages/admin/UsersManage'
+import VMManage from './pages/admin/VMManage'
+import TurfManage from './pages/admin/TurfManage'
 
 
 
@@ -23,7 +29,7 @@ function App() {
 
   return (
     <div >
-      <VMDashboard/>
+      <TurfManage/>
     </div>
   )
 }
