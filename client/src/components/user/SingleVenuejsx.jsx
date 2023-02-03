@@ -5,7 +5,7 @@ import { LocationIcon,GetDirection,PercentageRound } from '../../assets/Location
 import { Cricket,Football } from '../../assets/Sports'
 
 
-function SingleVenue() {
+function SingleVenuejsx() {
   return (
     <div>
       <div className='bg-white '>
@@ -87,4 +87,4 @@ function SingleVenue() {
   )
 }
 
-export default SingleVenue
+export default SingleVenuejsx

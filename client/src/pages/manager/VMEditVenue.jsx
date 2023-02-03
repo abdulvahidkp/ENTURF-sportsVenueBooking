@@ -1,12 +1,12 @@
 import React from 'react'
 import VMSideAndNav from '../../components/manager/VMSideAndNav/VMSideAndNav'
-import VMEditVenue from '../../components/manager/VMEditVenue/VMEditVenue'
+import VMEditVenuejsx from '../../components/manager/VMEditVenue/VMEditVenuejsx'
 
 function VMEditVenue() {
   return (
     <div>
         <VMSideAndNav/>
-        <VMEditVenue/>
+        <VMEditVenuejsx/>
     </div>
   )
 }

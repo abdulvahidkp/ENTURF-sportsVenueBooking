@@ -1,14 +1,6 @@
-import React, { useState } from "react";
-import turfImage from "../../../assets/turfImage.jpeg";
-import { ShareIcon } from "../../../assets/ShareIcon";
-import {
-  LocationIcon,
-  GetDirection,
-  PercentageRound,
-} from "../../../assets/LocationIcon";
-import { Cricket, Football } from "../../../assets/Sports";
+import React,{useState} from "react";
 
-function VMVenueAdd() {
+function VMEditVenuejsx() {
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
   const handleStartTimeChange = (event) => {
@@ -23,7 +15,7 @@ function VMVenueAdd() {
     <div class="p-4 sm:ml-64">
       <div class="p-4  border-dashed rounded-lg dark:border-gray-700 mt-14">
         <h1 className="text-gray-700 text-2xl font-light font-roboto drop-shadow-sm shadow-black ">
-          NEW VENUE
+          EDIT VENUE
         </h1>
         <div class="grid grid-cols-2 gap-4 mb-4 mt-8">
           <div>
@@ -33,7 +25,8 @@ function VMVenueAdd() {
                 id="venueName"
                 name="venueName"
                 class="block border px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
+                placeholder=""
+                value='ANFIELD TURF'
               />
               <label
                 for="venueName"
@@ -50,6 +43,7 @@ function VMVenueAdd() {
                   name="venueMobile"
                   class="block border px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  value='999999999'
                 />
                 <label
                   for="venueMobile"
@@ -64,6 +58,7 @@ function VMVenueAdd() {
                   id="venueLocation"
                   class="block border px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  value="Kannur,Taliparamba,Kerala"
                 />
                 <label
                   for="venueLocation"
@@ -80,7 +75,7 @@ function VMVenueAdd() {
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option selected>Choose a District</option>
-                  <option value="US">United States</option>
+                  <option value="US" selected>United States</option>
                   <option value="CA">Canada</option>
                   <option value="FR">France</option>
                   <option value="DE">Germany</option>
@@ -103,6 +98,7 @@ function VMVenueAdd() {
                 rows="4"
                 class="block p-2.5 mt-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Description about Venue..."
+                value="it's a nice venue"
               ></textarea>
             </div>
           </div>
@@ -254,7 +250,9 @@ function VMVenueAdd() {
               </div>
             </div>
             <div className="">
-              <button className="bg-blue-400 text-white px-2  rounded-md">Save</button>
+              <button className="bg-blue-400 text-white px-2  rounded-md">
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -263,4 +261,4 @@ function VMVenueAdd() {
   );
 }
 
-export default VMVenueAdd;
+export default VMEditVenuejsx;

@@ -70,6 +70,7 @@ function VMDashboardjsx() {
         </div>
         <div className="grid xl:grid-cols-2 gap-4 mb-4">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <p className='my-2'>LATEST BOOKING</p>
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
                         <tr>
@@ -90,99 +91,54 @@ function VMDashboardjsx() {
                     <tbody>
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                Apple MacBook Pro 17"
+                                Anfield turf
                             </th>
                             <td class="px-6 py-4">
-                                Sliver
+                                cricket
                             </td>
                             <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                Laptop
+                                5v5
                             </td>
                             <td class="px-6 py-4">
-                                $2999
+                                11:00pm - 12:00pm
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                Microsoft Surface Pro
+                                Anfield turf
                             </th>
                             <td class="px-6 py-4">
-                                White
+                                football
                             </td>
                             <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                Laptop PC
+                                7v7
                             </td>
                             <td class="px-6 py-4">
-                                $1999
+                                10:00pm - 11:00pm
                             </td>
                         </tr>
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                Magic Mouse 2
+                                Carriebeans
                             </th>
                             <td class="px-6 py-4">
-                                Black
+                                football
                             </td>
                             <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                Accessories
+                                5v5
                             </td>
                             <td class="px-6 py-4">
-                                $99
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-200 dark:border-gray-700">
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                Google Pixel Phone
-                            </th>
-                            <td class="px-6 py-4">
-                                Gray
-                            </td>
-                            <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                Phone
-                            </td>
-                            <td class="px-6 py-4">
-                                $799
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-                                Apple Watch 5
-                            </th>
-                            <td class="px-6 py-4">
-                                Red
-                            </td>
-                            <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                                Wearables
-                            </td>
-                            <td class="px-6 py-4">
-                                $999
+                                06:00am - 07:00am
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
+            {/* <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
                 <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
+            </div> */}
             
-        </div>
-        <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-                <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
         </div>
       </div>
     </div>

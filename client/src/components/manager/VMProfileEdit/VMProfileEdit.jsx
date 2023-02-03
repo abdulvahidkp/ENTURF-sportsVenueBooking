@@ -19,8 +19,8 @@ function VMProfileEdit() {
             <input type="text" className='input_Field' placeholder='Ac no' value='1001 0024 0154 0212' />
             <input type="text" className='input_Field' placeholder='IFSC no.' value='FDRL01290' />
 
-          <button className='w-2/4 select-none p-2 rounded-full text-white text-xl font-roboto  h-16 font-semibold bg-green-400/70 hover:bg-green-500'>Save Changes</button>
           </div>
+          <button className='w-1/4  select-none p-1 rounded-full text-white  font-roboto  h-16 font-semibold bg-green-400/70 hover:bg-green-500'>Save Changes</button>
         </div>
       </div>
     </div>

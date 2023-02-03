@@ -6,7 +6,6 @@ function Landing() {
   return (
     <div>
         <UserNavbar/>
-        
       
         <UserFooter/>
     </div>
