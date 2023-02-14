@@ -1,14 +1,14 @@
-import React from 'react'
-import UserSignup from '../../components/user/UserSignup'
-import UserFooter from '../../components/user/UserFooter'
+import React, { useState, useEffect } from "react";
+import UserSignup from "../../components/user/UserSignup";
+import UserFooter from "../../components/user/UserFooter";
 
 function Signup() {
   return (
     <div>
-      <UserSignup/>
-      <UserFooter/>
+      <UserSignup />
+      <UserFooter />
     </div>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

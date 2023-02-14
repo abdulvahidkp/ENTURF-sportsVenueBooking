@@ -2,7 +2,7 @@ import React from 'react'
 
 function UserFooter() {
   return (
-    <div >
+    <div className=''>
         <hr />
         <footer className="p-4 bg-gradient-to-r from-green-200 to-green-500 rounded-t-lg shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800">
            <div>

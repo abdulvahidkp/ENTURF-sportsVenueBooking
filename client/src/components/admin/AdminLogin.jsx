@@ -31,9 +31,9 @@ function AdminLogin() {
                 <button className="duration-300 select-none p-2 mt-2 w-full rounded-full text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500">
                   Sign in
                 </button>
-                <p className="font-semibold text-emerald-600 font-roboto cursor-pointer hover:underline">
+                {/* <p className="font-semibold text-emerald-600 font-roboto cursor-pointer hover:underline">
                   Forgot password?
-                </p>
+                </p> */}
               </div>
             </div>
           </div>

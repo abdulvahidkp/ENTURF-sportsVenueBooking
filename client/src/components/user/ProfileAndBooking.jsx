@@ -17,7 +17,7 @@ function ProfileAndBooking() {
                 <button className='border-r-4 text-lg p-3 text-[#807d7d] focus:border-green-400 focus:text-[#605555] hover:text-[#605555] text-start'>EDIT PROFILE</button>
               </div>
             </div>
-            {/* <div className='bg-white basis-3/4 p-4 space-y-5 '>
+             <div className='bg-white basis-3/4 p-4 space-y-5 '>
               <h1 className='font-semibold text-2xl font-roboto text-green-700 '>Bookings</h1>
               <div className='shadow rounded-lg'>
                 <div className='flex justify-between rounded-lg p-1'>
@@ -94,8 +94,8 @@ function ProfileAndBooking() {
                   </div>
                 </div>
               </div>
-            </div> */}
-            <div className='bg-white basis-3/4 p-4 space-y-5 rounded-lg'>
+            </div> 
+            {/* <div className='bg-white basis-3/4 p-4 space-y-5 rounded-lg'>
               <h1 className='font-semibold text-2xl font-roboto text-green-700'>Edit Profile</h1>
               <div className='grid grid-cols-2 space-x-2'>
                 <input type="text" id="first_name" className="border my-3 border-gray-300 text-gray-900 text-md rounded-md p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" value="abdulvahidkp" required/> 
@@ -105,7 +105,7 @@ function ProfileAndBooking() {
                 <button className='bg-green-300 w-24 rounded-full h-10 duration-500 transition hover:bg-green-400'>Save</button>
                 <p className='text-[#807d7d] cursor-pointer hover:underline hover:text-[#605555]'>change password</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

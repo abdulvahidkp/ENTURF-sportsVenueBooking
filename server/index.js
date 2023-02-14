@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors')
 require('dotenv/config');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
+
 
 //routes
 const userRoutes = require('./routes/userRoutes.js');
@@ -11,10 +13,17 @@ const adminRoutes = require('./routes/adminRoutes.js');
 
 //middlewares
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:5173', // allow requests from this origin
+    credentials: true, // allow credentials to be sent with the request
+}))
 
 //databaseConnection
 mongoose.set("strictQuery", false);  
 mongoose.connect(process.env.mongodb);
+
+//
+app.use('/',userRoutes)
 
 //serverPort
 app.listen(PORT, () => console.log(`server started on ${PORT}`));
