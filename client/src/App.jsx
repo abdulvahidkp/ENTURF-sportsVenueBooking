@@ -35,6 +35,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
+        {/* user */}
         {/* public routes */}
         <Route path="" element={<Landing />} />
         <Route path="signin" element={<Signin />} />
@@ -49,7 +50,6 @@ function App() {
         </Route>
       </Route>
 
-      {/* user */}
 
       {/* venue manager */}
       <Route path="/vm/signin" element={<VMLogin />} />

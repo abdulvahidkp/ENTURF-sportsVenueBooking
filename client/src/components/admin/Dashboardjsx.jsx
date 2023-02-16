@@ -2,6 +2,7 @@ import React from "react";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 
+
 ChartJs.register(ArcElement, Tooltip, Legend);
 
 
@@ -27,13 +28,13 @@ function Dashboardjsx() {
   ];
 
   return (
-    <div class="p-4 sm:ml-64 bg-[#05445E] h-screen">
-      <div class="p-4 mt-12">
-        <div class="grid grid-cols-5 gap-8 mb-4">
-          <div class="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
+    <div className="p-4 sm:ml-64 bg-[#05445E] h-screen">
+      <div className="p-4 mt-12">
+        <div className="grid grid-cols-5 gap-8 mb-4">
+          <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
-                class="absolute w-12 h-12 text-[#75E6DA] "
+                className="absolute w-12 h-12 text-[#75E6DA] "
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -50,10 +51,10 @@ function Dashboardjsx() {
               <p className="font-bold text-[#D4F1F4] text-xl">0</p>
             </div>
           </div>
-          <div class="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
+          <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
-                class="absolute w-12 h-12 text-[#75E6DA] "
+                className="absolute w-12 h-12 text-[#75E6DA] "
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +71,7 @@ function Dashboardjsx() {
               <p className="font-bold text-[#D4F1F4] text-xl">0</p>
             </div>
           </div>
-          <div class="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
+          <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
                 aria-hidden="true"
@@ -87,7 +88,7 @@ function Dashboardjsx() {
               <p className="font-bold text-[#D4F1F4] text-xl">0</p>
             </div>
           </div>
-          <div class="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
+          <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
                 aria-hidden="true"
@@ -108,10 +109,10 @@ function Dashboardjsx() {
               <p className="font-bold text-[#D4F1F4] text-xl">0</p>
             </div>
           </div>
-          <div class="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
+          <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
-                class="w-12 h-12 dark:text-white text-[#75E6DA]"
+                className="w-12 h-12 dark:text-white text-[#75E6DA]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -131,34 +132,34 @@ function Dashboardjsx() {
             </div>
           </div>
         </div>
-        <div class="grid grid-cols-2 mt-6 gap-4 mb-4">
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
-              <thead class="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
+        <div className="grid grid-cols-2 mt-6 gap-4 mb-4">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
+              <thead className="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
                 <p className="text-lg m-1 capitalize">New Venue Requests</p>
                 <tr className="border border-[#189AB4]">
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Venue name
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     place
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     sports
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Manager
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     Status
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                <tr className="bg-[#189AB4] border-b border-[#05445E]">
                   <th
                     scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
+                    className="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
                     Anfield Turf
                   </th>
@@ -187,7 +188,7 @@ function Dashboardjsx() {
                   <td class="px-6 py-4">
                     <a
                       href="#"
-                      class="font-medium text-[#75E6DA] hover:underline"
+                      className="font-medium text-[#75E6DA] hover:underline"
                     >
                       Pending
                     </a>
@@ -212,17 +213,17 @@ function Dashboardjsx() {
                     </a>
                   </td>
                 </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                <tr className="bg-[#189AB4] border-b border-[#05445E]">
                   <th
                     scope="row"
                     class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
                     Anfield Turf
                   </th>
-                  <td class="px-6 py-4">Taliparamba</td>
-                  <td class="px-6 py-4">Football</td>
-                  <td class="px-6 py-4">Ali</td>
-                  <td class="px-6 py-4">
+                  <td className="px-6 py-4">Taliparamba</td>
+                  <td className="px-6 py-4">Football</td>
+                  <td className="px-6 py-4">Ali</td>
+                  <td className="px-6 py-4">
                     <a
                       href="#"
                       class="font-medium text-[#75E6DA] hover:underline"

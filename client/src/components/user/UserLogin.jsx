@@ -6,6 +6,9 @@ import axios from "../../api/axios";
 import Google from "../../assets/Google.png";
 import Login from "../../assets/Login.png";
 const LOGIN_URL = "/signin";
+import { useDispatch } from "react-redux";
+
+
 
 function UserLogin() {
   const { setAuth } = useAuth();
@@ -34,7 +37,7 @@ function UserLogin() {
   const handleSigninSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
+      const {data} = await axios.post(
         LOGIN_URL,
         JSON.stringify({ mobile, password: pwd }),
         {
@@ -42,14 +45,17 @@ function UserLogin() {
           withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth({ mobile, password, roles, accessToken });
+      // console.log(JSON.stringify(response?.data));
+      const accessToken = data.accessToken
+      // const roles = response?.data?.roles;
+      setAuth({ mobile, password, accessToken });
+      // localStorage.setItem("user",response.data);
+      localStorage.setItem("user",accessToken);
       setMobile("");
       setPwd("");
       navigate(from, { replace: true });
     } catch (error) {
+      console.log(error.message)
       if (!error?.response) {
         setErrMsg("no server response");
       } else if (error.repsonse?.status === 400) {
@@ -66,9 +72,6 @@ function UserLogin() {
   return (
     <div className="pb-0 sm:pb-32">
       <div className="w-screen sm:container mx-auto">
-        <p ref={errRef} className={errMsg ? "errMsg" : "hidden  "}>
-          {errMsg}
-        </p>
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div className="hidden sm:block">
             <img src={Login} alt="" />
@@ -81,6 +84,9 @@ function UserLogin() {
                 </h1>
                 <p className="text-md py-2 font-sans">
                   Keep playing stay healthy
+                </p>
+                <p ref={errRef} className={errMsg ? "errMsg text-red-600" : "hidden  "}>
+                  {errMsg}
                 </p>
                 <form onSubmit={handleSigninSubmit}>
                   <div>

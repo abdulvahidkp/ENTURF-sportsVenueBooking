@@ -1,5 +1,5 @@
 module.exports = {
-    helloWorld:(req,res)=>{
+    signin:(req,res)=>{
         res.json({message:'helloworldAdmin'});
     }
 };
