@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
 
 const GET_USERS = '/admin/users'
+const CHANGE_BLOCK = '/admin/users/blockStatus'
 
 function UsersManagejsx() {
 
@@ -15,14 +16,16 @@ function UsersManagejsx() {
   },[])
 
   const handleBlock = (id)=> {
-    axios.patch()
+    axios.put(CHANGE_BLOCK+`/${id}`).then(response=>{
+      setUsers(users.map(user=>(user._id === id ? {...user,blockStatus:!user.blockStatus} : user)))
+    })
   }
 
   return (
-    <div className={`p-4 sm:ml-64 bg-[#05445E] ${users.length?"h-full":"h-screen"} `}>
+    <div className={`p-4 sm:ml-64 bg-[#05445E] ${users.length?"h-screen":"h-screen"} `}>
       <div className="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
+          <table className="w-full table-fixed text-left text-[#D4F1F4] dark:text-blue-100">
             <thead class="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
               <p className="text-lg m-1 capitalize">Manage Users</p>
               <tr className="border border-[#189AB4]">
@@ -55,9 +58,9 @@ function UsersManagejsx() {
                   <a
                     href="#"
                     onClick={()=>handleBlock(user._id)}
-                    className="font-medium bg-[#05445E] p-2 text-[#75E6DA] hover:underline"
+                    className={`font-medium ${user.blockStatus?"bg-green-600 ":"bg-red-600"} p-2  `}
                   >
-                    { user.blockStatus? "Unblock"  : "Block "}
+                    { user.blockStatus?"Unblock":"Block"}
                   </a>
                 </td>
               </tr>

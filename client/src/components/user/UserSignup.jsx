@@ -143,7 +143,7 @@ function  UserSignup() {
         setMobile("");
         setPwd("");
         setMatchPwd("");
-        navigatee("/Landing");  
+        navigatee("/signin");  
       });
     } catch (error) {
       console.log(error.message);

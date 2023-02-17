@@ -8,7 +8,10 @@ module.exports = {
         })
     },
     blockUser: async (req, res) => {
-        await users.updateOne({ _id: req.body.userId }, [{ "$set": { "blockStatus": { "$eq": [false, "$blockStatus"] } } }]);
-        res.sendStatus(200)
+        const {_id} = req.params;
+        await users.updateOne({ _id }, [{ "$set": { "blockStatus": { "$eq": [false, "$blockStatus"] } } }]).then(response=>{
+            console.log(response)
+            res.sendStatus(200);
+        })
     }
 }

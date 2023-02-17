@@ -62,7 +62,9 @@ function UserLogin() {
         setErrMsg("missing mobile or password");
       } else if (error.response?.status === 401) {
         setErrMsg("Unauthorized");
-      } else {
+      } else if (error.response?.status === 403) {
+        setErrMsg("You are Blocked!")
+      }  else {
         setErrMsg("login failed");
       }
       errRef.current.focus();
@@ -85,7 +87,7 @@ function UserLogin() {
                 <p className="text-md py-2 font-sans">
                   Keep playing stay healthy
                 </p>
-                <p ref={errRef} className={errMsg ? "errMsg text-red-600" : "hidden  "}>
+                <p ref={errRef} className={errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
                   {errMsg}
                 </p>
                 <form onSubmit={handleSigninSubmit}>
