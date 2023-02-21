@@ -15,7 +15,7 @@ const VALID_OTP = /^[0-9]{6}$/;
 const SIGNUP_URL = "/signup";
 const MOBILE_URL = "/mobileExist";
 
-function  UserSignup() {
+function UserSignup() {
   const userRef = useRef();
   const errRef = useRef();
   const otpRef = useRef();
@@ -26,7 +26,7 @@ function  UserSignup() {
   const [userFocus, setUserFocus] = useState(false);
 
   const [mobile, setMobile] = useState("");
-  const [validMobile, setValidMobile] = useState(true);
+  const [validMobile, setValidMobile] = useState(false);
   const [mobileFocus, setMobileFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
@@ -50,11 +50,11 @@ function  UserSignup() {
   const [otpMatch, setOtpMatch] = useState("");
 
   useEffect(() => {
-    let token = localStorage.getItem('user')
+    let token = localStorage.getItem("user");
     console.log(token);
-    if(token){
-      let user = jwtDecode(token)
-      console.log(user)
+    if (token) {
+      let user = jwtDecode(token);
+      console.log(user);
     }
     userRef.current.focus();
   }, []);
@@ -102,27 +102,30 @@ function  UserSignup() {
       return;
     }
     try {
-      const response = await axios.post(MOBILE_URL,JSON.stringify({mobile}), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        MOBILE_URL,
+        JSON.stringify({ mobile }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       const otpResponse = await setUpRecaptcha("+91" + mobile);
       setConfirm(otpResponse);
       setSuccess(true);
     } catch (error) {
-      console.log(error.code )
-      console.log(error.message)
-      if(error.code === "auth/argument-error"){
-        setErrMsg("Mobile Number you entered isn't available")
-      } else if(error.response?.status === 409) {
+      console.log(error.code);
+      console.log(error.message);
+      if (error.code === "auth/argument-error") {
+        setErrMsg("Mobile Number you entered isn't available");
+      } else if (error.response?.status === 409) {
         setErrMsg("mobile already taken");
-      } else{
-        setErrMsg('complete captcha');
+      } else {
+        setErrMsg("complete captcha");
       }
       errRef.current.focus();
     }
   };
-  
 
   const handleOTP = async (e) => {
     e.preventDefault();
@@ -132,7 +135,9 @@ function  UserSignup() {
     }
     try {
       await confirm.confirm(OTP).then(async () => {
-        const response = await axios.post(SIGNUP_URL,JSON.stringify({ name: user, mobile, password: pwd }),
+        const response = await axios.post(
+          SIGNUP_URL,
+          JSON.stringify({ name: user, mobile, password: pwd }),
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
@@ -143,7 +148,7 @@ function  UserSignup() {
         setMobile("");
         setPwd("");
         setMatchPwd("");
-        navigatee("/signin");  
+        navigatee("/signin");
       });
     } catch (error) {
       console.log(error.message);
@@ -176,7 +181,10 @@ function  UserSignup() {
                     <p className="text-md py-2 font-sans">
                       Just play. Have fun. Enjoy the game.
                     </p>
-                    <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
+                    <p
+                      ref={errRef}
+                      className={errMsg ? "errmsg text-red-700" : "offscreen"}
+                    >
                       {errMsg}
                     </p>
                     {otpMatch && <div>{otpMatch}</div>}
@@ -238,7 +246,10 @@ function  UserSignup() {
                     <p className="text-md py-2 font-sans">
                       Just play. Have fun. Enjoy the game.
                     </p>
-                    <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
+                    <p
+                      ref={errRef}
+                      className={errMsg ? "errmsg text-red-700" : "offscreen"}
+                    >
                       {errMsg}
                     </p>
                     <form id="signupForm" onSubmit={handleSignup} noValidate>
@@ -435,7 +446,6 @@ function  UserSignup() {
                       already have an account?
                       <Link to="/signin">
                         <span className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
-                          {" "}
                           Signin
                         </span>
                       </Link>

@@ -4,10 +4,7 @@ import TurfManagejsx from '../../components/admin/TurfManagejsx'
 
 function TurfManage() {
   return (
-    <div>
-      <SideAndNav/>
       <TurfManagejsx/>
-    </div>
   )
 }
 

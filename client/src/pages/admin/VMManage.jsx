@@ -4,10 +4,7 @@ import VMManagejsx from '../../components/admin/VMManagejsx'
 
 function VMManage() {
   return (
-    <div>
-      <SideAndNav/>
       <VMManagejsx/>
-    </div>
   )
 }
 

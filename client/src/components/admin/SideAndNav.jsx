@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 
 function SideAndNav() {
   const [aside, asideChange] = useState(false);
@@ -76,6 +77,7 @@ function SideAndNav() {
                   </div>
                   <ul className="py-1" role="none">
                     <li>
+                      <Link to='/admin'>
                       <a
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -83,6 +85,7 @@ function SideAndNav() {
                       >
                         Dashboard
                       </a>
+                      </Link>
                     </li>
                     <li>
                       <a
@@ -131,10 +134,9 @@ function SideAndNav() {
         <div className="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
           <ul className="space-y-2">
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700"
-              >
+              <NavLink to='/admin/' className={({isActive})=>{
+                return isActive?"bg-[#05445E] flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700":" flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05435e3c] dark:hover:bg-gray-700"
+              }}>
                 <svg
                   aria-hidden="true"
                   className="w-6 h-6 text-[#75E6DA] transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -146,13 +148,12 @@ function SideAndNav() {
                   <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                 </svg>
                 <span className="ml-3">Dashboard</span>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700"
-              >
+              <NavLink to='/admin/sports' className={({isActive})=>{
+                return isActive?"bg-[#05445E] flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700":" flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05435e3c] dark:hover:bg-gray-700"
+              }}>
                 <svg
                   aria-hidden="true"
                   className="flex-shrink-0 w-6 h-6 text-[#75E6DA] transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -164,7 +165,26 @@ function SideAndNav() {
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap ">Sports</span>
                 {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span> */}
-              </a>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='/admin/vm' className={({isActive})=>{
+                return isActive?"bg-[#05445E] flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700":" flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05435e3c] dark:hover:bg-gray-700"
+              }}>
+                <svg
+                  className="flex-shrink w-6 h-6 text-[#75E6DA] "
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>{" "}
+                <span className="flex-1 ml-3 whitespace-nowrap">Venue Managers</span>
+              </NavLink>
             </li>
             {/* <li>
                     <a href="#" className="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -174,10 +194,9 @@ function SideAndNav() {
                     </a>
                 </li>    */}
             <li>
-              <a
-                href="#"
-                className="flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700"
-              >
+            <NavLink to='/admin/turfs' className={({isActive})=>{
+                return isActive?"bg-[#05445E] flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700":" flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05435e3c] dark:hover:bg-gray-700"
+              }}>
                 <svg
                   aria-hidden="true"
                   className="flex-shrink-0 w-6 h-6 text-[#75E6DA] transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -191,15 +210,13 @@ function SideAndNav() {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Bookings</span>
-              </a>
+                <span className="flex-1 ml-3 whitespace-nowrap">Turfs</span>
+              </NavLink>
             </li>
             <li>
-              <Link to='/admin/users'>
-              <a
-                href="#"
-                className="flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700"
-              >
+            <NavLink to='/admin/users' className={({isActive})=>{
+                return isActive?"bg-[#05445E] flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700":" flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05435e3c] dark:hover:bg-gray-700"
+              }}>
                 <svg
                   className="flex-shrink w-6 h-6 text-[#75E6DA] "
                   fill="currentColor"
@@ -213,8 +230,7 @@ function SideAndNav() {
                   ></path>
                 </svg>{" "}
                 <span className="flex-1 ml-3 whitespace-nowrap">Users</span>
-              </a>
-              </Link>
+              </NavLink>
             </li>
             <li>
               <a

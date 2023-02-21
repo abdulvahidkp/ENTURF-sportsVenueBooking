@@ -1,14 +1,7 @@
-import React from 'react'
-import VMSideAndNav from '../../components/manager/VMSideAndNav/VMSideAndNav'
-import VMProfileEdit from '../../components/manager/VMProfileEdit/VMProfileEdit'
+import VMProfileEdit from "../../components/manager/VMProfileEdit/VMProfileEdit";
 
 function VMProfileEditPage() {
-  return (
-    <div>
-      <VMSideAndNav/>
-      <VMProfileEdit/>
-    </div>
-  )
+  return <VMProfileEdit />;
 }
 
-export default VMProfileEditPage
+export default VMProfileEditPage;

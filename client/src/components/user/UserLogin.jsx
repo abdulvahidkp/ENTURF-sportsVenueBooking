@@ -20,6 +20,8 @@ function UserLogin() {
   const mobileRef = useRef();
   const errRef = useRef();
 
+  const [forgotPwd,setForgotPwd] = useState(false);
+
   const [mobile, setMobile] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -71,13 +73,18 @@ function UserLogin() {
     }
   };
 
+  const handleForgotPwd = ()=> {
+
+  }
+
   return (
-    <div className="pb-0 sm:pb-32">
+    <div className="pb-0 sm:pb-32 h-screen">
       <div className="w-screen sm:container mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <div className="hidden sm:block">
             <img src={Login} alt="" />
           </div>
+          {!forgotPwd?
           <div className="py-8 sm:pt-40">
             <div className="rounded-lg shadow-xl w-96 h-auto">
               <div className="px-10 sm:px-4">
@@ -106,7 +113,7 @@ function UserLogin() {
                     <div className="flex items-center">
                       <input
                         type={passwordHide ? "text" : "password"}
-                        id="password"
+                        handleForgotPwd              id="password"
                         className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         placeholder="Password"
                         required
@@ -121,7 +128,7 @@ function UserLogin() {
                       </p>
                     </div>
                   </div>
-                  <p className="font-semibold text-emerald-600 font-roboto">
+                  <p onClick={()=>setForgotPwd(true)} className="font-semibold cursor-pointer text-emerald-600 font-roboto">
                     Forgot password?
                   </p>
                   <button
@@ -157,7 +164,54 @@ function UserLogin() {
                 </p>
               </div>
             </div>
+          </div> :
+
+          <div className="py-8 sm:pt-40">
+            <div className="rounded-lg shadow-xl w-96 h-auto">
+              <div className="px-10 sm:px-4">
+                <h1 className="text-4xl select-none font-semibold font-roboto ">
+                  Forgot Password
+                </h1>
+                <p className="text-md py-2 font-sans">
+                  Enter your registered mobile number
+                </p>
+                <p ref={errRef} className={errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
+                  {errMsg}
+                </p>
+                <form onSubmit={handleSigninSubmit}>
+                  <div>
+                    <input
+                      type="number"
+                      id="mobile"
+                      ref={mobileRef}
+                      className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                      placeholder="Mobile"
+                      autoComplete="off"
+                      required
+                      value={mobile}
+                      onChange={(e) => setMobile(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
+              <div className="place-content-center">
+                <p className="px-16 py-10">
+                  Back to sign in page?
+                  <span onClick={()=>setForgotPwd(false)} className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
+                    {" "}
+                    Signin
+                  </span>
+                </p>
+              </div>
+            </div>
           </div>
+        }
         </div>
       </div>
     </div>

@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../../api/axios";
 import { Cricket, Football, Volleyball, Badminton } from "../../assets/Sports";
 
+const SPORTS_GET = "/admin/sports";
+
 function SportsManagejsx() {
+  const [sports, setSports] = useState([]);
+
+  useEffect(() => {
+    axios.get(SPORTS_GET).then(({ data }) => {
+      console.log(data.sportsDatas);
+      setSports(data.sportsDatas);
+    });
+  }, []);
+
   return (
     <div class="p-4 sm:ml-64 bg-[#05445E] ">
       <div class="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div className="flex items-center justify-between">
           <p className="text-lg m-1 capitalize text-[#D4F1F4]">SPORTS</p>
-          <button className="bg-[#189AB4] text-[#D4F1F4] py-1 px-3 rounded-lg mb-1 hover:bg-[#28a2bb]">
+          {/* <button className="bg-[#189AB4] text-[#D4F1F4] py-1 px-3 rounded-lg mb-1 hover:bg-[#28a2bb]">
             Edit
-          </button>
+          </button> */}
         </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg min-h-screen">
           <table class="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
@@ -22,235 +34,296 @@ function SportsManagejsx() {
                   Sports
                 </th>
                 <th scope="col" class="px-6 py-3">
-                  Facilities
+                  Facilities ( count )
                 </th>
                 <th scope="col" class="px-6 py-3">
                   total
                 </th>
-                <th scope="col" class="px-6 py-3">
-                  action
-                </th>
               </tr>
             </thead>
-            <tbody>
-              <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                >
-                  <Football />
-                </th>
-                <td class="px-6 py-4">Football</td>
-                <td class="px-6 py-4">
-                  <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="vue-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-[#D4F1F4] bg-gray-100 border-gray-300 rounded focus:ring-text-[#D4F1F4] a/rk:focus:ring-text-[#D4F1F4] dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="vue-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          3v3 (12)
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="react-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="react-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          5v5 (15)
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="angular-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="angular-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          7v7 (7)
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="laravel-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="laravel-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          11v11 (2)
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                </td>
-                <td class="px-6 py-4">36</td>
-                <td class="px-6 py-4">
-                  <a
-                    href="#"
-                    class="font-medium text-[#75E6DA] hover:underline"
+            {sports.length ? (
+              <tbody>
+                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                  <th
+                    scope="row"
+                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
-                    Disable
-                  </a>
-                </td>
-              </tr>
-              <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                >
-                  <Cricket />
-                </th>
-                <td class="px-6 py-4">Cricket</td>
-                <td class="px-6 py-4">
-                  <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="react-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="react-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          5v5 (15)
-                        </label>
-                      </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input
-                          id="laravel-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="laravel-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          11v11 (2)
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                </td>
-                <td class="px-6 py-4">17</td>
-                <td class="px-6 py-4">
-                  <a
-                    href="#"
-                    class="font-medium text-[#75E6DA] hover:underline"
+                    <Football />
+                  </th>
+                  <td class="px-6 py-4 uppercase">{sports[0].sport}</td>
+                  <td class="px-6 py-4">
+                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[0].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "5v5",
+                                sports[0].facilityDetails[0].status
+                              )
+                            }
+                          >
+                            {sports[0].facilityDetails[0].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[0].facilityDetails[0].facility}
+                            <span className="ml-2">
+                              ({sports[0].facilityDetails[0].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[0].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "7v7",
+                                sports[0].facilityDetails[1].status
+                              )
+                            }
+                          >
+                            {sports[0].facilityDetails[1].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[0].facilityDetails[1].facility}
+                            <span className="ml-2">
+                              ({sports[0].facilityDetails[1].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[0].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "11v11",
+                                sports[0].facilityDetails[2].status
+                              )
+                            }
+                          >
+                            {sports[0].facilityDetails[2].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[0].facilityDetails[2].facility}
+                            <span className="ml-2">
+                              ({sports[0].facilityDetails[2].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td class="px-6 py-4">  </td>
+                </tr>
+                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                  <th
+                    scope="row"
+                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
-                    Disable
-                  </a>
-                </td>
-              </tr>
-              <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                >
-                  <Volleyball />
-                </th>
-                <td class="px-6 py-4">VolleyBall</td>
-                <td class="px-6 py-4">
-                  <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input checked
-                          id="react-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="react-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          6v6 (15)
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                </td>
-                <td class="px-6 py-4">15</td>
-                <td class="px-6 py-4">
-                  <a
-                    href="#"
-                    class="font-medium text-[#75E6DA] hover:underline"
+                    <Cricket />
+                  </th>
+                  <td class="px-6 py-4 uppercase">{sports[1].sport}</td>
+                  <td class="px-6 py-4">
+                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[0].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "5v5",
+                                sports[1].facilityDetails[0].status
+                              )
+                            }
+                          >
+                            {sports[1].facilityDetails[0].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[1].facilityDetails[0].facility}
+                            <span className="ml-2">
+                              ({sports[1].facilityDetails[0].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[0].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "11v11",
+                                sports[1].facilityDetails[1].status
+                              )
+                            }
+                          >
+                            {sports[1].facilityDetails[1].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[1].facilityDetails[1].facility}
+                            <span className="ml-2">
+                              ({sports[1].facilityDetails[1].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td class="px-6 py-4">17</td>
+                </tr>
+                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                  <th
+                    scope="row"
+                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
-                    Enable
-                  </a>
-                </td>
-              </tr>
-              <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                >
-                  <Badminton />
-                </th>
-                <td class="px-6 py-4">Badminton</td>
-                <td class="px-6 py-4">
-                  <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                   
+                    <Volleyball />
+                  </th>
+                  <td class="px-6 py-4 uppercase">
+                    {sports[2].sport}
+                  </td>
+                  <td class="px-6 py-4">
+                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                      <div class="flex items-center pl-3">
-                        <input checked
-                          id="react-checkbox"
-                          type="checkbox"
-                          value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 a/rk:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 "
-                        />
-                        <label
-                          for="react-checkbox"
-                          class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                        >
-                          2v2 (3)
-                        </label>
-                      </div>
-                    </li>
-                  </ul>
-                </td>
-                <td class="px-6 py-4">3</td>
-                <td class="px-6 py-4">
-                  <a
-                    href="#"
-                    class="font-medium text-[#75E6DA] hover:underline"
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[2].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "6v6",
+                                sports[2].facilityDetails[0].status
+                              )
+                            }
+                          >
+                            {sports[2].facilityDetails[0].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[2].facilityDetails[0].facility}
+                            <span className="ml-2">
+                              ({sports[2].facilityDetails[0].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td class="px-6 py-4">15</td>
+                </tr>
+                <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                  <th
+                    scope="row"
+                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                   >
-                    Enable
-                  </a>
-                </td>
-              </tr>
-            </tbody>
+                    <Badminton />
+                  </th>
+                  <td class="px-6 py-4 uppercase">
+                    {sports[3].sport}
+                  </td>
+                  <td class="px-6 py-4">
+                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                          <button
+                            className={`${
+                              sports[3].facilityDetails[0].status
+                                ? "bg-red-600 hover:bg-red-700"
+                                : "bg-green-600 hover:bg-green-700"
+                            } text-white p-1 rounded`}
+                            onClick={() =>
+                              handleAction(
+                                _id,
+                                "2v2",
+                                sports[3].facilityDetails[0].status
+                              )
+                            }
+                          >
+                            {sports[3].facilityDetails[0].status
+                              ? "disable"
+                              : "enable"}
+                          </button>
+                          <label
+                            for="vue-checkbox"
+                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                          >
+                            {sports[3].facilityDetails[0].facility}
+                            <span className="ml-2">
+                              ({sports[3].facilityDetails[0].count})
+                            </span>
+                          </label>
+                        </div>
+                      </li>
+                    </ul>
+                  </td>
+                  <td class="px-6 py-4">3</td>
+                </tr>
+              </tbody>
+            ) : (
+              <h1 className="p-4">no sports available</h1>
+            )}
           </table>
         </div>
       </div>

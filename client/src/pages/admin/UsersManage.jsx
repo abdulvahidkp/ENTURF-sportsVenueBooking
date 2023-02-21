@@ -4,10 +4,7 @@ import UsersManagejsx from '../../components/admin/UsersManagejsx'
 
 function UsersManage() {
   return (
-    <div>
-      <SideAndNav/>
       <UsersManagejsx/>
-    </div>
   )
 }
 

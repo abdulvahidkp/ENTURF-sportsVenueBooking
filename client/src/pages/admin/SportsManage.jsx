@@ -4,10 +4,7 @@ import SideAndNav from '../../components/admin/SideAndNav'
 
 function SportsManage() {
   return (
-    <div>
-      <SideAndNav/>
-      <SportsManagejsx/>
-    </div>
+      <SportsManagejsx/>  
   )
 }
 

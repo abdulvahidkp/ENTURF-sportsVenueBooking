@@ -1,18 +1,7 @@
-import React from 'react'
-import VMSideAndNav from '../../components/manager/VMSideAndNav/VMSideAndNav'
-import VMDashboardjsx from '../../components/manager/VMDashboard/VMDashboardjsx.jsx'
-import VMEditVenue from '../../components/manager/VMEditVenue/VMEditVenuejsx'
-
-
-import VMProfileEdit from '../../components/manager/VMProfileEdit/VMProfileEdit'
+import VMDashboardjsx from "../../components/manager/VMDashboard/VMDashboardjsx.jsx";
 
 function VMDashboard() {
-  return (
-    <div>
-        <VMSideAndNav/>
-        <VMDashboardjsx/>
-    </div>
-  )
+  return <VMDashboardjsx />;
 }
 
-export default VMDashboard
+export default VMDashboard;

@@ -39,13 +39,7 @@ function Landing() {
     verify();
   }, []);
 
-  return (
-    <div>
-      <UserNavbar />
-      <CoverVideoComponent />
-      <UserFooter />
-    </div>
-  );
+  return <CoverVideoComponent />
 }
 
 export default Landing;

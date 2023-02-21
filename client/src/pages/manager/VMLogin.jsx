@@ -1,12 +1,7 @@
-import React from 'react'
-import VenueManagerLogin from '../../components/manager/managerLogin/VenueManagerLogin'
+import VenueManagerLogin from "../../components/manager/managerLogin/VenueManagerLogin";
 
 function VMLogin() {
-  return (
-    <div>
-        <VenueManagerLogin/>
-    </div>
-  )
+  return <VenueManagerLogin />;
 }
 
-export default VMLogin
+export default VMLogin;
