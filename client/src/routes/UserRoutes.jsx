@@ -8,12 +8,14 @@ import VenuesPage from "../pages/user/VenuesPage";
 import Landing from "../pages/user/Landing";
 import UserLayout from "../components/UserLayout";
 import RequireAuth from "../components/RequireAuth";
+import ForgotPwd from "../pages/user/ForgotPwd";
 
 function UserRoutes() {
   return (
     <Routes>
       <Route element={<UserLayout />}>
         <Route index element={<Landing />} />
+        <Route path="forgotPwd" element={<ForgotPwd />} />
         <Route path="signin" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
         <Route path="venues" element={<VenuesPage />} />

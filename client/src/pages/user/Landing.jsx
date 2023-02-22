@@ -12,7 +12,7 @@ function Landing() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('its verifying');
+    
     const verify = async () => {
       const token = localStorage.getItem("user");
       if (token) {
@@ -25,7 +25,6 @@ function Landing() {
             const req = await axios.get(GET_USER, {
               headers: { "x-access-token": token },
             });
-            console.log(req.data);
           } catch (error) {
             navigate("/signin");
             console.log(error.message);

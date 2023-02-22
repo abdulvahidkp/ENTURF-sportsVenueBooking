@@ -37,6 +37,8 @@ function UserSignup() {
   const [validMatchPwd, setValidMatchPwd] = useState(false);
   const [matchPwdFocus, setMatchPwdFocus] = useState(false);
 
+  const [timer,setTimer] = useState(60);
+
   const [errMsg, setErrMsg] = useState("");
 
   const [success, setSuccess] = useState(false);
@@ -56,7 +58,7 @@ function UserSignup() {
       let user = jwtDecode(token);
       console.log(user);
     }
-    userRef.current.focus();
+    // userRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -90,6 +92,18 @@ function UserSignup() {
     const result = VALID_OTP.test(OTP);
     setValidOTP(result);
   }, [OTP]);
+
+  useEffect(() => {
+    let Timer;
+    if(success && timer>0){
+      Timer = setTimeout(()=>{
+        setTimer(timer-1);
+      },1000);
+    }
+    return () => clearTimeout(Timer);
+  }, [success,timer]);
+
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -135,6 +149,7 @@ function UserSignup() {
     }
     try {
       await confirm.confirm(OTP).then(async () => {
+        console.log('going to backend');
         const response = await axios.post(
           SIGNUP_URL,
           JSON.stringify({ name: user, mobile, password: pwd }),
@@ -143,11 +158,13 @@ function UserSignup() {
             withCredentials: true,
           }
         );
+        console.log('response from backend'+response.data)
         localStorage.setItem("user", JSON.stringify(response.data));
         setUser("");
         setMobile("");
         setPwd("");
         setMatchPwd("");
+        console.log('commpleted');
         navigatee("/signin");
       });
     } catch (error) {
@@ -162,6 +179,10 @@ function UserSignup() {
       }
     }
   };
+
+  const handleResendOTP = ()=> {
+
+  }
 
   return (
     <section>
@@ -224,6 +245,7 @@ function UserSignup() {
                             enter Six digit OTP.
                           </p>
                         </div>
+                        <p className={`  ${timer===0?"text-blue-500 hover:underline cursor-pointer":"text-cyan-600 cursor-not-allowed"}`} onClick={handleResendOTP} disabled={timer===0?false:true}>Resend OTP <span className={`text-black  ${timer===0 && 'hidden'}`}>{timer}</span></p>
                         <button
                           className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
                           disabled={!validOTP ? true : false}

@@ -4,14 +4,18 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import Google from "../../assets/Google.png";
-import Login from "../../assets/Login.png";
+import SignImage from './SignImageSection'
 const LOGIN_URL = "/signin";
 import { useDispatch } from "react-redux";
-
+import { setUserDetails } from "../../redux/features/userSlice";
+import ForgotPassword from "./ForgotPassword";
+// import { googleSignin } from "../../context/UserAuth";
 
 
 function UserLogin() {
   const { setAuth } = useAuth();
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,8 +23,6 @@ function UserLogin() {
 
   const mobileRef = useRef();
   const errRef = useRef();
-
-  const [forgotPwd,setForgotPwd] = useState(false);
 
   const [mobile, setMobile] = useState("");
   const [pwd, setPwd] = useState("");
@@ -53,6 +55,8 @@ function UserLogin() {
       setAuth({ mobile, password, accessToken });
       // localStorage.setItem("user",response.data);
       localStorage.setItem("user",accessToken);
+      console.log(data)
+      dispatch(setUserDetails({name:data.name,mobile:data.mobile}))
       setMobile("");
       setPwd("");
       navigate(from, { replace: true });
@@ -73,18 +77,22 @@ function UserLogin() {
     }
   };
 
-  const handleForgotPwd = ()=> {
-
+  const handleGoogleSignin = async (e) => {
+    e.preventDefault();
+    // try {
+    //   await googleSignin();
+    //   navigate('/')
+    // } catch (error) {
+    //   console.log(error.message);
+    //   setErrMsg(error.message)
+    // }
   }
 
   return (
     <div className="pb-0 sm:pb-32 h-screen">
       <div className="w-screen sm:container mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center">
-          <div className="hidden sm:block">
-            <img src={Login} alt="" />
-          </div>
-          {!forgotPwd?
+          <SignImage/>
           <div className="py-8 sm:pt-40">
             <div className="rounded-lg shadow-xl w-96 h-auto">
               <div className="px-10 sm:px-4">
@@ -113,7 +121,7 @@ function UserLogin() {
                     <div className="flex items-center">
                       <input
                         type={passwordHide ? "text" : "password"}
-                        handleForgotPwd              id="password"
+                        id="password"
                         className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         placeholder="Password"
                         required
@@ -128,7 +136,7 @@ function UserLogin() {
                       </p>
                     </div>
                   </div>
-                  <p onClick={()=>setForgotPwd(true)} className="font-semibold cursor-pointer text-emerald-600 font-roboto">
+                  <p onClick={()=>navigate('/forgotPwd')} className="font-semibold cursor-pointer text-emerald-600 font-roboto">
                     Forgot password?
                   </p>
                   <button
@@ -144,7 +152,7 @@ function UserLogin() {
                   <hr className="w-1/2" />
                 </div>
                 <div>
-                  <button className="border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3">
+                  <button onClick={handleGoogleSignin} className="border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3">
                     Sign in with Google
                   </button>
                   <img
@@ -164,54 +172,7 @@ function UserLogin() {
                 </p>
               </div>
             </div>
-          </div> :
-
-          <div className="py-8 sm:pt-40">
-            <div className="rounded-lg shadow-xl w-96 h-auto">
-              <div className="px-10 sm:px-4">
-                <h1 className="text-4xl select-none font-semibold font-roboto ">
-                  Forgot Password
-                </h1>
-                <p className="text-md py-2 font-sans">
-                  Enter your registered mobile number
-                </p>
-                <p ref={errRef} className={errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
-                  {errMsg}
-                </p>
-                <form onSubmit={handleSigninSubmit}>
-                  <div>
-                    <input
-                      type="number"
-                      id="mobile"
-                      ref={mobileRef}
-                      className="border my-3 border-gray-300 text-gray-900 text-md rounded-md  w-full p-3 ring-green-300 ring-offset-1 focus:ring dark:text-white dark:focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                      placeholder="Mobile"
-                      autoComplete="off"
-                      required
-                      value={mobile}
-                      onChange={(e) => setMobile(e.target.value)}
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-              <div className="place-content-center">
-                <p className="px-16 py-10">
-                  Back to sign in page?
-                  <span onClick={()=>setForgotPwd(false)} className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
-                    {" "}
-                    Signin
-                  </span>
-                </p>
-              </div>
-            </div>
           </div>
-        }
         </div>
       </div>
     </div>

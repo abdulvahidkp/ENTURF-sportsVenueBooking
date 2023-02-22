@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    id:'',
     name:'',
-    loading: false,
-    error:''
+    mobile:''
 }
 
 const userSlice = createSlice({
@@ -12,10 +10,10 @@ const userSlice = createSlice({
     initialState,
     reducers:{
         setUserDetails:(state,action)=>{
-            state.name = action.payload;
-            state.id = action.payload;
-            console.log(state.name)
-        }
+            //the passing object will comes in action.
+            state.name = action.payload.name;
+            state.mobile = action.payload.mobile;
+        },
     }
 })
 

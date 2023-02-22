@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import alertSlice from "./features/alertSlice";
+import loadingSlice from "./features/loadingSlice";
 import userSlice from "./features/userSlice";
 
 export default configureStore({
     reducer: {
-        alertSlice,
-        userSlice
+        loading:loadingSlice,
+        user:userSlice
     }
 })
