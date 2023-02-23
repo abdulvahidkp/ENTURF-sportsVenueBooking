@@ -15,6 +15,8 @@ module.exports = {
     },
     
     vmSignup: async (req,res) => {
+        console.log(req.body)
+        console.log(req.body.image)
         vms.findOne({ mobile: req.body.mobile }).then(async (response) => {
             if (response) {
                 return res.sendStatus(409); //user already exist

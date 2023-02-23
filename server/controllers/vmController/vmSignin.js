@@ -9,20 +9,20 @@ module.exports = {
         const { mobile, password } = req.body
         if (!mobile || !password) return res.status(400).json({ 'message': 'mobile number and password required.' });
         else {
+            //checking user exist with his mobile
             const foundUser = await vms.findOne({ mobile })
-            if (!foundUser) return res.sendStatus(401); //unauthorized
-            else {
-                const match = bcrypt.compare(password, foundUser.password)
-                if (match) {
-                    if (foundUser.blockStatus) {
-                        return res.sendStatus(403) //refuse to authorize it
-                    } else {
-                        const accessToken = jwt.sign({ id: foundUser._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
-                        res.status(200).json({ accessToken, name: foundUser.name, mobile: foundUser.mobile });
-                    }
+
+            if (foundUser && (await bcrypt.compare(password, foundUser.password))){
+
+                //checking user blocked
+                if (foundUser.blockStatus) {
+                    res.status(403).json({message:'blocked'}) //refuse to authorize it
                 } else {
-                    res.sendStatus(401)
+                    const accessToken = jwt.sign({ id: foundUser._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                    res.status(200).json({ accessToken, name: foundUser.name, mobile: foundUser.mobile });
                 }
+            } else {
+                    res.status(401).json({message:'invalid mobile or password'}) // unauthorized
             }
         }
     }

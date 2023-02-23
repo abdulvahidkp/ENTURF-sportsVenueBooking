@@ -10,7 +10,7 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const MOBILE_URL = "/forgotPwd/mobileExist";
 const NEW_PASS = "/forgotPwd"
 
-function ForgotPassword({}) {
+function ForgotPassword() {
   const navigate = useNavigate();
 
   const [mobile, setMobile] = useState("");

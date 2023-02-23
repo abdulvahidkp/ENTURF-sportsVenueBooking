@@ -11,8 +11,11 @@ router.put('/users/blockStatus/:_id',userController.blockUser)
 
 router.get('/vm',vmController.getVms)
 router.put('/vm/blockStatus/:_id',vmController.blockVm)
+router.put('/vm/approve/:_id',vmController.approve);
+router.delete('/vm/:_id',vmController.deleteVm)
 
 router.get('/sports',sportsController.getSports)
+router.put('/sports',sportsController.changeStatus)
 
 
 module.exports = router;

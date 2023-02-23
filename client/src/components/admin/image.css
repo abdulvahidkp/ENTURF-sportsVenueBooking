@@ -1,0 +1,34 @@
+.image-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-modal {
+    position: relative;
+    width: 80%;
+    height: auto;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .image-modal img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 16px;
+  }
+  
+  .image-modal button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }

@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import axios from "../../../api/axios";
 import setUpRecaptcha from "../../../context/UserAuth";
 import jwtDecode from "jwt-decode";
+import PreviewImage from "../PreviewImage";
 
 const NUMBER_REGEX = /^[0-9]{10}$/;
 const OTP_REGEX = /^[0-9]{6}$/;
@@ -25,6 +26,7 @@ function VenueManagerSignup() {
     initialValues: {
       name: "",
       mobile: "",
+      image: "",
       password: "",
       confirmPassword: "",
     },
@@ -36,6 +38,7 @@ function VenueManagerSignup() {
       mobile: Yup.string()
         .matches(NUMBER_REGEX, "Phone number is not valid")
         .required("Required"),
+      image: Yup.mixed().required("document is required").test("FILE_SIZE","Too big!",(value)=>value&& value.size<1024*1024).test("FILE_TYPE","invalid",(value)=> value && ['image/png', 'image/jpeg'].includes(value.type)),
       password: Yup.string()
         .matches(
           PWD_REGEX,
@@ -90,8 +93,16 @@ function VenueManagerSignup() {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      console.log("itas working");
+      const {image}  = formik.values
+      const formData = new FormData();
+
       try {
+        formData.append('file',image)
+        formData.append('upload_preset','qxxwuvkr');
+
+        const {data} = await axios.post('https://api.cloudinary.com/v1_1/desr7slhc/image/upload',formData);
+        formik.values.image = data.secure_url
+
         await confirm.confirm(values.otp).then(async () => {
           const response = await axios.post(
             SIGN_UP,
@@ -107,7 +118,9 @@ function VenueManagerSignup() {
         });
       } catch (error) {
         console.log(error.message);
-        if ( error.message === "Firebase: Error (auth/invalid-verification-code).") {
+        if (
+          error.message === "Firebase: Error (auth/invalid-verification-code)."
+        ) {
           setErr("invalid otp");
         } else if (!error?.response) {
           setErr("no server response");
@@ -135,7 +148,7 @@ function VenueManagerSignup() {
           </div>
           {!success ? (
             <form onSubmit={formik.handleSubmit}>
-              {err && <p>{err}</p>}
+              {err && <p className="text-red-600 font-bold">{err}</p>}
               <div className="grid sm:grid-cols-2 gap-2">
                 <div>
                   <input
@@ -200,6 +213,22 @@ function VenueManagerSignup() {
                     </p>
                   ) : null}
                 </div>
+                <div>
+                  <p className="opacity-60 ">govt approved doc</p>
+                  <input
+                    type="file"
+                    className="input_Field"
+                    name="image"
+                    onBlur={formik.handleBlur}
+                    onChange={e=>formik.setFieldValue("image", e.target.files[0])}
+                  />
+                  {formik.touched.image && formik.errors.image ? (
+                    <p className="text-sm text-red-600">
+                      {formik.errors.image}
+                    </p>
+                  ) : null}
+                </div>
+                  {<PreviewImage file={formik.values.image}/>}
                 <button
                   type="submit"
                   className="w-2/4 select-none p-2 rounded-full text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500"
@@ -215,7 +244,7 @@ function VenueManagerSignup() {
               <div className="flex justify-evenly items-center sm:grid-cols-2 ">
                 <div>
                   <input
-                    type="Number"
+                    type="text"
                     className="input_Field"
                     placeholder="Enter your OTP that send to your mobile"
                     name="otp"

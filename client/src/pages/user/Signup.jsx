@@ -4,10 +4,9 @@ import UserFooter from "../../components/user/UserFooter";
 
 function Signup() {
   return (
-    <div>
+    <>
       <UserSignup />
-      <UserFooter />
-    </div>
+    </>
   );
 }
 

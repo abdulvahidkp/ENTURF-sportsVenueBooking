@@ -4,13 +4,12 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import Google from "../../assets/Google.png";
-import SignImage from './SignImageSection'
+import SignImage from "./SignImageSection";
 const LOGIN_URL = "/signin";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../redux/features/userSlice";
 import ForgotPassword from "./ForgotPassword";
 // import { googleSignin } from "../../context/UserAuth";
-
 
 function UserLogin() {
   const { setAuth } = useAuth();
@@ -41,7 +40,7 @@ function UserLogin() {
   const handleSigninSubmit = async (e) => {
     e.preventDefault();
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         LOGIN_URL,
         JSON.stringify({ mobile, password: pwd }),
         {
@@ -50,18 +49,18 @@ function UserLogin() {
         }
       );
       // console.log(JSON.stringify(response?.data));
-      const accessToken = data.accessToken
+      const accessToken = data.accessToken;
       // const roles = response?.data?.roles;
       setAuth({ mobile, password, accessToken });
       // localStorage.setItem("user",response.data);
-      localStorage.setItem("user",accessToken);
-      console.log(data)
-      dispatch(setUserDetails({name:data.name,mobile:data.mobile}))
+      localStorage.setItem("user", accessToken);
+      console.log(data);
+      dispatch(setUserDetails({ name: data.name, mobile: data.mobile }));
       setMobile("");
       setPwd("");
       navigate(from, { replace: true });
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       if (!error?.response) {
         setErrMsg("no server response");
       } else if (error.repsonse?.status === 400) {
@@ -69,8 +68,8 @@ function UserLogin() {
       } else if (error.response?.status === 401) {
         setErrMsg("Unauthorized");
       } else if (error.response?.status === 403) {
-        setErrMsg("You are Blocked!")
-      }  else {
+        setErrMsg("You are Blocked!");
+      } else {
         setErrMsg("login failed");
       }
       errRef.current.focus();
@@ -86,13 +85,13 @@ function UserLogin() {
     //   console.log(error.message);
     //   setErrMsg(error.message)
     // }
-  }
+  };
 
   return (
     <div className="pb-0 sm:pb-32 h-screen">
       <div className="w-screen sm:container mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-center">
-          <SignImage/>
+          <SignImage />
           <div className="py-8 sm:pt-40">
             <div className="rounded-lg shadow-xl w-96 h-auto">
               <div className="px-10 sm:px-4">
@@ -102,7 +101,12 @@ function UserLogin() {
                 <p className="text-md py-2 font-sans">
                   Keep playing stay healthy
                 </p>
-                <p ref={errRef} className={errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
+                <p
+                  ref={errRef}
+                  className={
+                    errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "
+                  }
+                >
                   {errMsg}
                 </p>
                 <form onSubmit={handleSigninSubmit}>
@@ -136,7 +140,10 @@ function UserLogin() {
                       </p>
                     </div>
                   </div>
-                  <p onClick={()=>navigate('/forgotPwd')} className="font-semibold cursor-pointer text-emerald-600 font-roboto">
+                  <p
+                    onClick={() => navigate("/forgotPwd")}
+                    className="font-semibold cursor-pointer text-emerald-600 font-roboto"
+                  >
                     Forgot password?
                   </p>
                   <button
@@ -152,7 +159,10 @@ function UserLogin() {
                   <hr className="w-1/2" />
                 </div>
                 <div>
-                  <button onClick={handleGoogleSignin} className="border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3">
+                  <button
+                    onClick={handleGoogleSignin}
+                    className="border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3"
+                  >
                     Sign in with Google
                   </button>
                   <img

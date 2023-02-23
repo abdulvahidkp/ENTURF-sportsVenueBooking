@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import { Cricket, Football, Volleyball, Badminton } from "../../assets/Sports";
+import {
+  Cricket,
+  Football,
+  Volleyball,
+  Badminton,
+  Tennis,
+} from "../../assets/Sports";
 
 const SPORTS_GET = "/admin/sports";
+const SPORTS_STATUS = "/admin/sports";
 
 function SportsManagejsx() {
   const [sports, setSports] = useState([]);
@@ -13,6 +20,39 @@ function SportsManagejsx() {
       setSports(data.sportsDatas);
     });
   }, []);
+
+  const handleAction = (_id, facility, status) => {
+    const facilityData = {
+      _id,
+      facility,
+      status,
+    };
+    axios.put(SPORTS_STATUS, facilityData).then((response) => {
+
+      const newhe =  sports.map((sport) =>
+      sport._id === _id
+        ? sport.facilityDetails.map((perFacility) => (
+          perFacility.facility === facility ? 
+          {...perFacility,status:status} : facility
+        ))
+        : sport
+    )
+
+    console.log(newhe)
+
+      // setSports(
+      //   sports.map((sport) =>
+      //     sport._id === _id
+      //       ? sport.facilityDetails.map((perFacility) => {
+      //         perFacility.facility === facility ? 
+      //         {...facility,status:status} : facility;
+      //       })
+      //       : sport
+      //   )
+      // );
+
+    });
+  };
 
   return (
     <div class="p-4 sm:ml-64 bg-[#05445E] ">
@@ -43,283 +83,68 @@ function SportsManagejsx() {
             </thead>
             {sports.length ? (
               <tbody>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    <Football />
-                  </th>
-                  <td class="px-6 py-4 uppercase">{sports[0].sport}</td>
-                  <td class="px-6 py-4">
-                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[0].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "5v5",
-                                sports[0].facilityDetails[0].status
-                              )
-                            }
-                          >
-                            {sports[0].facilityDetails[0].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[0].facilityDetails[0].facility}
-                            <span className="ml-2">
-                              ({sports[0].facilityDetails[0].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[0].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "7v7",
-                                sports[0].facilityDetails[1].status
-                              )
-                            }
-                          >
-                            {sports[0].facilityDetails[1].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[0].facilityDetails[1].facility}
-                            <span className="ml-2">
-                              ({sports[0].facilityDetails[1].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[0].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "11v11",
-                                sports[0].facilityDetails[2].status
-                              )
-                            }
-                          >
-                            {sports[0].facilityDetails[2].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[0].facilityDetails[2].facility}
-                            <span className="ml-2">
-                              ({sports[0].facilityDetails[2].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                  <td class="px-6 py-4">  </td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    <Cricket />
-                  </th>
-                  <td class="px-6 py-4 uppercase">{sports[1].sport}</td>
-                  <td class="px-6 py-4">
-                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[0].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "5v5",
-                                sports[1].facilityDetails[0].status
-                              )
-                            }
-                          >
-                            {sports[1].facilityDetails[0].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[1].facilityDetails[0].facility}
-                            <span className="ml-2">
-                              ({sports[1].facilityDetails[0].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                      <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[0].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "11v11",
-                                sports[1].facilityDetails[1].status
-                              )
-                            }
-                          >
-                            {sports[1].facilityDetails[1].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[1].facilityDetails[1].facility}
-                            <span className="ml-2">
-                              ({sports[1].facilityDetails[1].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                  <td class="px-6 py-4">17</td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    <Volleyball />
-                  </th>
-                  <td class="px-6 py-4 uppercase">
-                    {sports[2].sport}
-                  </td>
-                  <td class="px-6 py-4">
-                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[2].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "6v6",
-                                sports[2].facilityDetails[0].status
-                              )
-                            }
-                          >
-                            {sports[2].facilityDetails[0].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[2].facilityDetails[0].facility}
-                            <span className="ml-2">
-                              ({sports[2].facilityDetails[0].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                  <td class="px-6 py-4">15</td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    <Badminton />
-                  </th>
-                  <td class="px-6 py-4 uppercase">
-                    {sports[3].sport}
-                  </td>
-                  <td class="px-6 py-4">
-                    <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                          <button
-                            className={`${
-                              sports[3].facilityDetails[0].status
-                                ? "bg-red-600 hover:bg-red-700"
-                                : "bg-green-600 hover:bg-green-700"
-                            } text-white p-1 rounded`}
-                            onClick={() =>
-                              handleAction(
-                                _id,
-                                "2v2",
-                                sports[3].facilityDetails[0].status
-                              )
-                            }
-                          >
-                            {sports[3].facilityDetails[0].status
-                              ? "disable"
-                              : "enable"}
-                          </button>
-                          <label
-                            for="vue-checkbox"
-                            class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
-                          >
-                            {sports[3].facilityDetails[0].facility}
-                            <span className="ml-2">
-                              ({sports[3].facilityDetails[0].count})
-                            </span>
-                          </label>
-                        </div>
-                      </li>
-                    </ul>
-                  </td>
-                  <td class="px-6 py-4">3</td>
-                </tr>
+                {sports.map((sport) => (
+                  <tr class="bg-[#189AB4] border-b border-[#05445E]">
+                    <th
+                      scope="row"
+                      class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
+                    >
+                      {sport.sport === "football" ? (
+                        <Football />
+                      ) : sport.sport === "cricket" ? (
+                        <Cricket />
+                      ) : sport.sport === "volley ball" ? (
+                        <Volleyball />
+                      ) : sport.sport === "badminton" ? (
+                        <Badminton />
+                      ) : sport.sport === "tennis" ? (
+                        <Tennis />
+                      ) : (
+                        ""
+                      )}
+                    </th>
+                    <td class="px-6 py-4 uppercase">{sport.sport}</td>
+                    <td class="px-6 py-4">
+                      <ul class="w-48 text-sm font-medium text-gray-900 bg-[#05445E] border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        {sport.facilityDetails.map((facility) => (
+                          <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                            <div class="flex items-center pl-3">
+                              <button
+                                className={`${
+                                  facility.status
+                                    ? "bg-red-600 hover:bg-red-700"
+                                    : "bg-green-600 hover:bg-green-700"
+                                } text-white p-1 rounded`}
+                                onClick={() =>
+                                  handleAction(
+                                    sport._id,
+                                    "5v5",
+                                    !facility.status
+                                  )
+                                }
+                              >
+                                {facility.status ? "disable" : "enable"}
+                              </button>
+                              <label
+                                for="vue-checkbox"
+                                class="w-full py-3 ml-2 text-sm font-medium text-[#D4F1F4] dark:text-gray-300"
+                              >
+                                {facility.facility}
+                                <span className="ml-2">({facility.count})</span>
+                              </label>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td class="px-6 py-4">
+                      {sport.facilityDetails.reduce(
+                        (acc, curr) => acc + curr.count,
+                        0
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             ) : (
               <h1 className="p-4">no sports available</h1>

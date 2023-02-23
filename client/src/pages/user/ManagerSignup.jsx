@@ -4,13 +4,7 @@ import UserNavbar from '../../components/user/UserNavbar'
 import VenueManagerSignup from '../../components/user/venueManagerSignup/VenueManagerSignup'
 
 function ManagerSignup() {
-  return (
-    <div>
-      <UserNavbar/>
-      <VenueManagerSignup/>
-      <UserFooter/>
-    </div>
-  )
+  return <VenueManagerSignup/>
 }
 
 export default ManagerSignup
