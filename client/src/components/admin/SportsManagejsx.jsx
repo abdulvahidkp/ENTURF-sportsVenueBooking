@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
+import swal from 'sweetalert'
+import toast,{ Toaster } from "react-hot-toast";
 import {
   Cricket,
   Football,
@@ -21,41 +23,46 @@ function SportsManagejsx() {
     });
   }, []);
 
-  const handleAction = (_id, facility, status) => {
+  const handleAction = (_id, facility, status, sportName) => {
     const facilityData = {
       _id,
       facility,
       status,
     };
-    axios.put(SPORTS_STATUS, facilityData).then((response) => {
+    swal({
+      title: `Do you want to ${status?`enable`:`disable`}`,
+      text: `Are you sure you want to ${status?`enable ${facility} facility of ${sportName}?`:`disable ${facility} facility of ${sportName}?`}`,
+      icon: 'warning',
+      buttons: ['Cancel', `${status?"Enable":"Disable"}`],
+      dangerMode: status?false:true,
+    })
+    .then((confirm)=>{
+      if(confirm){
+        axios.put(SPORTS_STATUS, facilityData).then((response) => {
+          setSports(
+            sports.map((sport) =>
+              sport._id === _id
+                ? {
+                    ...sport,
+                    facilityDetails: sport.facilityDetails.map((perFacility) =>
+                      perFacility.facility === facility
+                        ? { ...perFacility, status: status }
+                        : perFacility
+                    ),
+                  }
+                : sport
+            )
+          );
+          toast.success(`${sportName+','+facility} ${status?"Enabled":"Disabled"} successfully!`);
+        });
 
-      const newhe =  sports.map((sport) =>
-      sport._id === _id
-        ? sport.facilityDetails.map((perFacility) => (
-          perFacility.facility === facility ? 
-          {...perFacility,status:status} : facility
-        ))
-        : sport
-    )
-
-    console.log(newhe)
-
-      // setSports(
-      //   sports.map((sport) =>
-      //     sport._id === _id
-      //       ? sport.facilityDetails.map((perFacility) => {
-      //         perFacility.facility === facility ? 
-      //         {...facility,status:status} : facility;
-      //       })
-      //       : sport
-      //   )
-      // );
-
-    });
+      }
+    })
   };
 
   return (
     <div class="p-4 sm:ml-64 bg-[#05445E] ">
+      <Toaster position="top-right" />
       <div class="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div className="flex items-center justify-between">
           <p className="text-lg m-1 capitalize text-[#D4F1F4]">SPORTS</p>
@@ -118,8 +125,9 @@ function SportsManagejsx() {
                                 onClick={() =>
                                   handleAction(
                                     sport._id,
-                                    "5v5",
-                                    !facility.status
+                                    facility.facility,
+                                    !facility.status,
+                                    sport.sport
                                   )
                                 }
                               >
