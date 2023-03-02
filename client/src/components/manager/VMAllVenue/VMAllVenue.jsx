@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import turfImage from '../../../assets/turfImage.jpeg'
 import { ShareIcon } from '../../../assets/ShareIcon'
 import { Cricket,Football } from '../../../assets/Sports'
+import { Link } from 'react-router-dom'
 
 function VMAllVenue() {
+
+    const [section,setSection] = useState('venues')
+    
+
   return (
     <div class="p-4 sm:ml-64">
       <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
         
-        <div class="grid gap-4 mb-4">
+          <div class="grid gap-4 mb-4">
+            <div>
+                <Link to='/vm/venues/add' className='bg-green-400 font-roboto p-3 rounded-md shadow-lg hover:bg-green-500 duration-300 cursor-pointer float-right'>Add new venue</Link>
+            </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -196,9 +204,7 @@ function VMAllVenue() {
                     </tbody>
                 </table>
             </div>
-            <div>
-                <span className='bg-green-400 font-roboto p-3 rounded-md shadow-lg hover:bg-green-500 duration-300 cursor-pointer float-right'>Add new venue</span>
-            </div>
+          
         </div>
       
       </div>

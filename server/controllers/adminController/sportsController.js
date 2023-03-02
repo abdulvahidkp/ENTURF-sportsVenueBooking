@@ -1,4 +1,4 @@
-const sports = require('../../models/sportsModel.js')
+const sports = require('../../models/sports.model')
 
 module.exports = {
     getSports: async (req, res) => {

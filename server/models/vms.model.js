@@ -13,7 +13,6 @@ const VmSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     }
-
 })
 
-module.exports = mongoose.model('vms',VmSchema)
+module.exports = mongoose.model('vms',VmSchema);

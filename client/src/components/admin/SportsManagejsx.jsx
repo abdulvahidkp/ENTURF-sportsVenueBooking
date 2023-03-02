@@ -38,24 +38,27 @@ function SportsManagejsx() {
     })
     .then((confirm)=>{
       if(confirm){
-        axios.put(SPORTS_STATUS, facilityData).then((response) => {
-          setSports(
-            sports.map((sport) =>
-              sport._id === _id
-                ? {
-                    ...sport,
-                    facilityDetails: sport.facilityDetails.map((perFacility) =>
-                      perFacility.facility === facility
-                        ? { ...perFacility, status: status }
-                        : perFacility
-                    ),
-                  }
-                : sport
-            )
-          );
-          toast.success(`${sportName+','+facility} ${status?"Enabled":"Disabled"} successfully!`);
-        });
-
+        try {
+          axios.put(SPORTS_STATUS, facilityData).then((response) => {
+            setSports(
+              sports.map((sport) =>
+                sport._id === _id
+                  ? {
+                      ...sport,
+                      facilityDetails: sport.facilityDetails.map((perFacility) =>
+                        perFacility.facility === facility
+                          ? { ...perFacility, status: status }
+                          : perFacility
+                      ),
+                    }
+                  : sport
+              )
+            );
+            toast.success(`${sportName+','+facility} ${status?"Enabled":"Disabled"} successfully!`);
+          });
+        } catch (error) {
+          console.log(error.message)
+        }
       }
     })
   };

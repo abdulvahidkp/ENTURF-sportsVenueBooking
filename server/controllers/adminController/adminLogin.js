@@ -1,4 +1,4 @@
-const admins = require('../../models/adminsModel')
+const admins = require('../../models/admins.model')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -15,8 +15,8 @@ module.exports = {
                         const accessToken = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
                         return res.status(200).json({ accessToken });
                     }
-                })
+                }).catch(err=>console.log(err))
             }
-        })
+        }).catch(err=>console.log(err.message))
     }
 }

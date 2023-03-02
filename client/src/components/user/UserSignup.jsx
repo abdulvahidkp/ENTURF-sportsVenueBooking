@@ -198,7 +198,7 @@ function UserSignup() {
             </div>
             {success ? (
               <div className="py-10 sm:pt-40">
-                <div className="rounded-lg shadow-xl w-96 h-auto">
+                <div className="rounded-lg shadow-xl w-96 h-auto py-4">
                   <div className="px-10 sm:px-4">
                     <h1 className="text-4xl select-none font-semibold font-roboto ">
                       Enter your OTP that send to you mobile
@@ -252,7 +252,7 @@ function UserSignup() {
                         <div id="recaptcha-container" />
                         <p className={`  ${timer===0?"text-blue-500 hover:underline cursor-pointer":"text-cyan-600 cursor-not-allowed"}`} onClick={handleResendOTP} disabled={timer===0?false:true}>Resend OTP <span className={`text-black  ${timer===0 && 'hidden'}`}>{timer}</span></p>
                         <button
-                          className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
+                          className="w-full select-none p-3 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
                           disabled={!validOTP ? true : false}
                           type="submit"
                         >

@@ -4,7 +4,6 @@ import { Outlet,useLocation } from 'react-router-dom'
 function AdminLayout() {
 
   const location = useLocation();
-  console.log(location)
 
   return (
     <div>

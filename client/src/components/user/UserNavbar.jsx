@@ -1,13 +1,17 @@
 import React from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import entruflogo from "../../assets/entruflogo.jpg";
+import { userLogout } from "../../redux/features/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function UserNavbar() {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const { mobile, name } = useSelector((state) => state.user);
-  console.log(name)
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const {isLoggedIn} = useSelector((state) => state.user);
 
   return (
     <div className="fixed w-full z-10 top-0 bg-white ">
@@ -22,17 +26,17 @@ function UserNavbar() {
             <a className="text-xs sm:text-lg cursor-pointer hover:text-green-500 duration-500">
               CONTACT
             </a>
-            {name ? (
+            {isLoggedIn ? (
               <button
                 className="bg-green-400/70 text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-500 rounded "
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => dispatch(userLogout())}
               >
-                LOGUT
+                LOGOUT
               </button>
             ) : (
               <button
                 className="bg-green-400/70 text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-500 rounded "
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => navigate('/signin')}
               >
                 LOGIN
               </button>

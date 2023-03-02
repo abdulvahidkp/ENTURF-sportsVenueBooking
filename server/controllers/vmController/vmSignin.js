@@ -1,4 +1,4 @@
-const vms = require('../../models/vmModel');
+const vms = require('../../models/vms.model');
 const bcrypt = require('bcrypt');
 require('dotenv/config');
 const jwt = require('jsonwebtoken')

@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const adminController = require('../controllers/adminController/adminLogin');
-const userController = require('../controllers/adminController/userController')
-const vmController = require('../controllers/adminController/vmController')
-const sportsController = require('../controllers/adminController/sportsController')
+const userController = require('../controllers/adminController/userController');
+const vmController = require('../controllers/adminController/vmController');
+const sportsController = require('../controllers/adminController/sportsController');
+const turfController = require('../controllers/adminController/turfController');
+const verifyToken = require('../middleware/admin.verifyToken');
 
 router.post('/signin', adminController.adminLogin);
 
@@ -16,6 +18,10 @@ router.delete('/vm/:_id',vmController.deleteVm)
 
 router.get('/sports',sportsController.getSports)
 router.put('/sports',sportsController.changeStatus)
+
+router.get('/turf',turfController.getTurf)
+router.put('/turf/approve',verifyToken,turfController.approve);
+router.delete('/turf/:_id',verifyToken,turfController.deleteTurf)
 
 
 module.exports = router;

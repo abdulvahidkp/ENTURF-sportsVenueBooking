@@ -7,9 +7,9 @@ function UserLayout() {
   const location = useLocation();
   return (
     <div>
-        {location.pathname !== '/signin' && <UserNavbar/> }
+        {location.pathname !== '/signin' && location.pathname !== '/signup' && location.pathname !== '/forgotPwd' && <UserNavbar/> }
         <Outlet context={{hello:'world'}}/>
-        {location.pathname !== '/signin' && <UserFooter/> }
+        {location.pathname !== '/signin' && location.pathname !== '/signup' && location.pathname !== '/forgotPwd' && <UserFooter/> }
     </div>
   )
 }

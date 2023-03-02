@@ -9,34 +9,6 @@ import axios from "../../api/axios";
 let GET_USER = "/getUser";
 
 function Landing() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    
-    const verify = async () => {
-      const token = localStorage.getItem("user");
-      if (token) {
-        const user = jwtDecode(token);
-        if (!user) {
-          localStorage.removeItem("user");
-          navigate("/signin");
-        } else {
-          try {
-            const req = await axios.get(GET_USER, {
-              headers: { "x-access-token": token },
-            });
-          } catch (error) {
-            navigate("/signin");
-            console.log(error.message);
-          }
-        }
-      } else {
-        console.log("it's navigate");
-        navigate("/signin");
-      }
-    }
-    verify();
-  }, []);
 
   return <CoverVideoComponent />
 }

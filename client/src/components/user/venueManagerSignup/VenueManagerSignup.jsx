@@ -38,7 +38,18 @@ function VenueManagerSignup() {
       mobile: Yup.string()
         .matches(NUMBER_REGEX, "Phone number is not valid")
         .required("Required"),
-      image: Yup.mixed().required("document is required").test("FILE_SIZE","Too big!",(value)=>value&& value.size<1024*1024).test("FILE_TYPE","invalid",(value)=> value && ['image/png', 'image/jpeg'].includes(value.type)),
+      image: Yup.mixed()
+        .required("document is required")
+        .test(
+          "FILE_SIZE",
+          "Too big!",
+          (value) => value && value.size < 1024 * 1024
+        )
+        .test(
+          "FILE_TYPE",
+          "invalid",
+          (value) => value && ["image/png", "image/jpeg"].includes(value.type)
+        ),
       password: Yup.string()
         .matches(
           PWD_REGEX,
@@ -93,15 +104,19 @@ function VenueManagerSignup() {
         .required("Required"),
     }),
     onSubmit: async (values) => {
-      const {image}  = formik.values
+      const { image } = formik.values;
       const formData = new FormData();
 
       try {
-        formData.append('file',image)
-        formData.append('upload_preset','qxxwuvkr');
-
-        const {data} = await axios.post('https://api.cloudinary.com/v1_1/desr7slhc/image/upload',formData);
-        formik.values.image = data.secure_url
+        formData.append("file", image);
+        formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
+        const { data } = await axios.post(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_cloudName
+          }/image/upload`,
+          formData
+        );
+        formik.values.image = data.secure_url;
 
         await confirm.confirm(values.otp).then(async () => {
           const response = await axios.post(
@@ -220,7 +235,9 @@ function VenueManagerSignup() {
                     className="input_Field"
                     name="image"
                     onBlur={formik.handleBlur}
-                    onChange={e=>formik.setFieldValue("image", e.target.files[0])}
+                    onChange={(e) =>
+                      formik.setFieldValue("image", e.target.files[0])
+                    }
                   />
                   {formik.touched.image && formik.errors.image ? (
                     <p className="text-sm text-red-600">
@@ -228,7 +245,7 @@ function VenueManagerSignup() {
                     </p>
                   ) : null}
                 </div>
-                  {<PreviewImage file={formik.values.image}/>}
+                {<PreviewImage file={formik.values.image} />}
                 <button
                   type="submit"
                   className="w-2/4 select-none p-2 rounded-full text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500"

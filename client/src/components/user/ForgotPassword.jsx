@@ -211,7 +211,7 @@ function ForgotPassword() {
             </div>
           ) : (
             <div className="py-10 sm:pt-40">
-              <div className="rounded-lg shadow-xl w-96 h-auto">
+              <div className="rounded-lg shadow-xl w-96 py-2 h-auto">
                 <div className="px-10 sm:px-4">
                   {!newPwdSection ? (
                     <>

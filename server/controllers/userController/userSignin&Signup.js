@@ -1,4 +1,4 @@
-const users = require('../../models/usersModel')
+const users = require('../../models/users.model')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 require('dotenv/config')
@@ -37,22 +37,21 @@ module.exports = {
         if (!mobile || !password) return res.status(400).json({ 'message': 'mobile number and password required.' });
         else {
             const foundUser = await users.findOne({ mobile })
-            if (!foundUser) return res.sendStatus(401); //unauthorized
+            if (!foundUser) return res.status(401).json({message:'incorrect mobile number or password'}) //unauthorized
             else {
                 bcrypt.compare(password, foundUser.password).then((response)=>{
                     if(response){
                         if (foundUser.blockStatus) {
-                            return res.sendStatus(403) //refuse to authorize it
+                            return res.status(403).json({message:'user blocked by admin'}) //refuse to authorize it
                         } else {
                             const accessToken = jwt.sign({ id: foundUser._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
                             res.status(200).json({ accessToken, name: foundUser.name, mobile: foundUser.mobile });
                         }
                     }else{
-                        res.sendStatus(401)
+                        res.status(401).json({message:'incorrect mobile number or password'}) 
                     }
                 }).catch(err=>{
-                    console.log(err.message)
-                    
+                    console.log(err.message) 
                 })
                         // const refreshToken = jwt.sign({
                         //     id: foundUser._id,
