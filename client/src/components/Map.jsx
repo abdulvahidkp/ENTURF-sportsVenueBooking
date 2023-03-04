@@ -3,8 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiYXZrcCIsImEiOiJjbGVqc3lmOHgwZWhvM29wZ3V3cWMyZWJqIn0.P-TlQCI6b9HVlrLBoYbUHA";
+mapboxgl.accessToken = import.meta.env.VITE_MAP_TOKEN;
 
 export default function Map() {
   const mapContainer = useRef(null);

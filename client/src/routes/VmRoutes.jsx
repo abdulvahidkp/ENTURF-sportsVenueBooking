@@ -8,18 +8,21 @@ import VMProfileEdit from "../components/manager/VMProfileEdit/VMProfileEdit"
 import VMEditVenue from "../pages/manager/VMEditVenue"
 import VMVenueAdd from "../pages/manager/VMVenueAdd"
 
+import AuthenticatedRoute from "../util/vm/authenticatedRoute"
+import UnAuthenticatedRoute from "../util/vm/unAuthenticatedRoute"
+
 
 function VmRoutes() {
   return (
     <Routes>
         <Route element={<VMLayout/>}>
-            <Route index element={<VMDashboard />} />
-            <Route path="signin" element={<VMLogin />} />
-            <Route path="venues" element={<VMVenue />} />
-            <Route path="venues/add" element={<VMVenueAdd />} />
-            <Route path="venues/edit" element={<VMEditVenue />} />
-            <Route path="profile" element={<VMProfileEdit />} />
-            <Route path="bookings" element={<VMAllBookingsPage />} />
+            <Route index element={<AuthenticatedRoute><VMDashboard /></AuthenticatedRoute>} />
+            <Route path="signin" element={<UnAuthenticatedRoute><VMLogin /></UnAuthenticatedRoute>} />
+            <Route path="venues" element={<AuthenticatedRoute><VMVenue /></AuthenticatedRoute>} />
+            <Route path="venues/add" element={<AuthenticatedRoute><VMVenueAdd /></AuthenticatedRoute>} />
+            <Route path="venues/edit" element={<AuthenticatedRoute><VMEditVenue /></AuthenticatedRoute>} />
+            <Route path="profile" element={<AuthenticatedRoute><VMProfileEdit /></AuthenticatedRoute>} />
+            <Route path="bookings" element={<AuthenticatedRoute><VMAllBookingsPage /></AuthenticatedRoute>} />
         </Route>
     </Routes>
   )

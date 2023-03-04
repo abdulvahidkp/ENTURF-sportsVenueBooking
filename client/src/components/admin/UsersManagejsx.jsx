@@ -14,7 +14,9 @@ function UsersManagejsx() {
      axios.get(GET_USERS).then(({data})=>{
       setUsers(data.userDatas)
       console.log(data.userDatas)
-    })
+    }).catch(err=>{
+      console.log(err.message)
+  })
   },[])
 
   const handleBlock = (id,status)=> {
@@ -31,7 +33,9 @@ function UsersManagejsx() {
             axios.put(CHANGE_BLOCK+`/${id}`).then(response=>{
               setUsers(users.map(user=>(user._id === id ? {...user,blockStatus:!user.blockStatus} : user)))
               toast.success(`User ${status?"unblocked":"blocked"} successfully!`);
-            })
+            }).catch(err=>{
+              console.log(err.message)
+          })
         }
       })
   }

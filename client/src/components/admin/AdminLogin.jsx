@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setAdminLoggedIn } from '../../redux/features/adminSlice'
 
 const LOGIN_URL = "/admin/signin";
 
@@ -10,6 +12,9 @@ function AdminLogin() {
   const [errMsg, setErrMsg] = useState("");
 
   const nameInput = useRef();
+
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state=>state.admin)
 
   const navigate = useNavigate();
 
@@ -35,7 +40,7 @@ function AdminLogin() {
       localStorage.setItem('admin',data.accessToken)
       setName('');
       setPassword('')
-      navigate('/admin')
+      dispatch(setAdminLoggedIn());
     } catch (error) {
       if (!error?.response) {
         setErrMsg("no server response");
@@ -50,6 +55,8 @@ function AdminLogin() {
   };
 
   return (
+    <>
+    {isLoggedIn && <Navigate to='/admin' replace/>}
     <div className="bg-gradient-to-r h-screen from-emerald-50 to-emerald-100">
       <div className="p-4">
         <span className="text-bold text-xl sm:text-3xl italic font-semibold self-center cursor-pointer select-none">
@@ -99,6 +106,7 @@ function AdminLogin() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

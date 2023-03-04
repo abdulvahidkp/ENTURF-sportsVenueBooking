@@ -1,8 +1,20 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAdminLoggedOut } from "../../redux/features/adminSlice";
 
 
 function SideAndNav() {
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const handleSignout = ()=>{
+    navigate('/admin/signin');
+    dispatch(setAdminLoggedOut());
+  }
+
   const [aside, asideChange] = useState(false);
   return (
     <div>
@@ -107,6 +119,7 @@ function SideAndNav() {
                     </li>
                     <li>
                       <a
+                        onClick={handleSignout}
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
@@ -234,7 +247,7 @@ function SideAndNav() {
             </li>
             <li>
               <a
-                href="#"
+                onClick={handleSignout}
                 className="flex items-center p-4 text-base font-normal text-[#D4F1F4] rounded-lg dark:text-white hover:bg-[#05445E] dark:hover:bg-gray-700"
               >
                 <svg

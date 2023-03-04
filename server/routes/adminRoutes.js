@@ -21,7 +21,9 @@ router.put('/sports',sportsController.changeStatus)
 
 router.get('/turf',turfController.getTurf)
 router.put('/turf/approve',verifyToken,turfController.approve);
-router.delete('/turf/:_id',verifyToken,turfController.deleteTurf)
+router.delete('/turf/:id',verifyToken,turfController.deleteTurf)
+router.put('/turf/block',verifyToken,turfController.changeBlock)
+router.get('/turf/:_id',verifyToken,turfController.getPerTurf)
 
 
 module.exports = router;

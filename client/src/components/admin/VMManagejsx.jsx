@@ -20,7 +20,6 @@ function VMManagejsx() {
   useEffect(() => {
     axios.get(GET_VMS).then(({ data }) => {
       setVms(data.vmsDatas);
-      console.log(data.vmsDatas);
     });
   }, []);
 
@@ -40,11 +39,13 @@ function VMManagejsx() {
             vms.map((vm) =>
               vm._id === id ? { ...vm, blockStatus: !vm.blockStatus } : vm
             )
-          );
+          )
           toast.success(
             `User ${status ? "unblocked" : "blocked"} successfully!`
           );
-        });
+        }).catch(err=>{
+          console.log(err.message)
+      })
       } else {
         // Do nothing
       }
@@ -61,10 +62,18 @@ function VMManagejsx() {
 
   const handleApprove = (id,status)=>{
     if(status==='approve'){
-      axios.put('/admin/vm/approve/'+id);
+      try {
+        axios.put('/admin/vm/approve/'+id)
+      } catch (error) {
+        console.log(error)
+      }
       setVms(vms.map(vm=>vm._id === id ? {...vm,approved:true}: vm ));
     } else {
-      axios.delete('/admin/vm/'+id);
+      try {
+        axios.delete('/admin/vm/'+id);
+      } catch (error) {
+        console.log(error)
+      }
       setVms(vms.filter(vm=>vm._id !== id ));
     }
   }

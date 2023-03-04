@@ -15,8 +15,14 @@ module.exports = {
                         const accessToken = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
                         return res.status(200).json({ accessToken });
                     }
-                }).catch(err=>console.log(err))
+                }).catch(err=>{
+                    res.status(400).json({message:'error occured'})
+                    console.log(err)
+                })
             }
-        }).catch(err=>console.log(err.message))
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({message:'error occured'})
+        })
     }
 }

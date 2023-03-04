@@ -18,13 +18,14 @@ export const checkIfUserLoggedIn = () => {
 const initialState = {
     isLoggedIn: checkIfUserLoggedIn(),
     mobile: '',
+    name:'',
     signin:{
         isLoading:false,
         isErr:false,
         errMsg:""
     }
 }
-
+    
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -33,13 +34,13 @@ const userSlice = createSlice({
             //the passing object will comes in action.
             state.name = action.payload.name;
             state.mobile = action.payload.mobile;
+            state.isLoggedIn = true;
         },
         userLogin: (state, action) => {
             state.isLoggedIn = true;
         },
         userLogout: (state, action) => {
             state.isLoggedIn = false;
-            state.signin.isLoggedIn = false;
             localStorage.removeItem('user');
         },
     },

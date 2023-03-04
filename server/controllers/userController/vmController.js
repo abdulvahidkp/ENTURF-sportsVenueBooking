@@ -11,6 +11,9 @@ module.exports = {
             } else {
                 return res.sendStatus(200);
             }
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     },
     
@@ -27,10 +30,16 @@ module.exports = {
                         id: response._id
                     }, process.env.JWT_SECRET,
                         { expiresIn: '7d' }
-                    );
+                    )
                     res.status(201).json({ accessToken })
+                }).catch(err=>{
+                    console.log(err.message)
+                    res.status(400).json({ message: 'error occured', err: err.message })
                 })
             }
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     }
 }

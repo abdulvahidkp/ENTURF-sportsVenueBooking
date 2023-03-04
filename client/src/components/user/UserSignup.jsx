@@ -6,6 +6,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import setUpRecaptcha from "../../context/UserAuth";
 import jwtDecode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../redux/features/userSlice";
 
 const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_ ]{3,23}$/;
 const MOBILE_REGEX = /^[0-9]{10}$/;
@@ -19,6 +21,8 @@ function UserSignup() {
   const userRef = useRef();
   const errRef = useRef();
   const otpRef = useRef();
+
+  const dispatch = useDispatch();
 
   const navigatee = useNavigate();
   const [user, setUser] = useState("");
@@ -103,8 +107,6 @@ function UserSignup() {
     return () => clearTimeout(Timer);
   }, [success,timer]);
 
-
-
   const handleSignup = async (e) => {
     e.preventDefault();
     //if button enabled with JS hack or other some reason
@@ -157,6 +159,7 @@ function UserSignup() {
             withCredentials: true,
           }
         );
+        dispatch(setUserDetails({name:user,mobile}))
         localStorage.setItem("user", JSON.stringify(response.data));
         setUser("");
         setMobile("");
@@ -166,8 +169,9 @@ function UserSignup() {
       });
     } catch (error) {
       console.log(error.message);
-      setOtpMatch(error.message);
-      if (!error?.response) {
+      if(error.message === 'Firebase: Error (auth/invalid-verification-code).'){
+        setErrMsg('invalid OTP')
+      } else if (!error?.response) {
         setErrMsg("no server response");
       } else if (error.response?.status === 409) {
         setErrMsg("Mobile already registered");
@@ -212,7 +216,6 @@ function UserSignup() {
                     >
                       {errMsg}
                     </p>
-                    {otpMatch && <div>{otpMatch}</div>}
                     <form id="otpForm" onSubmit={handleOTP}>
                       <div>
                         <div>

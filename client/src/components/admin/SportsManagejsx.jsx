@@ -17,10 +17,14 @@ function SportsManagejsx() {
   const [sports, setSports] = useState([]);
 
   useEffect(() => {
-    axios.get(SPORTS_GET).then(({ data }) => {
-      console.log(data.sportsDatas);
-      setSports(data.sportsDatas);
-    });
+    try {
+      axios.get(SPORTS_GET).then(({ data }) => {
+        console.log(data.sportsDatas);
+        setSports(data.sportsDatas);
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }, []);
 
   const handleAction = (_id, facility, status, sportName) => {

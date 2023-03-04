@@ -3,7 +3,6 @@ const vms = require('../models/vms.model')
 
 const verifyToken = async (req, res, next) => {
     try {
-        console.log('middleware')
         const authHeader = req.header('Authorization');
         if (!authHeader) return res.status(401).json({ msg: 'No authentication token, access denied' });
         //else

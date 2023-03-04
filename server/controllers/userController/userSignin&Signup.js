@@ -5,16 +5,19 @@ require('dotenv/config')
 
 
 module.exports = {
-    mobileExist: async (req, res) => {
-        users.findOne({ mobile: req.body.mobile }).then(async (response) => {
+    mobileExist: (req, res) => {
+        users.findOne({ mobile: req.body.mobile }).then((response) => {
             if (response) {
                 return res.sendStatus(409); //user already exist
             } else {
                 return res.sendStatus(200);
             }
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     },
-    userSignup: async (req, res) => {
+    userSignup: (req, res) => {
         users.findOne({ mobile: req.body.mobile }).then(async (response) => {
             if (response) {
                 return res.sendStatus(409); //user already exist
@@ -27,8 +30,14 @@ module.exports = {
                         { expiresIn: '7d' }
                     );
                     res.status(201).json({ accessToken })
-                })
+                }).catch(err=>{
+                console.log(err.message)
+                res.status(400).json({ message: 'error occured', err: err.message })
+            })
             }
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     },
     userSignin: async (req, res) => {
@@ -52,6 +61,7 @@ module.exports = {
                     }
                 }).catch(err=>{
                     console.log(err.message) 
+                    res.status(400).json({message:'erro occured'})
                 })
                         // const refreshToken = jwt.sign({
                         //     id: foundUser._id,
@@ -83,6 +93,9 @@ module.exports = {
             } else {
                 return res.sendStatus(404);  //not found
             }
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     },
     newPassSet:async (req,res)=>{
@@ -90,6 +103,9 @@ module.exports = {
         users.updateOne({mobile:req.body.mobile},{$set:{password:req.body.pwd}}).then(response=>{
             console.log(response);
             res.sendStatus(200);
+        }).catch(err=>{
+            console.log(err.message)
+            res.status(400).json({ message: 'error occured', err: err.message })
         })
     }
 }

@@ -28,10 +28,14 @@ module.exports = {
               }
             ]).then(response=>{
                 res.status(200).json({response})
-            }) 
+            }).catch(err=>{
+              console.log(err.message)
+              res.status(400).json({ message: 'error occured', err: err.message })
+          })
             
         } catch (error) {
             console.log(error.message)
+            res.status(400).json({message: 'error occured',err:error.message})
         }
     },
     addTurf:async (req,res) => {
@@ -40,7 +44,6 @@ module.exports = {
         }).catch(err=>{
           console.log(err.message)
           res.status(400).json({message:'error occured'})
-
         })
     }
 } 

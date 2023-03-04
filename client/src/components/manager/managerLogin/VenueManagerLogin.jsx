@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "../../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Navigate } from "react-router-dom";
+import { useDispatch,useSelector } from "react-redux";
+import { setVmDetails } from '../../../redux/features/vmSlice'
 
 const VMSIGNIN_URL = '/vm/signin'
 
@@ -12,7 +14,10 @@ function VenueManagerLogin() {
   const [password, setPassword] = useState("");
   const [err,setErr] = useState('');
 
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const vm = useSelector(state=>state.vm);
 
   useEffect(()=>{
     mobileRef.current.focus();
@@ -39,11 +44,14 @@ function VenueManagerLogin() {
       localStorage.setItem("vm",accessToken);
       setMobile("");
       setPassword("");
-      navigate('/vm');
+      dispatch(setVmDetails({mobile:mobile}))
     } catch (error) {
       console.log(error);
       console.log(error.message)
-      if (!error?.response) {
+      console.log(error.response.data)
+      if (error.response.data){
+        setErr(error.response.data.message)
+      } else if (!error?.response) {
         setErr("no server response");
       } else if (error.repsonse?.status === 400) {
         setErr("missing mobile or password");
@@ -57,6 +65,8 @@ function VenueManagerLogin() {
     }
   }
   return (
+    <>
+    {vm.isLoggedIn && <Navigate to="/vm" replace/>}
     <div className="bg-gradient-to-r from-emerald-50 to-emerald-100">
       <div className="p-4">
         <span className="text-bold text-xl sm:text-3xl italic font-semibold self-center cursor-pointer select-none">
@@ -105,6 +115,7 @@ function VenueManagerLogin() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

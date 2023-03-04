@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import swal from "sweetalert";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
+import TurfDetailsModal from "./TurfDetailsModal";
 
 function TurfManagejsx() {
   const [turfs, setTurfs] = useState([]);
   const items = ["All", "Approved", "Pending"];
   const [selectedItem, setSelectedItem] = useState(items[0]);
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredData,setFilteredData] = useState([])
+  const [filteredData, setFilteredData] = useState([]);
+
+  const [modal,setModal] = useState(false)
 
   useEffect(() => {
     axios
       .get("/admin/turf")
       .then(({ data }) => {
-        console.log(data);
         setTurfs(data.response);
       })
       .catch((err) => {
@@ -22,42 +25,101 @@ function TurfManagejsx() {
       });
   }, []);
 
-  const handleApprove = async (id,status)=>{
-    const adminToken = localStorage.getItem('admin')
-    if(status==='approve'){
-      try {
-        const {data} = await axios.put(
-          `/admin/turf/approve`,
-          JSON.stringify({id}),
-          {
+  useEffect(()=>{
+    setFilteredData(selectedItem === 'All'? turfs : selectedItem === 'Approved' ? turfs.filter((turf)=>turf.approved===true) : turfs.filter((turf)=>turf.approved===false))
+  },[selectedItem,turfs]);
+
+  const handleApprove = async (id, status) => {
+    const adminToken = localStorage.getItem("admin");
+    swal({
+      title: `Are you sure?`,
+      text: `Are you sure you want to ${status} this turf?`,
+      icon: "warning",
+      buttons: ["Cancel", `${status === "approve" ? "Approve" : "Decline"}`],
+      dangerMode: status === "approve" ? false : true,
+    }).then(async (isConfirm) => {
+      if (isConfirm) {
+        if (status === "approve") {
+          try {
+            const { data } = await axios.put(
+              `/admin/turf/approve`,
+              JSON.stringify({ id }),
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `${adminToken}`,
+                },
+                withCredentials: true,
+              }
+            );
+            console.log(data);
+          } catch (error) {
+            console.log(error.message);
+          }
+          setTurfs(
+            turfs.map((turf) =>
+              turf._id === id ? { ...turf, approved: true } : turf
+            )
+          );
+        } else {
+          axios
+            .delete(`/admin/turf/${id}`, {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `${adminToken}`,
+              },
+              withCredentials: true,
+            })
+            .then(({ data }) => {
+              console.log(data);
+              setTurfs(turfs.filter((turf) => turf._id !== id));
+            })
+            .catch((error) => console.log(error.message));
+        }
+      }
+    });
+  };
+
+  const handleBlock = (id, status) => {
+    const adminToken = localStorage.getItem("admin");
+    swal({
+      title: `${status ? "Unblock turf?" : "Block turf?"}`,
+      text: `Are you sure you want to ${
+        status ? "Unblock" : "Block"
+      } this turf?`,
+      icon: "warning",
+      buttons: ["Cancel", `${status ? "Unblock" : "Block"}`],
+      dangerMode: status ? false : true,
+    }).then((confirm) => {
+      if (confirm) {
+        // Perform block action
+        axios
+          .put("/admin/turf/block", JSON.stringify({ id }), {
             headers: {
               "Content-Type": "application/json",
               Authorization: `${adminToken}`,
             },
             withCredentials: true,
-          }
-        );
-        console.log(data);
-      } catch (error) {
-        console.log(error.message)
-      };
-      setTurfs(turfs.map(turf=>turf._id === id ? {...turf,approved:true}: turf ));
-    } else {
-      axios.delete(`/admin/turf/${id}`,{
-        headers:{
-          'Content-Type':'application/json',
-          Authorization:`${adminToken}`
-        }
-      });
-      setTurfs(turfs.filter(turf=>turf._id !== id ));
-    }
-  }
+          })
+          .then((response) => {
+            setTurfs(
+              turfs.map((turf) =>
+                turf._id === id ? { ...turf, isBlocked: !turf.isBlocked } : turf
+              )
+            );
+            toast.success(
+              `Turf ${status ? "unblocked" : "blocked"} successfully!`
+            );
+          });
+      }
+    });
+  };
 
   return (
     <div className="p-4 sm:ml-64 bg-[#05445E] h-screen">
       <Toaster position="top-right" />
       <div className="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
-      <div className="flex justify-between mb-3">
+        <div className="flex justify-between mb-3">
           <p className="text-lg m-1 capitalize text-white">Venue Managers</p>
 
           <div className="relative inline-block text-left">
@@ -106,35 +168,35 @@ function TurfManagejsx() {
           </div>
         </div>
         <div className=" overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full table-fixed  text-left text-[#D4F1F4] dark:text-blue-100">
-              <thead className="text-xs m-1 text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
-                <tr className="border border-[#189AB4]">
-                  <th scope="col" className="px-6 py-3">
-                    Venue Name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Manager Name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Sport & Facility
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Place
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    District
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Slot Price
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-          {turfs.length ? (
+          <table className="w-full table-fixed  text-left text-[#D4F1F4] dark:text-blue-100">
+            <thead className="text-xs m-1 text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
+              <tr className="border border-[#189AB4]">
+                <th scope="col" className="px-6 py-3">
+                  Venue Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Manager Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Sport & Facility
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Place
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  District
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Slot Price
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            {filteredData.length ? (
               <tbody>
-                {turfs.map((turf) => (
+                {filteredData.map((turf) => (
                   <tr className="bg-[#189AB4] border-b border-[#05445E]">
                     <th
                       scope="row"
@@ -146,25 +208,21 @@ function TurfManagejsx() {
                     <td className="px-6 py-4">
                       {turf.sport + "" + turf.facility}
                     </td>
-                    <td className="px-6 py-4">
-                      {turf.place}
-                    </td>
-                    <td className="px-6 py-4">
-                      {turf.district}
-                    </td>
+                    <td className="px-6 py-4">{turf.place}</td>
+                    <td className="px-6 py-4">{turf.district}</td>
                     <td className="px-6 py-4">&#8377; {turf.sellingPrice}</td>
                     <td className="px-6 py-4">
                       {!turf.approved ? (
                         <div className="">
                           <a
                             className="font-medium rounded hover:bg-green-700 duration-300 bg-green-600 p-2 cursor-pointer"
-                            onClick={()=>handleApprove(turf._id,'approve')}
+                            onClick={() => handleApprove(turf._id, "approve")}
                           >
                             Approve
                           </a>
                           <a
                             className="ml-1 rounded font-medium hover:bg-red-700 duration-300 bg-red-600 p-2 cursor-pointer"
-                            onClick={()=>handleApprove(turf._id,'decline')}
+                            onClick={() => handleApprove(turf._id, "decline")}
                           >
                             Decline
                           </a>
@@ -172,9 +230,13 @@ function TurfManagejsx() {
                       ) : (
                         <a
                           href="#"
-                          onClick={() => handleBlock(turf._id, turf.isBlvmocked)}
+                          onClick={() =>
+                            handleBlock(turf._id, turf.isBlocked)
+                          }
                           className={`font-medium rounded ${
-                            turf.isBlocked ? "bg-green-600 hover:bg-green-700 duration-300" : "bg-red-600 hover:bg-red-700 duration-300"
+                            turf.isBlocked
+                              ? "bg-green-600 hover:bg-green-700 duration-300"
+                              : "bg-red-600 hover:bg-red-700 duration-300"
                           } p-2  `}
                         >
                           {turf.isBlocked ? "Unblock" : "Block"}
@@ -182,20 +244,20 @@ function TurfManagejsx() {
                       )}
                     </td>
                     <td className="px-6 py-4 ">
-                      <Link
-                        to={`/turf/${turf._id}`}
-                        className="bg-[#05445E] hover:bg-[#05141a] rounded duration-300 p-2"
+                      <a onClick={()=>setModal(true)}
+                        className="bg-[#05445E] hover:bg-[#05141a] rounded duration-300 p-2 cursor-pointer"
                       >
                         Know more
-                      </Link>
+                      </a>
+                        {modal && <TurfDetailsModal turfs={turfs} modal={modal} id={turf._id} handleApprove={handleApprove} handleBlock={handleBlock} isBlocked={turf.isBlocked} approved={turf.approved} setModal={setModal} /> }
                     </td>
                   </tr>
                 ))}
               </tbody>
-                ) : (
-                  <p className="text-white text-2xl">No turfs available</p>
-                )}
-            </table>
+            ) : (
+              <p className="text-white text-2xl">No turfs available</p>
+            )}
+          </table>
         </div>
       </div>
     </div>
