@@ -41,7 +41,6 @@ module.exports = {
         })
     },
     userSignin: async (req, res) => {
-        console.log(req.body);
         const { mobile, password } = req.body
         if (!mobile || !password) return res.status(400).json({ 'message': 'mobile number and password required.' });
         else {
@@ -106,6 +105,22 @@ module.exports = {
         }).catch(err=>{
             console.log(err.message)
             res.status(400).json({ message: 'error occured', err: err.message })
+        })
+    },
+    googleSignin: async (req,res)=>{
+        console.log(req.body)
+        const {email,fullName} = req.body
+        users.findOne({email}).then(async(response)=>{
+            if(response){
+                
+                console.log('haveresponse');
+                const accessToken = jwt.sign({ id: response._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                res.status(200).json({accessToken, name: response.name, mobile: response.email })
+            } else {
+                let data = await users.create({email,name:fullName})
+                const accessToken = jwt.sign({ id: data._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                res.status(200).json({accessToken, name: data.name, mobile: data.email })
+            }
         })
     }
 }

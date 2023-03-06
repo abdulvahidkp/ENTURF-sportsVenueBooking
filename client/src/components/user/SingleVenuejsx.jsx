@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import turfImage from '../../assets/turfImage.jpeg'
 import { ShareIcon } from '../../assets/ShareIcon'
 import { LocationIcon,GetDirection,PercentageRound } from '../../assets/LocationIcon'
 import { Cricket,Football } from '../../assets/Sports'
+import { useParams } from 'react-router-dom'
+import axios from '../../api/axios'
 
 
-function SingleVenuejsx() {
+function SingleVenuejsx({turf,part,setPart}) {
+console.log('imagepard',turf)
+
   return (
     <div>
       <div className='bg-white '>
@@ -13,12 +17,20 @@ function SingleVenuejsx() {
           <div className='flex flex-col md:flex-row w-full mt-32 '>
               <div className='basis-2/5'>
                 <div>
-                  <img src={turfImage} alt="" className='h-80 w-full object-full rounded-xl shadow-md ' />
+                  <img src={turf.image} alt="" className='h-80 w-full object-full rounded-xl shadow-md ' />
                 </div>
               </div>
               <div className='basis-3/5 container my-2 space-y-16'>
                 <div className='flex justify-between'>
-                  <h1 className='font-bold text-2xl text-roboto'>Anfield Turf</h1>
+                  <div>
+                  <h1 className='font-bold text-2xl text-roboto'>{turf.venueName}</h1>
+                  <div className='flex gap-x-3'>
+                  <p className='line-through'>&#8377;{turf.actualPrice}</p>
+                  <p>&#8377;{turf.sellingPrice}</p>
+
+                  </div>
+
+                  </div>
                   <div className='text-xl mt-1'>
                     <div className='bg-blue-900 flex items-center px-3 rounded-md shadow-lg'>
                       <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -35,9 +47,8 @@ function SingleVenuejsx() {
                       <LocationIcon/>
                     </div>
                     <div className='text-slate-500 ml-1 text-base'>
-                      <p>Karimbam,near sir syed school</p>
-                      <p>Taliparamba</p>
-                      <p>Kannur,Kerala</p>
+                      <p>{turf.place}</p>
+                      <p>{turf.district}</p>
                     </div>
                   </div>
                   <div>
@@ -54,8 +65,9 @@ function SingleVenuejsx() {
                 <div className='flex justify-between'>
                   <div>
                     <div className='flex text-4xl text-[#4f4141e2] space-x-6'>
-                      <Cricket/>
-                      <Football/>
+                      {
+                        turf.sport === 'football' ? <Football/> : turf.sport === 'cricket' ? <Cricket/> : ""
+                      }
                     </div>
                   </div>
                   <div className='border-white rounded-md border-dotted p-1 bg-cyan-500 border-2'>
@@ -71,13 +83,13 @@ function SingleVenuejsx() {
           </div>
           <div className='w-2/5'>
             <div className='flex space-x-28 pt-12 justify-center '>
-              <div className='text-cyan-500 cursor-pointer '>
+              <div className={`${part === 'bookingSection' ? 'text-cyan-500' : 'text-[#807474]' } cursor-pointer`} onClick={(()=>setPart('bookingSection'))}>
                 <h1 className=''>BOOK A SLOT</h1>
-                <hr className='mt-3 border-2 border-cyan-500 rounded-t-lg' />
+                <hr className={`mt-3 border-2 ${part === 'bookingSection' ? 'border-cyan-500' : 'border-[#807474]'}  rounded-t-lg`} />
               </div>
-              <div className='text-[#807474] cursor-pointer'>
+              <div className={`${part !== 'bookingSection' ? 'text-cyan-500' : 'text-[#807474]' } cursor-pointer`} onClick={(()=>setPart('detailsSection'))}>
                 <h1>DETAILS</h1>
-                <hr className='mt-3 border-[#807474] border-2 rounded-t-lg' />
+                <hr className={`mt-3 ${part !== 'bookingSection' ? 'border-cyan-500' : 'border-[#807474]'} border-2 rounded-t-lg`} />
               </div>
             </div>
           </div>

@@ -28,6 +28,7 @@
     "react-icons": "^4.7.1",
     "react-map-gl": "^7.0.21",
     "react-router-dom": "^6.8.0",
+    "redux-persist": "^6.0.0",
     "sweetalert": "^2.1.2",
     "yup": "^1.0.0"
   },

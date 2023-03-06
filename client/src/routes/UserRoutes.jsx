@@ -20,9 +20,9 @@ function UserRoutes() {
         <Route path="forgotPwd" element={<ForgotPwd />} />
         <Route path="signin" element={<UnAuthenticatedRoute><Signin /></UnAuthenticatedRoute>} />
         <Route path="signup" element={<Signup />} />
-        <Route path="venues" element={<VenuesPage />} />
         <Route path="managerSignup" element={<ManagerSignup />} />
-        <Route path="singleVenue" element={<SingleVenue />} />
+        <Route path="venues/:place" element={<VenuesPage />} />
+        <Route path="venue/:id" element={<SingleVenue />} />
         <Route path="profile" element={<AuthenticatedRoute><Profile /></AuthenticatedRoute>} />
         {/* <Route element={<RequireAuth />}>
           <Route path="profile" element={<Profile />} />

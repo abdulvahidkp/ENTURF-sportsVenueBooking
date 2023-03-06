@@ -10,6 +10,7 @@ import VMVenueAdd from "../pages/manager/VMVenueAdd"
 
 import AuthenticatedRoute from "../util/vm/authenticatedRoute"
 import UnAuthenticatedRoute from "../util/vm/unAuthenticatedRoute"
+import Pending from "../pages/manager/Pending"
 
 
 function VmRoutes() {
@@ -18,6 +19,7 @@ function VmRoutes() {
         <Route element={<VMLayout/>}>
             <Route index element={<AuthenticatedRoute><VMDashboard /></AuthenticatedRoute>} />
             <Route path="signin" element={<UnAuthenticatedRoute><VMLogin /></UnAuthenticatedRoute>} />
+            <Route path="pending" element={<AuthenticatedRoute><Pending/></AuthenticatedRoute>} />
             <Route path="venues" element={<AuthenticatedRoute><VMVenue /></AuthenticatedRoute>} />
             <Route path="venues/add" element={<AuthenticatedRoute><VMVenueAdd /></AuthenticatedRoute>} />
             <Route path="venues/edit" element={<AuthenticatedRoute><VMEditVenue /></AuthenticatedRoute>} />

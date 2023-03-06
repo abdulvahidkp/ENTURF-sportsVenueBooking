@@ -41,10 +41,11 @@ function VenueManagerLogin() {
       // console.log(JSON.stringify(response?.data));
       const accessToken = data.accessToken
       // localStorage.setItem("user",response.data);
+      console.log('wwhenLogin',data);
       localStorage.setItem("vm",accessToken);
       setMobile("");
       setPassword("");
-      dispatch(setVmDetails({mobile:mobile}))
+      dispatch(setVmDetails({mobile:mobile,name:data.name,approved:data.approved}))
     } catch (error) {
       console.log(error);
       console.log(error.message)

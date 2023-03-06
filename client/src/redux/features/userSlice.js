@@ -52,6 +52,7 @@ const userSlice = createSlice({
 
         builder.addCase(signin.fulfilled, (state, action) => {
            state.signin.isLoading = false;
+           state.signin.errMsg = ''
             //data will come here
             console.log('action',action);
             console.log(action.payload);

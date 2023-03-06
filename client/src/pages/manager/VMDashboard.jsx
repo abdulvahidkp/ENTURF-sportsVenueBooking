@@ -2,6 +2,7 @@ import VMDashboardjsx from "../../components/manager/VMDashboard/VMDashboardjsx.
 
 function VMDashboard() {
   return <VMDashboardjsx />;
+  
 }
 
 export default VMDashboard;

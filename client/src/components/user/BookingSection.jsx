@@ -1,16 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import axios from '../../api/axios';
 
 
 import { EmptyCart } from '../../assets/CartIcon'
 
-function BookingSection() {
+
+function BookingSection({turf}) {
+  
+  // function handleSlotSelection(isSelected, slot) {
+  //   // Store the selected slot in a state variable
+  //   setSelectedSlots(prevSelectedSlots => isSelected
+  //     ? [...prevSelectedSlots, slot]
+  //     : prevSelectedSlots.filter(selectedSlot => selectedSlot !== slot)
+  //   );
+  
+  //   // Calculate the price based on the number of selected slots
+  //   const pricePerSlot = 10; // Replace with your actual price per slot
+  //   const totalPrice = selectedSlots.length * pricePerSlot;
+  //   setTotalPrice(totalPrice);
+  // }
+ 
+
   return (
   <div className='bg-[#F3F5F9]'>
         <div className='container'>
           <div className='flex space-x-10'>
             <div className='basis-5/6 w-full my-11 space-y-6   '>
-              {
-                <div className='bg-white rounded-lg'>
+              
+                {/* <div className='bg-white rounded-lg'>
                 <div className='py-2'>
                   <span className=' py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full'>1</span>
                   <a className='text-2xl font-roboto font-semibold mx-2 text-[#504a4a] '>Choose an Activity</a>
@@ -52,7 +70,7 @@ function BookingSection() {
                   </div>
                 </div>
               </div>
-              }
+              
 
               <div className='bg-[#a7b4ca3c] rounded-lg'>
                 <div className='py-2 '>
@@ -62,9 +80,9 @@ function BookingSection() {
                 <div className='flex px-4 py-5 space-x-9 '>
                   <p className='text-[#504a4ad0]'>Please select an activity to view available facilities</p>
                 </div>
-              </div>
+              </div> */}
 
-              <div className='bg-[#a7b4ca3c] rounded-lg'>
+              {/* <div className='bg-[#a7b4ca3c] rounded-lg'>
                 <div className='py-2 '>
                   <span className=' py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full'>3</span>
                   <a className='text-2xl font-roboto font-semibold mx-2 text-[#504a4a] '>Select Slots</a>
@@ -72,7 +90,28 @@ function BookingSection() {
                 <div className='flex px-4 py-5 space-x-9 '>
                   <p className='text-[#504a4ad0]'>Please select a facility to view available slots</p>
                 </div>
+              </div> */}
+              {
+                turf.slots?.length && 
+
+
+              <div className='bg-white rounded-lg'>
+                <div className='py-2 '>
+                  <a className='text-2xl font-roboto font-semibold mx-2 text-[#504a4a] '>Select Slots</a>
+                </div>
+                <div className='flex px-4 py-5 space-x-9 '>
+                  {turf.slots.map((slot) => (
+                    <div key={slot}>
+                      <label className="inline-flex items-center">
+                        <input type="checkbox" className="form-checkbox h-5 w-5 text-[#504a4a]" value={slot} />   {/*onChange={(e) => handleSlotSelection(e.target.checked, slot)} */}
+                        <span className="ml-2 text-[#504a4a]">{slot}</span>
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
+              }
+
 
             </div>
             <div className='basis-2/5 w-full bg-white h-80 rounded-lg my-11 grid justify-items-center relative'>

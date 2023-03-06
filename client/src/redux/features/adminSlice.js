@@ -16,7 +16,7 @@ export const checkIfAdminLoggedIn = () => {
 
 const adminSlice = createSlice({
     name:'admin',
-    initialState: false,
+    initialState: checkIfAdminLoggedIn(),
     reducers:{
         setAdminLoggedIn: state => state = true,
         setAdminLoggedOut: state => {

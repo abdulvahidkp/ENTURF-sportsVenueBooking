@@ -6,9 +6,7 @@ import UserFooter from '../../components/user/UserFooter'
 function VenuesPage() {
   return (
     <div>
-      <UserNavbar/>
       <AllVenues/>
-      <UserFooter/>
     </div>
   )
 }

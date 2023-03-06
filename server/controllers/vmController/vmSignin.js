@@ -16,18 +16,14 @@ module.exports = {
 
                 if (foundUser && (await bcrypt.compare(password, foundUser.password))) {
 
-                    if (foundUser.approved) {
-                        if (foundUser.blockStatus) {
-                            res.status(403).json({ message: 'blocked' }) //refuse to authorize it
-                        } else {
-                            const accessToken = jwt.sign({ id: foundUser._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
-                            res.status(200).json({ accessToken, name: foundUser.name, mobile: foundUser.mobile });
-                        }
+                    //checking user blocked
+                    if (foundUser.blockStatus) {
+                        res.status(403).json({ message: 'blocked' }) //refuse to authorize it
                     } else {
-                        res.status(406).json({ message: "Admin Not approved yet" });
+                        const accessToken = jwt.sign({ id: foundUser._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
+                        res.status(200).json({ accessToken, name: foundUser.name, mobile: foundUser.mobile, approved: foundUser.approved });
                     }
 
-                    //checking user blocked
                 } else {
                     res.status(401).json({ message: 'invalid mobile or password' }) // unauthorized
                 }
@@ -36,5 +32,11 @@ module.exports = {
                 res.status(400).json({ message: 'error occured', err: error.message })
             }
         }
+    },
+    isApproved: async (req, res) => {
+        const id = req._id
+        vms.findOne({ _id: id }).then(response => {
+            res.status(200).json(response)
+        }).catch(err => res.status(400).json({ message: 'error occured' }))
     }
 }

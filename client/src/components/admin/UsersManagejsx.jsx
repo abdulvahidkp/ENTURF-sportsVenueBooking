@@ -53,7 +53,7 @@ function UsersManagejsx() {
                   User name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  mobile
+                  contact information
                 </th>
                 {/* <th scope="col" class="px-6 py-3">
                   email
@@ -73,7 +73,7 @@ function UsersManagejsx() {
                 >
                 {user.name}
                 </th>
-                <td class="px-6 py-4">{user.mobile}</td>
+                <td class="px-6 py-4">{user.mobile ? user.mobile: user.email}</td>
                 <td class="px-6 py-4">
                   <a
                     href="#"

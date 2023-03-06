@@ -3,10 +3,6 @@ import { useSelector } from "react-redux";
 import { checkIfAdminLoggedIn } from "../../redux/features/adminSlice";
 
 const UnAuthenticatedRoute = ({children}) => {
-  const isLoggedIn = useSelector((state) => state.admin);
-  console.log(isLoggedIn);
-
-
   if (checkIfAdminLoggedIn()) {
     return <Navigate to='/admin' replace/>;
   }
