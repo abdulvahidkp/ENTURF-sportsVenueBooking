@@ -11,6 +11,7 @@ import VMVenueAdd from "../pages/manager/VMVenueAdd"
 import AuthenticatedRoute from "../util/vm/authenticatedRoute"
 import UnAuthenticatedRoute from "../util/vm/unAuthenticatedRoute"
 import Pending from "../pages/manager/Pending"
+import VmVenueAddNew from "../components/manager/VMVenueAdd/VmVenueAddNew"
 
 
 function VmRoutes() {
@@ -22,7 +23,8 @@ function VmRoutes() {
             <Route path="pending" element={<AuthenticatedRoute><Pending/></AuthenticatedRoute>} />
             <Route path="venues" element={<AuthenticatedRoute><VMVenue /></AuthenticatedRoute>} />
             <Route path="venues/add" element={<AuthenticatedRoute><VMVenueAdd /></AuthenticatedRoute>} />
-            <Route path="venues/edit" element={<AuthenticatedRoute><VMEditVenue /></AuthenticatedRoute>} />
+            <Route path="venues/edit/:id" element={<AuthenticatedRoute><VMEditVenue /></AuthenticatedRoute>} />
+            <Route path="venues/addNew" element={<AuthenticatedRoute><VmVenueAddNew /></AuthenticatedRoute>} />
             <Route path="profile" element={<AuthenticatedRoute><VMProfileEdit /></AuthenticatedRoute>} />
             <Route path="bookings" element={<AuthenticatedRoute><VMAllBookingsPage /></AuthenticatedRoute>} />
         </Route>

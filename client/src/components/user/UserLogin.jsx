@@ -15,8 +15,8 @@ import { signin } from "../../redux/thunk/user";
 import { googleSignin } from "../../context/UserAuth";
 
 function UserLogin() {
-  const { setAuth } = useAuth();
 
+  const { setAuth } = useAuth();
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);

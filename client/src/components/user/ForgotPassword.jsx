@@ -8,7 +8,7 @@ const MOBILE_REGEX = /^[0-9]{10}$/;
 const VALID_OTP = /^[0-9]{6}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const MOBILE_URL = "/forgotPwd/mobileExist";
-const NEW_PASS = "/forgotPwd"
+const NEW_PASS = "/forgotPwd";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -21,12 +21,14 @@ function ForgotPassword() {
   const [newPwdSection, setNewPwdSection] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const mobileRef = useRef();
-  const [pwd,setPwd] = useState('')
-  const [matchPwd,setMatchPwd]= useState('')
-  const [pwdFocus,setPwdFocus] = useState(false)
-  const [validPwd,setValidPwd] = useState(false)
-  const [validMatchPwd,setValidMatchPwd] = useState(false)
-  const [matchPwdFocus,setMatchPwdFocus] = useState(false)
+  const [pwd, setPwd] = useState("");
+  const [matchPwd, setMatchPwd] = useState("");
+  const [pwdFocus, setPwdFocus] = useState(false);
+  const [validPwd, setValidPwd] = useState(false);
+  const [validMatchPwd, setValidMatchPwd] = useState(false);
+  const [matchPwdFocus, setMatchPwdFocus] = useState(false);
+
+  const [timer, setTimer] = useState(60);
 
   const errRef = useRef();
 
@@ -56,12 +58,22 @@ function ForgotPassword() {
 
   useEffect(() => {
     setErrMsg("");
-  }, [mobile,OTP,pwd,matchPwd]);
+  }, [mobile, OTP, pwd, matchPwd]);
 
   useEffect(() => {
     const result = MOBILE_REGEX.test(mobile);
     setValid(result);
   }, [mobile]);
+
+  useEffect(() => {
+    let Timer;
+    if (success && timer > 0) {
+      Timer = setTimeout(() => {
+        setTimer(timer - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(Timer);
+  }, [success, timer]);
 
   const handleForgotPwd = async (e) => {
     e.preventDefault();
@@ -100,7 +112,9 @@ function ForgotPassword() {
     } catch (error) {
       console.log(error.message);
       setOtpMatch(error.message);
-      if (!error?.response) {
+      if(error.message === 'Firebase: Error (auth/invalid-verification-code).'){
+        setErrMsg('invalid OTP')
+      } else if (!error?.response) {
         setErrMsg("no server response");
       } else {
         setErrMsg("otp verification failed");
@@ -108,10 +122,20 @@ function ForgotPassword() {
     }
   };
 
+  const handleResendOTP = async () => {
+    if (timer !== 0) return;
+    try {
+      const otpResponse = await setUpRecaptcha("+91" + mobile);
+      setConfirm(otpResponse);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const newPassSubmit = (e) => {
     e.preventDefault();
     try {
-      const response = axios.post(NEW_PASS,JSON.stringify({ mobile, pwd }), {
+      const response = axios.post(NEW_PASS, JSON.stringify({ mobile, pwd }), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
@@ -136,18 +160,9 @@ function ForgotPassword() {
             <div className="py-8 sm:pt-40">
               <div className="rounded-lg shadow-xl w-96 h-auto">
                 <div className="px-10 sm:px-4">
-                  <h1 className="text-4xl select-none font-semibold font-roboto ">
-                    Forgot Password
-                  </h1>
-                  <p className="text-md py-2 font-sans">
-                    Enter your registered mobile number
-                  </p>
-                  <p
-                    ref={errRef}
-                    className={
-                      errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "
-                    }
-                  >
+                  <h1 className="text-4xl select-none font-semibold font-roboto ">Forgot Password</h1>
+                  <p className="text-md py-2 font-sans">Enter your registered mobile number</p>
+                  <p ref={errRef} className={errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
                     {errMsg}
                   </p>
                   <form onSubmit={handleForgotPwd}>
@@ -175,22 +190,13 @@ function ForgotPassword() {
                         <Cross />
                       </div>
                     )}
-                    <p
-                      className={
-                        mobileFocus && mobile && !valid
-                          ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                          : "hidden"
-                      }
-                    >
+                    <p className={mobileFocus && mobile && !valid ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                       <Info />
                       Enter valid number.
                       <br />
                     </p>
                     <div id="recaptcha-container" />
-                    <button
-                      type="submit"
-                      className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800"
-                    >
+                    <button type="submit" className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800">
                       Submit
                     </button>
                   </form>
@@ -198,10 +204,7 @@ function ForgotPassword() {
                 <div className="place-content-center">
                   <p className="px-16 py-10">
                     Back to sign in page?
-                    <span
-                      onClick={() => navigate("/signin")}
-                      className="text-green-800 hover:text-green-900 hover:underline cursor-pointer"
-                    >
+                    <span onClick={() => navigate("/signin")} className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
                       {" "}
                       Signin
                     </span>
@@ -215,16 +218,9 @@ function ForgotPassword() {
                 <div className="px-10 sm:px-4">
                   {!newPwdSection ? (
                     <>
-                      <h1 className="text-4xl select-none font-semibold font-roboto ">
-                        Enter your OTP that send to you mobile
-                      </h1>
-                      <p className="text-md py-2 font-sans">
-                        Just play. Have fun. Enjoy the game.
-                      </p>
-                      <p
-                        ref={errRef}
-                        className={errMsg ? "errmsg text-red-700" : "offscreen"}
-                      >
+                      <h1 className="text-4xl select-none font-semibold font-roboto ">Enter your OTP that send to you mobile</h1>
+                      <p className="text-md py-2 font-sans">Just play. Have fun. Enjoy the game.</p>
+                      <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
                         {errMsg}
                       </p>
                       {otpMatch && <div>{otpMatch}</div>}
@@ -252,17 +248,19 @@ function ForgotPassword() {
                                 <Cross />
                               </div>
                             )}
-                            <p
-                              className={
-                                OTPFocus && OTP && !validOTP
-                                  ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                  : "hidden"
-                              }
-                            >
+                            <p className={OTPFocus && OTP && !validOTP ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                               <Info />
                               enter Six digit OTP.
                             </p>
                           </div>
+                          <div id="recaptcha-container" />
+                          <p
+                            className={`  ${timer === 0 ? "text-blue-500 hover:underline cursor-pointer" : "text-cyan-600 cursor-not-allowed"}`}
+                            onClick={handleResendOTP}
+                            disabled={timer === 0 ? false : true}
+                          >
+                            Resend OTP <span className={`text-black  ${timer === 0 && "hidden"}`}>{timer}</span>
+                          </p>
                           <button
                             className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
                             disabled={!validOTP ? true : false}
@@ -275,16 +273,9 @@ function ForgotPassword() {
                     </>
                   ) : (
                     <>
-                      <h1 className="text-4xl select-none font-semibold font-roboto ">
-                        Enter new Password
-                      </h1>
-                      <p className="text-md py-2 font-sans">
-                        Just play. Have fun. Enjoy the game.
-                      </p>
-                      <p
-                        ref={errRef}
-                        className={errMsg ? "errmsg text-red-700" : "offscreen"}
-                      >
+                      <h1 className="text-4xl select-none font-semibold font-roboto ">Enter new Password</h1>
+                      <p className="text-md py-2 font-sans">Just play. Have fun. Enjoy the game.</p>
+                      <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
                         {errMsg}
                       </p>
                       <form id="otpForm" onSubmit={newPassSubmit}>
@@ -311,20 +302,12 @@ function ForgotPassword() {
                                 <Cross />
                               </div>
                             )}
-                            <p
-                              className={
-                                pwdFocus && pwd && !validPwd
-                                  ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                  : "hidden"
-                              }
-                            >
+                            <p className={pwdFocus && pwd && !validPwd ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                               <Info />
                               8 to 24 character.
                               <br />
-                              Must include uppercase and lowercase letters, a
-                              number and a special character. <br />
-                              Allowed special character:{" "}
-                              <span>! @ # * $ %</span>
+                              Must include uppercase and lowercase letters, a number and a special character. <br />
+                              Allowed special character: <span>! @ # * $ %</span>
                             </p>
                           </div>
                           <div>
@@ -349,13 +332,7 @@ function ForgotPassword() {
                                 <Cross />
                               </div>
                             )}
-                            <p
-                              className={
-                                matchPwdFocus && !validMatchPwd && matchPwd
-                                  ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                  : "hidden"
-                              }
-                            >
+                            <p className={matchPwdFocus && !validMatchPwd && matchPwd ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                               <Info />
                               Must match the first password input field.
                               <br />

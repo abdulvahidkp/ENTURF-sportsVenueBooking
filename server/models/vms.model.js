@@ -5,14 +5,23 @@ const VmSchema = new mongoose.Schema({
     mobile: String,
     password: String,
     image: String,
-    approved: {
-        type:Boolean,
-        default:false
+    status: {
+        type: String,
+        enum: ["approved", "pending", "rejected"],
+        default: "pending"
+    },
+    reason: {
+        type: String,
+        default:''
     },
     blockStatus: {
+        type: Boolean,
+        default: false
+    },
+    rejectUpdate:{
         type:Boolean,
         default:false
     }
 })
 
-module.exports = mongoose.model('vms',VmSchema);
+module.exports = mongoose.model('vms', VmSchema);

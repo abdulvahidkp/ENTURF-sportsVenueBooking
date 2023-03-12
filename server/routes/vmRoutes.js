@@ -13,5 +13,7 @@ router.post('/turf/add',verifyToken,turfController.addTurf)
 router.get('/turfs',verifyToken,turfController.getTurfs)
 router.put('/turf/block',verifyToken,turfController.changeBlock)
 
+router.put('/profile',verifyToken,vmController.updateProfile)
+
 
 module.exports = router;

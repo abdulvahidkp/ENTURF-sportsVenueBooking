@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "../../../api/axios";
-import { useNavigate,Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 import { setVmDetails } from '../../../redux/features/vmSlice'
 
@@ -15,7 +15,6 @@ function VenueManagerLogin() {
   const [err,setErr] = useState('');
 
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const vm = useSelector(state=>state.vm);
 
@@ -39,13 +38,12 @@ function VenueManagerLogin() {
         }
       );
       // console.log(JSON.stringify(response?.data));
-      const accessToken = data.accessToken
+      console.log(data);
       // localStorage.setItem("user",response.data);
-      console.log('wwhenLogin',data);
-      localStorage.setItem("vm",accessToken);
+      localStorage.setItem("vm",data.accessToken);
       setMobile("");
       setPassword("");
-      dispatch(setVmDetails({mobile:mobile,name:data.name,approved:data.approved}))
+      dispatch(setVmDetails({mobile,...data}))
     } catch (error) {
       console.log(error);
       console.log(error.message)

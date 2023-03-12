@@ -1,22 +1,36 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistReducer } from 'redux-persist'
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
+import thunk from 'redux-thunk'
 
-import loadingSlice from "./features/loadingSlice";
-import userSlice from "./features/userSlice";
-import adminSlice from "./features/adminSlice";
+import loadingReducer from "./features/loadingSlice";
+import userReducer from "./features/userSlice";
+import adminReducer from "./features/adminSlice";
 
 //vm
-import vmSlice from './features/vmSlice'
-import vmTurfsSlice from './features/vm/turfsSlice'
+import vmReducer from './features/vmSlice'
+import vmTurfsReducer from './features/vm/turfsSlice'
 
 
-export default configureStore({
-    reducer: {
-        loading:loadingSlice,
-        user:userSlice,
-        admin:adminSlice,
-        vm:vmSlice,
-        vmTurfs:vmTurfsSlice
-    }
+const persistConfig = {
+    key: 'root',
+    storage
+}
+const reducer = combineReducers({
+    loading: loadingReducer,
+    user: userReducer,
+    admin: adminReducer,
+    vm: vmReducer,
+    vmTurfs: vmTurfsReducer
 })
+
+const persistedReducer = persistReducer(persistConfig, reducer)
+
+
+
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware:[thunk]
+})
+
+export const persistor = persistStore(store)

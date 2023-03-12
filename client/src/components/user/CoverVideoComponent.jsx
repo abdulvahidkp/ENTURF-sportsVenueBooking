@@ -26,7 +26,7 @@ function CoverVideoComponent() {
         autoPlay
         loop
         muted
-        className="w-full opacity-30 h-1/5 object-cover"
+        className="w-full  blur-sm h-1/5 object-cover"
       />
       <div className="absolute flex flex-col top-0 text-black w-full h-full space-y-9 items-center justify-center">
         <div>

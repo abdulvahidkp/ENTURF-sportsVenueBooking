@@ -1,13 +1,13 @@
 const vms = require('../../models/vms.model')
 const twilio = require('twilio')
 
-const sendMessage = (mobile,status)=> {
+const sendMessage = (mobile,reason,status)=> {
     mobile = Number(mobile)
+    console.log('at sendMessage ;',mobile, reason, status)
     const accountSid = process.env.accountSid;
     const authToken = process.env.authToken;
-    console.log(authToken, '....................', accountSid, '.........................',process.env.myMobile);
     const client = twilio(accountSid, authToken);
-    const message = `Enturf Booking  - Your venue manager application has been ${status}.`;
+    const message = `Enturf Booking  - Your venue manager application has been ${status}. ${reason ? `reason : ${reason}` : '' }`;
     client.messages
       .create({
         body: message,
@@ -17,7 +17,6 @@ const sendMessage = (mobile,status)=> {
       .then(message => console.log(message.sid))
       .catch(error =>{
         console.error(error)
-        res.status(400).json({message:'error occured at message to vm'})
       });
 }
 
@@ -39,25 +38,12 @@ module.exports = {
             res.status(400).json({message:'error occured'})
         })
     },
-    approve: async (req,res)=> {
-        const { _id } = req.params;
-        await vms.findByIdAndUpdate(_id,{ "$set": { approved:true} } ).then(response => {
-            sendMessage(response.mobile,'approved')
+    changeStatus: async (req,res) => {
+        const { vmId,status,reason } = req.body;
+        console.log(req.body);
+        await vms.findOneAndUpdate({_id:vmId},{"$set":{status,reason}}).then(async (response)=>{
+            sendMessage(response.mobile,reason,status)
             res.sendStatus(200);
-        }).catch(err=>{
-            console.log(err.message);
-            res.status(400).json({message:'error occured'})
-        })
-        
-    },
-    deleteVm: async (req,res) => {
-        const { _id } = req.params;
-        await vms.deleteOne({_id}).then(response=>{
-            console.log(response);
-            res.sendStatus(204); //resource deleted successully
-        }).catch(err=>{
-            console.log(err.message);
-            res.status(400).json({message:'error occured'})
         })
     }
 }

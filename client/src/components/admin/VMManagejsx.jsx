@@ -3,19 +3,20 @@ import axios from "../../api/axios";
 import turfImage from "../../assets/turfImage.jpeg";
 import toast, { Toaster } from "react-hot-toast";
 import swal from "sweetalert";
-import { ImageModal } from "./ImageModal";
+import VMManagerTable from "./VMManagerTable";
 
 const GET_VMS = "/admin/vm";
 const CHANGE_BLOCK = "/admin/vm/blockStatus";
 
 function VMManagejsx() {
-  const [vms, setVms] = useState([]);
+  const [vms, setVms] = useState([]); //
   const [turfs, showTurfs] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const items = ["All", "Approved", "Pending"];
+  const items = ["All", "Approved", "Pending","Rejected"];
   const [selectedItem, setSelectedItem] = useState(items[0]);
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredData,setFilteredData] = useState([])
+  const [filteredData, setFilteredData] = useState([]);
+ 
 
   useEffect(() => {
     axios.get(GET_VMS).then(({ data }) => {
@@ -26,26 +27,21 @@ function VMManagejsx() {
   const handleBlock = (id, status) => {
     swal({
       title: `${status ? "Unblock Manager?" : "Block Manager?"}`,
-      text: `Are you sure you want to ${
-        status ? "Unblock" : "Block"
-      } this Manager?`,
+      text: `Are you sure you want to ${status ? "Unblock" : "Block"} this Manager?`,
       icon: "warning",
       buttons: ["Cancel", `${status ? "Unblock" : "Block"}`],
       dangerMode: status ? false : true,
     }).then((confirm) => {
       if (confirm) {
-        axios.put(CHANGE_BLOCK + `/${id}`).then((response) => {
-          setVms(
-            vms.map((vm) =>
-              vm._id === id ? { ...vm, blockStatus: !vm.blockStatus } : vm
-            )
-          )
-          toast.success(
-            `User ${status ? "unblocked" : "blocked"} successfully!`
-          );
-        }).catch(err=>{
-          console.log(err.message)
-      })
+        axios
+          .put(CHANGE_BLOCK + `/${id}`)
+          .then((response) => {
+            setVms(vms.map((vm) => (vm._id === id ? { ...vm, blockStatus: !vm.blockStatus } : vm)));
+            toast.success(`User ${status ? "unblocked" : "blocked"} successfully!`);
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       } else {
         // Do nothing
       }
@@ -60,29 +56,28 @@ function VMManagejsx() {
     setSelectedImage(null);
   };
 
-  const handleApprove = (id,status)=>{
-    if(status==='approve'){
-      try {
-        axios.put('/admin/vm/approve/'+id)
-      } catch (error) {
-        console.log(error)
-      }
-      setVms(vms.map(vm=>vm._id === id ? {...vm,approved:true}: vm ));
-    } else {
-      try {
-        axios.delete('/admin/vm/'+id);
-      } catch (error) {
-        console.log(error)
-      }
-      setVms(vms.filter(vm=>vm._id !== id ));
+  const handleStatus = async (vmId, status, reason = "") => {
+    let adminToken = localStorage.getItem("admin");
+    try {
+      let { data } = await axios.put(
+        "/admin/vm/status",
+        { vmId, status, reason },
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-  }
+    setVms(vms.map((vm) => (vm._id === vmId ? { ...vm, status } : vm)));
+  };
 
-
-  useEffect(()=>{
-    setFilteredData(selectedItem === 'All'? vms : selectedItem === 'Approved' ? vms.filter((vm)=>vm.approved===true) : vms.filter((vm)=>vm.approved===false))
-  },[selectedItem,vms])
-
+  useEffect(() => {
+    setFilteredData(selectedItem === "All" ? vms : selectedItem === "Approved" ? vms.filter((vm) => vm.status === "approved") : selectedItem === 'Rejected' ? vms.filter((vm) => vm.status === 'rejected ') : vms.filter((vm) => vm.status === "pending"));
+  }, [selectedItem, vms]);
 
   return (
     <div className="p-4 relative sm:ml-64 bg-[#05445E] h-screen">
@@ -98,18 +93,8 @@ function VMManagejsx() {
                 onClick={() => setIsOpen(!isOpen)}
               >
                 {selectedItem}
-                <svg
-                  className="w-5 h-5 ml-2 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 12a1 1 0 01-.707-.293l-4-4a1 1 0 011.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 1.414l-4 4A1 1 0 0110 12z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fillRule="evenodd" d="M10 12a1 1 0 01-.707-.293l-4-4a1 1 0 011.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 1.414l-4 4A1 1 0 0110 12z" clipRule="evenodd" />
                 </svg>
               </button>
             </div>
@@ -119,11 +104,7 @@ function VMManagejsx() {
                 {items.map((item) => (
                   <button
                     key={item}
-                    className={`${
-                      item === selectedItem
-                        ? "bg-gray-100 text-gray-900"
-                        : "text-gray-700"
-                    } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    className={`${item === selectedItem ? "bg-gray-100 text-gray-900" : "text-gray-700"} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     onClick={() => {
                       setSelectedItem(item);
                       setIsOpen(false);
@@ -157,161 +138,25 @@ function VMManagejsx() {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {filteredData.length ? (
-                filteredData.map((vm) => (
-                  <tr className="bg-[#189AB4] border-b border-[#05445E]">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                    >
-                      {vm.name}
-                    </th>
-                    <td className="px-6 py-4">{vm.mobile}</td>
-                    <td
-                      className="px-6 py-4"
-                      onClick={() => handleImageClick(vm.image)}
-                    >
-                      <img src={vm.image} alt="" className="w-20" />
-                    </td>
-                    <td
-                      className="px-6 py-4 hover:underline cursor-pointer"
-                      onClick={() => showTurfs(!turfs)}
-                    >
-                      02
-                      <div
-                        id="1"
-                        class={`z-20 ${
-                          turfs ? "" : "hidden"
-                        } absolute w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton`}
-                      >
-                        <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
-                          All Turfs
-                        </div>
-                        <div class="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
-                          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
-                              <thead class="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
-                                <tr className="border border-[#189AB4]">
-                                  <th scope="col" class="px-6 py-3">
-                                    VENUE IMAGE
-                                  </th>
-                                  <th scope="col" class="px-6 py-3">
-                                    VENUE NAME
-                                  </th>
-                                  <th scope="col" class="px-6 py-3">
-                                    SPORTS & FACILITIES
-                                  </th>
-                                  <th scope="col" class="px-6 py-3">
-                                    STATUS
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                                  <th
-                                    scope="row"
-                                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                                  >
-                                    <img src={turfImage} alt="" />
-                                  </th>
-                                  <td class="px-6 py-4">ANFIELD TURF</td>
-                                  <td class="px-6 py-4">
-                                    football(5v5,6v6,7v7),cricket(5v5,11v11)
-                                  </td>
-                                  <td class="px-6 py-4">
-                                    <a
-                                      href="#"
-                                      class="font-medium text-[#75E6DA] hover:underline"
-                                    >
-                                      Pending
-                                    </a>
-                                  </td>
-                                </tr>
-                                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                                  <th
-                                    scope="row"
-                                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                                  >
-                                    <img src={turfImage} alt="" />
-                                  </th>
-                                  <td class="px-6 py-4">CARRIEBEANS TURF</td>
-                                  <td class="px-6 py-4">
-                                    football(5v5,6v6,7v7),cricket(5v5,11v11)
-                                  </td>
-                                  <td class="px-6 py-4">
-                                    <a
-                                      href="#"
-                                      class="font-medium text-[#75E6DA] hover:underline"
-                                    >
-                                      Enable
-                                    </a>
-                                  </td>
-                                </tr>
-                                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                                  <th
-                                    scope="row"
-                                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                                  >
-                                    <img src={turfImage} alt="" />
-                                  </th>
-                                  <td class="px-6 py-4">ANFIELD TURF</td>
-                                  <td class="px-6 py-4">
-                                    football(5v5,6v6,7v7),cricket(5v5,11v11)
-                                  </td>
-                                  <td class="px-6 py-4">
-                                    <a
-                                      href="#"
-                                      class="font-medium text-[#75E6DA] hover:underline"
-                                    >
-                                      Enable
-                                    </a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      {!vm.approved ? (
-                        <div className="">
-                          <a
-                            className="font-medium bg-green-600 p-2 cursor-pointer"
-                            onClick={()=>handleApprove(vm._id,'approve')}
-                          >
-                            Approve
-                          </a>
-                          <a
-                            className="ml-1 font-medium bg-red-600 p-2 cursor-pointer"
-                            onClick={()=>handleApprove(vm._id,'decline')}
-                          >
-                            Decline
-                          </a>
-                        </div>
-                      ) : (
-                        <a
-                          href="#"
-                          onClick={() => handleBlock(vm._id, vm.blockStatus)}
-                          className={`font-medium ${
-                            vm.blockStatus ? "bg-green-600 " : "bg-red-600"
-                          } p-2  `}
-                        >
-                          {vm.blockStatus ? "Unblock" : "Block"}
-                        </a>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <div className=" p-4">No users available</div>
-              )}
-            </tbody>
+            {filteredData.length ? (
+              filteredData.map((data, key) => (
+                <VMManagerTable
+                  vm={data}
+                  key={key}
+                  handleImageClick={handleImageClick}
+                  showTurfs={showTurfs}
+                  turfImage={turfImage}
+                  handleStatus={handleStatus}
+                  selectedImage={selectedImage}
+                  handleClose={handleClose}
+                  turfs={turfs}
+                  handleBlock={handleBlock}
+                />
+              ))
+            ) : (
+              <p>No datas available</p>
+            )}
           </table>
-          {selectedImage && (
-            <ImageModal imageUrl={selectedImage} onClose={handleClose} />
-          )}
         </div>
       </div>
     </div>

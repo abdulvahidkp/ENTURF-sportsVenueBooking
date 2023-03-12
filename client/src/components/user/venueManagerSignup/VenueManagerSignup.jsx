@@ -31,49 +31,23 @@ function VenueManagerSignup() {
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string()
-        .min(4, "name must be 4 character or higher")
-        .max(17, "name must be 17 character or lesser")
-        .required("Required"),
-      mobile: Yup.string()
-        .matches(NUMBER_REGEX, "Phone number is not valid")
-        .required("Required"),
+      name: Yup.string().min(4, "name must be 4 character or higher").max(17, "name must be 17 character or lesser").required("Required"),
+      mobile: Yup.string().matches(NUMBER_REGEX, "Phone number is not valid").required("Required"),
       image: Yup.mixed()
         .required("document is required")
-        .test(
-          "FILE_SIZE",
-          "Too big!",
-          (value) => value && value.size < 1024 * 1024
-        )
-        .test(
-          "FILE_TYPE",
-          "invalid",
-          (value) => value && ["image/png", "image/jpeg"].includes(value.type)
-        ),
-      password: Yup.string()
-        .matches(
-          PWD_REGEX,
-          "Must include uppercase, lowercase letters, number and a special character ! @ # * $ %"
-        )
-        .required("Required"),
-      confirmPassword: Yup.string().test(
-        "passwords-match",
-        "Passwords must match",
-        function (value) {
-          return this.parent.password === value;
-        }
-      ),
+        .test("FILE_SIZE", "Too big!", (value) => value && value.size < 1024 * 1024)
+        .test("FILE_TYPE", "invalid", (value) => value && ["image/png", "image/jpeg"].includes(value.type)),
+      password: Yup.string().matches(PWD_REGEX, "Must include uppercase, lowercase letters, number and a special character ! @ # * $ %").required("Required"),
+      confirmPassword: Yup.string().test("passwords-match", "Passwords must match", function (value) {
+        return this.parent.password === value;
+      }),
     }),
     onSubmit: async (values, errors) => {
       try {
-        const response = await axios.post(
-          MOBILE_URL,
-          JSON.stringify({ mobile: values.mobile }),
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        );
+        const response = await axios.post(MOBILE_URL, JSON.stringify({ mobile: values.mobile }), {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
         console.log("+91" + values.mobile);
         const otpResponse = await setUpRecaptcha("+91" + values.mobile);
         console.log(otpResponse);
@@ -99,9 +73,7 @@ function VenueManagerSignup() {
       otp: "",
     },
     validationSchema: Yup.object({
-      otp: Yup.string()
-        .matches(OTP_REGEX, "Must be exactly 6 characters")
-        .required("Required"),
+      otp: Yup.string().matches(OTP_REGEX, "Must be exactly 6 characters").required("Required"),
     }),
     onSubmit: async (values) => {
       const { image } = formik.values;
@@ -110,32 +82,21 @@ function VenueManagerSignup() {
       try {
         formData.append("file", image);
         formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
-        const { data } = await axios.post(
-          `https://api.cloudinary.com/v1_1/${
-            import.meta.env.VITE_cloudName
-          }/image/upload`,
-          formData
-        );
+        const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
         formik.values.image = data.secure_url;
 
         await confirm.confirm(values.otp).then(async () => {
-          const response = await axios.post(
-            SIGN_UP,
-            JSON.stringify(formik.values),
-            {
-              headers: { "Content-Type": "application/json" },
-              withCredentials: true,
-            }
-          );
+          const response = await axios.post(SIGN_UP, JSON.stringify(formik.values), {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          });
           console.log(response.data);
           // localStorage.setItem("admins", JSON.stringify(response.data));
           navigate("/vm/signin");
         });
       } catch (error) {
         console.log(error.message);
-        if (
-          error.message === "Firebase: Error (auth/invalid-verification-code)."
-        ) {
+        if (error.message === "Firebase: Error (auth/invalid-verification-code).") {
           setErr("invalid otp");
         } else if (!error?.response) {
           setErr("no server response");
@@ -154,10 +115,7 @@ function VenueManagerSignup() {
         <div className="w-full h-45 bg-white shadow-md rounded-md p-8 space-y-6 ">
           <div className="space-y-1">
             <h1 className="font-semibold">
-              hey,{" "}
-              <span className="text-3xl font-roboto font-bold">
-                Venue Manager.
-              </span>
+              hey, <span className="text-3xl font-roboto font-bold">Venue Manager.</span>
             </h1>
             <p>Let's get rolling.</p>
           </div>
@@ -166,50 +124,16 @@ function VenueManagerSignup() {
               {err && <p className="text-red-600 font-bold">{err}</p>}
               <div className="grid sm:grid-cols-2 gap-2">
                 <div>
-                  <input
-                    type="text"
-                    className="input_Field"
-                    placeholder="Full Name"
-                    name="name"
-                    onBlur={formik.handleBlur}
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.touched.name && formik.errors.name ? (
-                    <p className="text-sm text-red-600">{formik.errors.name}</p>
-                  ) : null}
+                  <input type="text" className="input_Field" placeholder="Full Name" name="name" onBlur={formik.handleBlur} value={formik.values.name} onChange={formik.handleChange} />
+                  {formik.touched.name && formik.errors.name ? <p className="text-sm text-red-600">{formik.errors.name}</p> : null}
                 </div>
                 <div>
-                  <input
-                    type="number"
-                    className="input_Field"
-                    placeholder="Mobile"
-                    name="mobile"
-                    onBlur={formik.handleBlur}
-                    value={formik.values.mobile}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.touched.mobile && formik.errors.mobile ? (
-                    <p className="text-sm text-red-600">
-                      {formik.errors.mobile}
-                    </p>
-                  ) : null}
+                  <input type="number" className="input_Field" placeholder="Mobile" name="mobile" onBlur={formik.handleBlur} value={formik.values.mobile} onChange={formik.handleChange} />
+                  {formik.touched.mobile && formik.errors.mobile ? <p className="text-sm text-red-600">{formik.errors.mobile}</p> : null}
                 </div>
                 <div>
-                  <input
-                    type="Password"
-                    className="input_Field"
-                    placeholder="Password"
-                    name="password"
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                  />
-                  {formik.touched.password && formik.errors.password ? (
-                    <p className="text-sm text-red-600">
-                      {formik.errors.password}
-                    </p>
-                  ) : null}
+                  <input type="Password" className="input_Field" placeholder="Password" name="password" onBlur={formik.handleBlur} value={formik.values.password} onChange={formik.handleChange} />
+                  {formik.touched.password && formik.errors.password ? <p className="text-sm text-red-600">{formik.errors.password}</p> : null}
                 </div>
                 <div>
                   <input
@@ -221,35 +145,15 @@ function VenueManagerSignup() {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                   />
-                  {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
-                    <p className="text-sm text-red-600">
-                      {formik.errors.confirmPassword}
-                    </p>
-                  ) : null}
+                  {formik.touched.confirmPassword && formik.errors.confirmPassword ? <p className="text-sm text-red-600">{formik.errors.confirmPassword}</p> : null}
                 </div>
                 <div>
                   <p className="opacity-60 ">govt approved doc</p>
-                  <input
-                    type="file"
-                    className="input_Field"
-                    name="image"
-                    onBlur={formik.handleBlur}
-                    onChange={(e) =>
-                      formik.setFieldValue("image", e.target.files[0])
-                    }
-                  />
-                  {formik.touched.image && formik.errors.image ? (
-                    <p className="text-sm text-red-600">
-                      {formik.errors.image}
-                    </p>
-                  ) : null}
+                  <input type="file" className="input_Field" name="image" onBlur={formik.handleBlur} onChange={(e) => formik.setFieldValue("image", e.target.files[0])} />
+                  {formik.touched.image && formik.errors.image ? <p className="text-sm text-red-600">{formik.errors.image}</p> : null}
                 </div>
                 {<PreviewImage file={formik.values.image} />}
-                <button
-                  type="submit"
-                  className="w-2/4 select-none p-2 rounded-full text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500"
-                >
+                <button type="submit" className="w-2/4 select-none p-2 rounded-full text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500">
                   Sign up
                 </button>
               </div>
@@ -269,16 +173,9 @@ function VenueManagerSignup() {
                     value={formikOTP.values.otp}
                     onChange={formikOTP.handleChange}
                   />
-                  {formikOTP.touched.otp && formikOTP.errors.otp ? (
-                    <p className="text-sm text-red-600">
-                      {formikOTP.errors.otp}
-                    </p>
-                  ) : null}
+                  {formikOTP.touched.otp && formikOTP.errors.otp ? <p className="text-sm text-red-600">{formikOTP.errors.otp}</p> : null}
                 </div>
-                <button
-                  type="submit"
-                  className="w-1/4 select-none rounded-full h-12 text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500"
-                >
+                <button type="submit" className="w-1/4 select-none rounded-full h-12 text-white text-xl font-roboto  font-semibold bg-green-400/70 hover:bg-green-500">
                   confirm
                 </button>
               </div>

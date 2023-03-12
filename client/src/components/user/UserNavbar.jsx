@@ -28,20 +28,18 @@ function UserNavbar() {
             </a>
             {isLoggedIn ? (
               <button
-                className="bg-green-400/70 text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-500 rounded "
+                className="bg-green-500/70 text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-700 rounded "
                 onClick={() => dispatch(userLogout())}
               >
                 LOGOUT
               </button>
             ) : (
               <button
-                className="bg-green-400/70 text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-500 rounded "
+                className="bg-[#276221] text-white font-[Poppins] duration-500 p-1 sm:px-4 py-0 text-xs sm:text-lg sm:py-1 mx-3 sm:mx-4 hover:bg-green-700 rounded "
                 onClick={() => navigate('/signin')}
               >
                 LOGIN
               </button>
-              
-              
             )}
           </div>
         </div>
