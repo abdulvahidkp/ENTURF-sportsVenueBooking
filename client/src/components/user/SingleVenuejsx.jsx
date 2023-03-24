@@ -8,7 +8,7 @@ import axios from '../../api/axios'
 
 
 function SingleVenuejsx({turf,part,setPart}) {
-console.log('imagepard',turf)
+  console.log('turf',turf);
 
   return (
     <div>
@@ -25,8 +25,8 @@ console.log('imagepard',turf)
                   <div>
                   <h1 className='font-bold text-2xl text-roboto'>{turf.venueName}</h1>
                   <div className='flex gap-x-3'>
-                  <p className='line-through'>&#8377;{turf.actualPrice}</p>
-                  <p>&#8377;{turf.sellingPrice}</p>
+                  <p className=''>&#8377;{turf.actualPrice}</p>
+                  <p>{turf.discountPercentage}% off </p>
 
                   </div>
 

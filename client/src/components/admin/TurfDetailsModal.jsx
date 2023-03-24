@@ -38,7 +38,7 @@ function TurfDetailsModal({ turfs,setModal, id, handleBlock, handleApprove }) {
         },
       })
       .then(({ data }) => {
-        console.log(data);
+        console.log('hey',data);
         setTurf(data);
       })
       .catch((err) => {
@@ -83,7 +83,7 @@ function TurfDetailsModal({ turfs,setModal, id, handleBlock, handleApprove }) {
                     <label htmlFor="vmName" className="text-gray-700">
                       Sports & Facility :{" "}
                     </label>
-                    <input type="text" name="vmName" id="vmName" defaultValue={`${turf.sport}  ${turf.facility}`} className="text-black capitalize" />
+                    <input type="text" name="vmName" id="vmName" defaultValue={`${turf.sportFacility[0].sport}  ${turf.sportFacility[0].facility}`} className="text-black capitalize" />
                   </div>
                   <div>
                     <label htmlFor="vmName" className="text-gray-700">
@@ -113,9 +113,9 @@ function TurfDetailsModal({ turfs,setModal, id, handleBlock, handleApprove }) {
                   </div>
                   <div>
                     <label htmlFor="vmName" className="text-gray-700">
-                      Selling Price :{" "}
+                      Discount % :{" "}
                     </label>
-                    <input type="text" name="vmName" id="vmName" defaultValue={turf.sellingPrice} className="text-black capitalize" />
+                    <input type="text" name="vmName" id="vmName" defaultValue={turf.discountPercentage} className="text-black capitalize" />
                   </div>
                   <div>
                     <label htmlFor="vmName" className="text-gray-700">
@@ -129,7 +129,7 @@ function TurfDetailsModal({ turfs,setModal, id, handleBlock, handleApprove }) {
                     <div className="inline-flex space-x-4">
                       {turf.slots.map((slot) => (
                         <label className="flex items-center space-x-2 bg-gray-100 rounded-lg p-4">
-                          <span className="text-gray-700">{slot} </span>
+                          <span className="text-gray-700">{slot.day}</span>
                         </label>
                       ))}
                     </div>

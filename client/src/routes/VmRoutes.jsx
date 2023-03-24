@@ -22,9 +22,9 @@ function VmRoutes() {
             <Route path="signin" element={<UnAuthenticatedRoute><VMLogin /></UnAuthenticatedRoute>} />
             <Route path="pending" element={<AuthenticatedRoute><Pending/></AuthenticatedRoute>} />
             <Route path="venues" element={<AuthenticatedRoute><VMVenue /></AuthenticatedRoute>} />
-            <Route path="venues/add" element={<AuthenticatedRoute><VMVenueAdd /></AuthenticatedRoute>} />
+            <Route path="venues/addRemoved" element={<AuthenticatedRoute><VMVenueAdd /></AuthenticatedRoute>} />
             <Route path="venues/edit/:id" element={<AuthenticatedRoute><VMEditVenue /></AuthenticatedRoute>} />
-            <Route path="venues/addNew" element={<AuthenticatedRoute><VmVenueAddNew /></AuthenticatedRoute>} />
+            <Route path="venues/add" element={<AuthenticatedRoute><VmVenueAddNew /></AuthenticatedRoute>} />
             <Route path="profile" element={<AuthenticatedRoute><VMProfileEdit /></AuthenticatedRoute>} />
             <Route path="bookings" element={<AuthenticatedRoute><VMAllBookingsPage /></AuthenticatedRoute>} />
         </Route>

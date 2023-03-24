@@ -206,11 +206,15 @@ function TurfManagejsx() {
                     </th>
                     <td className="px-6 py-4">{turf.vmId.name}</td>
                     <td className="px-6 py-4">
-                      {turf.sport + "" + turf.facility}
+                      {
+                        turf.sportFacility.map(per=>(
+                          <div key={per._id}>{per.sport}, {per.facility}</div>
+                        ))
+                      }
                     </td>
                     <td className="px-6 py-4">{turf.place}</td>
                     <td className="px-6 py-4">{turf.district}</td>
-                    <td className="px-6 py-4">&#8377; {turf.sellingPrice}</td>
+                    <td className="px-6 py-4">&#8377; {turf.actualPrice}</td>
                     <td className="px-6 py-4">
                       {!turf.approved ? (
                         <div className="">

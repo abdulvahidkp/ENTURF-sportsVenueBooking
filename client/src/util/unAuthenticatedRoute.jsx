@@ -8,8 +8,6 @@ const UnAuthenticatedRoute = ({children}) => {
   const location = useLocation();
   console.log(isLoggedIn);
 
-  
-  
   if (checkIfUserLoggedIn()) {
     return <Navigate to='/' replace/>;
   }

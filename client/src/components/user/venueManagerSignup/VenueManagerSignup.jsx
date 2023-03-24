@@ -84,7 +84,7 @@ function VenueManagerSignup() {
         formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
         const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
         formik.values.image = data.secure_url;
-
+        console.log(formik.values.image);
         await confirm.confirm(values.otp).then(async () => {
           const response = await axios.post(SIGN_UP, JSON.stringify(formik.values), {
             headers: { "Content-Type": "application/json" },

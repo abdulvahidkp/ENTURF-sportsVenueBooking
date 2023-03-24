@@ -18,7 +18,7 @@ import VMdaysButton from "../VMVenueAdd/VMdaysButton";
 
 function VMVenueAddjsx() {
 
-  useParma
+ 
 
   const [sports, setSports] = useState([]);
   const [selectedFacility, setSelectedFacility] = useState([]);

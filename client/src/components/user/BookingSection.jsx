@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from '../../api/axios';
 
+import BookingCalendar from './BookingCalendar';
+
 
 import { EmptyCart } from '../../assets/CartIcon'
 
@@ -100,14 +102,7 @@ function BookingSection({turf}) {
                   <a className='text-2xl font-roboto font-semibold mx-2 text-[#504a4a] '>Select Slots</a>
                 </div>
                 <div className='flex px-4 py-5 space-x-9 '>
-                  {turf.slots.map((slot) => (
-                    <div key={slot}>
-                      <label className="inline-flex items-center">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-[#504a4a]" value={slot} />   {/*onChange={(e) => handleSlotSelection(e.target.checked, slot)} */}
-                        <span className="ml-2 text-[#504a4a]">{slot}</span>
-                      </label>
-                    </div>
-                  ))}
+                  <BookingCalendar slots={turf.slots}/>
                 </div>
               </div>
               }

@@ -4,7 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import axios from "../../../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const GET_SPORTS = "/vm/sports";
 
 const availableSlots = [
@@ -37,6 +37,8 @@ const availableSlots = [
 function VmVenueAddNew() {
   const [sports, setSports] = useState([]);
 
+  const { id } = useParams();
+
   //adding states
   const [venueName, setVenueName] = useState("");
   const [mobile, setMobile] = useState(null);
@@ -50,10 +52,6 @@ function VmVenueAddNew() {
   const [lat, setLat] = useState(10.45);
   const [lng, setLng] = useState(76.6);
   const [slots, setSlots] = useState([
-    {
-      day: "sunday",
-      slots: [],
-    },
     {
       day: "monday",
       slots: [],
@@ -77,13 +75,19 @@ function VmVenueAddNew() {
     {
       day: "saturday",
       slots: [],
-    }
+    },
+    {
+      day: "sunday",
+      slots: [],
+    },
   ]);
   const [sportFacility, setSportFacility] = useState([]);
 
   const [submitLoad, setSubmitLoad] = useState(false);
-  const [day, setDay] = useState("sunday");
+  const [day, setDay] = useState("monday");
   const [slotLoading, setSlotLoading] = useState(false);
+  const [imageUpdated, setImageUpdated] = useState(false);
+  const [documentUpdated, setDocumentUpdated] = useState(false);
 
   const navigate = useNavigate();
 
@@ -93,21 +97,38 @@ function VmVenueAddNew() {
     }, 500);
   }, [slotLoading]);
 
+  useEffect(() => {
+    let token = localStorage.getItem("vm");
+    (async () => {
+      let { data } = await axios.get(`/vm/turf/${id}`, {
+        headers: { Authorization: token },
+      });
+      setVenueName(data.venueName);
+      setMobile(data.mobile);
+      setDistrict(data.district);
+      setPlace(data.place);
+      setActualPrice(data.actualPrice);
+      setDiscountPercentage(data.discountPercentage);
+      setDescription(data.description);
+      setImage(data.image);
+      setDocument(data.document);
+      setLat(data.lat);
+      setLng(data.lng);
+      setSlots(data.slots);
+      setSportFacility(data.sportFacility);
+    })();
+  }, []);
+
   function handleCheckboxChange(slot, indexOf) {
     setSlots((prevDays) => {
       const updatedDays = [...prevDays]; // create a copy of the days array
       const selectedDay = updatedDays[indexOf]; // create a copy of the selected day object
       const slotIndex = selectedDay.slots.indexOf(slot);
       if (slotIndex === -1) {
-        let index = selectedDay.slots.findIndex(item => item > slot)
-        if(index === -1){
-          index = selectedDay.slots.length;
-        }
-        selectedDay.slots.splice(index,0,slot)
+        selectedDay.slots.push(slot);
       } else {
         selectedDay.slots.splice(slotIndex, 1);
       }
-      console.log(updatedDays);
       return updatedDays;
     });
   }
@@ -190,33 +211,46 @@ function VmVenueAddNew() {
     setSubmitLoad(true);
     //formData
     const formData = new FormData();
-
-    try {
-      formData.append("file", image);
-      formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
-      var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
-      var imageUrl = data.secure_url;
-
-      formData.append("file", document);
-      formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
-      var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
-      var documentUrl = data.secure_url;
-    } catch (error) {
-      setSubmitLoad(false);
-      console.log(error.message);
+    if (imageUpdated) {
+        try {
+            formData.append("file", image);
+            formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
+            var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
+            var imageUrl = data.secure_url;
+        } catch (error) {
+            setSubmitLoad(false);
+            console.log(error.message);
+        }
+    } else {
+        var imageUrl = image;
     }
+    if(documentUpdated){
+        try {
+            formData.append("file", document);
+            formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
+            var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
+            var documentUrl = data.secure_url;
+          } catch (error) {
+            setSubmitLoad(false);
+            console.log(error.message);
+          }
+    } else {
+        var documentUrl = document;
+    }
+  
 
     try {
-      let response = await axios.post(
+      let {data} = await axios.put(
         "/vm/turf",
-        { venueName, mobile, district, place, actualPrice, discountPercentage, description, image: imageUrl, document: documentUrl, slots, sportFacility, lat, lng },
+        { id, venueName, mobile, district, place, actualPrice, discountPercentage, description, image: imageUrl, document: documentUrl, slots, sportFacility, lat, lng },
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      navigate('/vm/venues');
+      console.log(data);
+      navigate("/vm/venues");
     } catch (error) {
       console.log(error);
     } finally {
@@ -227,7 +261,9 @@ function VmVenueAddNew() {
   return (
     <div className="p-4 sm:ml-64">
       <form className="p-4 mt-14" onSubmit={(e) => handleSubmit(e)}>
-        <Link to='/vm/venues' className="p-1.5 hover:bg-blue-600 duration-200 bg-blue-500 rounded text-white">Back</Link>
+        <Link to="/vm/venues" className="p-1.5 hover:bg-blue-600 duration-200 bg-blue-500 rounded text-white">
+          Back
+        </Link>
         <div className="flex gap-x-4 ">
           <div className="mt-3 w-1/2 ">
             <label htmlFor="name" className=" block text-sm text-gray-700">
@@ -342,7 +378,17 @@ function VmVenueAddNew() {
                 <div className="flex items-center gap-1 ">
                   <label htmlFor="image" className=" cursor-pointer p-2 rounded text-gray-400 bg-gray-100/50 shadow-inner focus:outline-none ">
                     <span>Choose a file</span>
-                    <input id="image" name="image" type="file" accept="image/*" className="sr-only" onChange={(e) => setImage(e.target.files[0])} />
+                    <input
+                      id="image"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={(e) => {
+                        setImage(e.target.files[0]);
+                        setImageUpdated(true);
+                      }}
+                    />
                   </label>
                   <p className="truncate">{image.name}</p>
                 </div>
@@ -354,7 +400,17 @@ function VmVenueAddNew() {
                 <div className="flex items-center gap-1">
                   <label htmlFor="document" className=" cursor-pointer p-2  rounded text-gray-400 bg-gray-100/50 shadow-inner focus:outline-none ">
                     <span>Choose a file</span>
-                    <input id="document" name="document" type="file" accept="image/*" className="sr-only" onChange={(e) => setDocument(e.target.files[0])} />
+                    <input
+                      id="document"
+                      name="document"
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={(e) => {
+                        setDocument(e.target.files[0]);
+                        setDocumentUpdated(true);
+                      }}
+                    />
                   </label>
                   <p className="truncate">{document.name}</p>
                 </div>
@@ -519,7 +575,7 @@ function VmVenueAddNew() {
                 />
               </svg>
             ) : (
-              "Submit"
+              "Update"
             )}
           </button>
         </div>

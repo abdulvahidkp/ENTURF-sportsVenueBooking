@@ -22,9 +22,9 @@ function VMVenueAddjsx() {
   const [mapNotSelectedErrMsg, setMapNotSelectedErrMsg] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [zoom, setZoom] = useState(7);
   const [lat, setLat] = useState(10.45);
   const [lng, setLng] = useState(76.6);
-  const [zoom, setZoom] = useState(7);
   const Geocoder = () => {
     const ctrl = new MapboxGeocoder({
       accessToken: import.meta.env.VITE_MAP_TOKEN,
@@ -43,7 +43,6 @@ function VMVenueAddjsx() {
     });
     return null;
   };
-  const mapRef = useRef();
 
   useEffect(() => {
     try {
@@ -108,7 +107,7 @@ function VMVenueAddjsx() {
       try {
         var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
         values.image = data.secure_url;
-
+        console.log(data.secure_url);
         formData.append("file", values.document);
         formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
         var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
@@ -122,7 +121,7 @@ function VMVenueAddjsx() {
         const response = await axios.post("/vm/turf/add", JSON.stringify({ ...values, lng, lat }), {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `${_id}`,
+            Authorization: _id,
           },
           withCredentials: true,
         });

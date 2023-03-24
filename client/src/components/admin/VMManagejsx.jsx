@@ -10,12 +10,12 @@ const CHANGE_BLOCK = "/admin/vm/blockStatus";
 
 function VMManagejsx() {
   const [vms, setVms] = useState([]); //
+  const [filteredData, setFilteredData] = useState([]);
   const [turfs, showTurfs] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const items = ["All", "Approved", "Pending","Rejected"];
   const [selectedItem, setSelectedItem] = useState(items[0]);
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
  
 
   useEffect(() => {

@@ -26,7 +26,6 @@ function UserLogin() {
   const from = location.state?.from?.pathname || "/";
 
   const mobileRef = useRef();
-  const errRef = useRef();
 
   const [mobile, setMobile] = useState("");
   const [pwd, setPwd] = useState("");
@@ -46,7 +45,6 @@ function UserLogin() {
     e.preventDefault();
     //irfan
     dispatch(signin({ mobile, password: pwd }));
-
     // try {
     //   const { data } = await axios.post(
     //     LOGIN_URL,
@@ -113,7 +111,7 @@ function UserLogin() {
                 <div className="px-10 sm:px-4">
                   <h1 className="text-4xl select-none font-semibold font-roboto ">Sign in</h1>
                   <p className="text-md py-2 font-sans">Keep playing stay healthy</p>
-                  <p ref={errRef} className={user?.signin?.errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
+                  <p className={user?.signin?.errMsg ? "errMsg bg-red-600 p-1 text-white  " : "hidden  "}>
                     {user?.signin?.errMsg}
                   </p>
                   <form onSubmit={handleSigninSubmit}>

@@ -39,11 +39,22 @@ module.exports = {
     }
   },
   addTurf: async (req, res) => {
+    console.log(req.body);
     turfs.create({ vmId: req._id, ...req.body }).then(response => {
+      console.log('ehllo',response);
       res.status(200).json({ message: 'success' })
     }).catch(err => {
       console.log(err.message)
       res.status(400).json({ message: 'error occured' })
+    })
+  },
+  updateTurf: async (req,res) => {
+    console.log(req.body)
+    const vmId = req._id
+    const {id,venueName,mobile,district,place,actualPrice,discountPercentage,description,image,document,slots,sportFacility,lat,lng} = req.body
+    turfs.updateOne({_id:id},{venueName,mobile,district,place,actualPrice,discountPercentage,description,image,document,slots,sportFacility,lat,lng}).then(response=>{
+      console.log(response)
+      res.status(200).json({message:'success'})
     })
   },
   getTurfs: async (req, res) => {
@@ -52,6 +63,15 @@ module.exports = {
       res.status(200).json(response);
     }).catch(err => {
       console.log(err);
+      res.status(400).json({ message: 'error occured at getting Turfs' })
+    })
+  },
+  getTurf: async (req,res) => {
+    turfs.findOne({_id:req.params.id}).then(response=>{
+      console.log(response)
+      res.status(200).json(response);
+    }).catch(err=>{
+      console.log(err.message);
       res.status(400).json({ message: 'error occured at getting Turfs' })
     })
   },

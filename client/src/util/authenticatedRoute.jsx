@@ -7,7 +7,6 @@ const AuthenticatedRoute = ({ children }) => {
   if (!checkIfUserLoggedIn()) {
     return <Navigate to='/signin' replace />;
   }
-
   return children;
 };
 
