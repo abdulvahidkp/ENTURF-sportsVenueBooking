@@ -11,6 +11,7 @@ import RequireAuth from "../components/RequireAuth";
 import ForgotPwd from "../pages/user/ForgotPwd";
 import AuthenticatedRoute from "../util/authenticatedRoute";
 import UnAuthenticatedRoute from "../util/unAuthenticatedRoute";
+import ConfirmationPage from "../pages/user/Confirmation";
 
 function UserRoutes() {
   return (
@@ -24,6 +25,7 @@ function UserRoutes() {
         <Route path="venues/:place" element={<VenuesPage />} />
         <Route path="venue/:id" element={<SingleVenue />} />
         <Route path="profile" element={<AuthenticatedRoute><Profile /></AuthenticatedRoute>} />
+        <Route path="confirmation" element={<AuthenticatedRoute><ConfirmationPage/></AuthenticatedRoute>} />
         {/* <Route element={<RequireAuth />}>
           <Route path="profile" element={<Profile />} />
         </Route> */}

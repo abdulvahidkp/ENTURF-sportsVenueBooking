@@ -24,7 +24,7 @@ function UserNavbar() {
           </div>
           <div className="items-center">
             <a className="text-xs sm:text-lg cursor-pointer hover:text-green-500 duration-500">
-              CONTACT
+              MY PROFILE
             </a>
             {isLoggedIn ? (
               <button

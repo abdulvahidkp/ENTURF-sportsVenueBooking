@@ -22,6 +22,15 @@ module.exports = {
             res.status(400).json({ message: 'error occured' })
         })
     },
+    getBookedSlots:async (req,res) => {
+        try {
+            console.log(req.body);
+            const response = await bookings.find(req.body, { slotTime: 1, _id: 0 })
+            res.status(200).json(response)
+        } catch (error) {
+            console.log(error)
+        }
+    },
     bookTurf: async (req, res) => {
 
         try {
@@ -44,21 +53,18 @@ module.exports = {
                 console.log(order);
                 res.status(200).json(order)
             })
-
         } catch (error) {
             console.log(error.message);
         }
     },
 
     verifyPayment: async ( req,res ) => {
-        console.log('verifyPaymentreq.body:',req.body)
         try {
             const {razorpay_order_id,razorpay_payment_id,razorpay_signature , turfId, slotTime, slotDate, price,sport,facility} = req.body;
             const sign = razorpay_order_id + "|" + razorpay_payment_id
             const expectedSign = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET).update(sign.toString()).digest('hex')
             if(razorpay_signature === expectedSign){
-                const hey = await bookings.create({userId:req.id,turfId,slotTime,slotDate,price,sport,facility})
-                console.log(hey);
+                await bookings.create({userId:req.id,turfId,slotTime,slotDate,price,sport,facility})
                 return res.status(200).json({message:'payment verified succesfully'})
             }
             return res.status(400).json({message:'Invalid signature sent!'})

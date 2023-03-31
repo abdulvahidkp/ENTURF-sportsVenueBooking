@@ -20,6 +20,8 @@ router.post('/vmSignup', vmController.vmSignup)
 router.get('/venues/:district', turfController.getTurfs)
 router.get('/venue/:_id', turfController.getTurf)
 
+router.post('/bookedSlot',turfController.getBookedSlots)
+
 router.post('/book', verifyToken, turfController.bookTurf)
 router.post('/verifyPayment',verifyToken,turfController.verifyPayment)
 

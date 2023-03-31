@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../api/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSport, setFacility, clearBooking } from "../../redux/features/bookingSlice";
@@ -24,10 +24,10 @@ function BookingSection({ turf }) {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const sportAndFacility = useSelector((state) => state.booking);
   const { isLoggedIn } = useSelector((state) => state.user);
-
-  console.log("hy", sportAndFacility);
 
   const setSportAndFacility = (sport, facility) => {
     console.log(sport, facility);
@@ -54,6 +54,7 @@ function BookingSection({ turf }) {
         }
       );
       initPayment(data);
+     
     } catch (error) {
       console.log(error.message);
     }
@@ -70,6 +71,7 @@ function BookingSection({ turf }) {
       image: turf.image,
       order_id: datas.id,
       handler: async (response) => {
+        console.log('handler');
         try {
           console.log('hey');
           const { data } = await axios.post("/verifyPayment", {...response,turfId:turf._id, sport: sportAndFacility.sport, facility: sportAndFacility.facility, slotDate: sportAndFacility.date, slotTime: sportAndFacility.slot ,price:datas.amount}, {
@@ -78,6 +80,7 @@ function BookingSection({ turf }) {
             },
           });
           console.log(data);
+          navigate('/confirmation')
         } catch (error) {
           console.log(error);
         }
@@ -162,7 +165,7 @@ function BookingSection({ turf }) {
                         <a className="text-2xl font-roboto font-semibold mx-2 text-[#504a4a] ">Select Slots</a>
                       </div>
                       <div className=" px-4 py-5 space-x-9 ">
-                        <BookingCalendar slots={turf.slots} />
+                        <BookingCalendar slots={turf.slots} turfId={turf._id} />
                       </div>
                     </div>
                   )
