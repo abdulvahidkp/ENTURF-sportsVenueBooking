@@ -119,8 +119,7 @@ function VMAllVenue() {
                       <td class="px-6 py-4">{turf.facility}</td>
                       <td class="px-6 py-4">{turf.slots.length}</td>
                       <td class="px-6 py-4 ">
-                        <span className="mr-3 line-through">&#8377;{turf.actualPrice}</span>
-                        &#8377;{turf.sellingPrice}
+                        <span className="mr-3">&#8377;{turf.actualPrice}</span>
                       </td>
                       <td class="px-6 py-4">{turf.description}</td>
                       <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

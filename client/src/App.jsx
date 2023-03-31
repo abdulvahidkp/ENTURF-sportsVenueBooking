@@ -1,8 +1,4 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-
-import VMLayout from "./components/manager/VMLayout";
+import { Routes, Route } from "react-router-dom";
 
 import UserRoutes from "./routes/UserRoutes";
 import VmRoutes from "./routes/VmRoutes";

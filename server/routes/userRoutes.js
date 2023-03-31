@@ -3,19 +3,24 @@ const userController = require('../controllers/userController/userSignin&Signup'
 const vmController = require('../controllers/userController/vmController')
 const turfController = require('../controllers/userController/turfController')
 
-router.post('/signup',userController.userSignup)
-router.post('/signin',userController.userSignin)
-router.post('/mobileExist',userController.mobileExist)
-router.get('/getUser',userController.getUser)
-router.get('/forgotPwd/mobileExist',userController.MobileExistForForgot)
-router.post('/forgotPwd',userController.newPassSet)
+const verifyToken = require('../middleware/vm.verifyToken')
 
-router.post('/signin/google',userController.googleSignin)
+router.post('/signup', userController.userSignup)
+router.post('/signin', userController.userSignin)
+router.post('/mobileExist', userController.mobileExist)
+router.get('/getUser', userController.getUser)
+router.get('/forgotPwd/mobileExist', userController.MobileExistForForgot)
+router.post('/forgotPwd', userController.newPassSet)
 
-router.post('/vmMobile',vmController.mobileExist)
-router.post('/vmSignup',vmController.vmSignup)
+router.post('/signin/google', userController.googleSignin)
 
-router.get('/venues/:district',turfController.getTurfs)
-router.get('/venue/:_id',turfController.getTurf)
+router.post('/vmMobile', vmController.mobileExist)
+router.post('/vmSignup', vmController.vmSignup)
+
+router.get('/venues/:district', turfController.getTurfs)
+router.get('/venue/:_id', turfController.getTurf)
+
+router.post('/book', verifyToken, turfController.bookTurf)
+router.post('/verifyPayment',verifyToken,turfController.verifyPayment)
 
 module.exports = router;

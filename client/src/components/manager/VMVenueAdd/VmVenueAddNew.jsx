@@ -31,7 +31,7 @@ const availableSlots = [
   "20:00-21:00",
   "21:00-22:00",
   "22:00-23:00",
-  "23:00-24:00",
+  "23:00-00:00",
 ];
 
 function VmVenueAddNew() {
@@ -77,7 +77,7 @@ function VmVenueAddNew() {
     {
       day: "saturday",
       slots: [],
-    }
+    },
   ]);
   const [sportFacility, setSportFacility] = useState([]);
 
@@ -99,15 +99,12 @@ function VmVenueAddNew() {
       const selectedDay = updatedDays[indexOf]; // create a copy of the selected day object
       const slotIndex = selectedDay.slots.indexOf(slot);
       if (slotIndex === -1) {
-        let index = selectedDay.slots.findIndex(item => item > slot)
-        if(index === -1){
-          index = selectedDay.slots.length;
-        }
-        selectedDay.slots.splice(index,0,slot)
+        let index = selectedDay.slots.findIndex((item) => Number(item.substring(0,2)) > Number(slot.substring(0,2)));
+        if (index === -1) index = selectedDay.slots.length;
+        selectedDay.slots.splice(index, 0, slot);
       } else {
         selectedDay.slots.splice(slotIndex, 1);
       }
-      console.log(updatedDays);
       return updatedDays;
     });
   }
@@ -216,7 +213,7 @@ function VmVenueAddNew() {
           },
         }
       );
-      navigate('/vm/venues');
+      navigate("/vm/venues");
     } catch (error) {
       console.log(error);
     } finally {
@@ -227,7 +224,9 @@ function VmVenueAddNew() {
   return (
     <div className="p-4 sm:ml-64">
       <form className="p-4 mt-14" onSubmit={(e) => handleSubmit(e)}>
-        <Link to='/vm/venues' className="p-1.5 hover:bg-blue-600 duration-200 bg-blue-500 rounded text-white">Back</Link>
+        <Link to="/vm/venues" className="p-1.5 hover:bg-blue-600 duration-200 bg-blue-500 rounded text-white">
+          Back
+        </Link>
         <div className="flex gap-x-4 ">
           <div className="mt-3 w-1/2 ">
             <label htmlFor="name" className=" block text-sm text-gray-700">

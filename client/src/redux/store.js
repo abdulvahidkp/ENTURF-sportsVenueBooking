@@ -6,6 +6,7 @@ import thunk from 'redux-thunk'
 import loadingReducer from "./features/loadingSlice";
 import userReducer from "./features/userSlice";
 import adminReducer from "./features/adminSlice";
+import bookingReducer from './features/bookingSlice'
 
 //vm
 import vmReducer from './features/vmSlice'
@@ -21,7 +22,8 @@ const reducer = combineReducers({
     user: userReducer,
     admin: adminReducer,
     vm: vmReducer,
-    vmTurfs: vmTurfsReducer
+    vmTurfs: vmTurfsReducer,
+    booking: bookingReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

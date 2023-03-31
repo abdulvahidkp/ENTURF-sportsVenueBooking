@@ -31,7 +31,7 @@ const availableSlots = [
   "20:00-21:00",
   "21:00-22:00",
   "22:00-23:00",
-  "23:00-24:00",
+  "23:00-00:00",
 ];
 
 function VmVenueAddNew() {
@@ -125,7 +125,9 @@ function VmVenueAddNew() {
       const selectedDay = updatedDays[indexOf]; // create a copy of the selected day object
       const slotIndex = selectedDay.slots.indexOf(slot);
       if (slotIndex === -1) {
-        selectedDay.slots.push(slot);
+        let index = selectedDay.slots.findIndex((item) => Number(item.substring(0,2)) > Number(slot.substring(0,2)));
+        if (index === -1) index = selectedDay.slots.length;
+        selectedDay.slots.splice(index, 0, slot);
       } else {
         selectedDay.slots.splice(slotIndex, 1);
       }

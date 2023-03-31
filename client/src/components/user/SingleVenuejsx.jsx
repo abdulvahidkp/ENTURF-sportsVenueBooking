@@ -75,7 +75,7 @@ function SingleVenuejsx({turf,part,setPart}) {
                       <div className='text-2xl text-white'>
                         <PercentageRound/>
                       </div>
-                      <h1 className='text-xl text-white'>20% OFF</h1>
+                      <h1 className='text-xl text-white'>{turf.discountPercentage}% OFF</h1>
                     </div>
                   </div>
                 </div>
