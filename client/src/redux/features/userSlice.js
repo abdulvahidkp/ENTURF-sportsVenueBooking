@@ -53,11 +53,10 @@ const userSlice = createSlice({
         builder.addCase(signin.fulfilled, (state, action) => {
            state.signin.isLoading = false;
            state.signin.errMsg = ''
-            //data will come here
-            console.log('action',action);
-            console.log(action.payload);
             localStorage.setItem('user',action.payload.accessToken);
             state.isLoggedIn = true;
+            state.mobile = action.payload.mobile
+            state.name = action.payload.name
         });
 
         builder.addCase(signin.rejected, (state, action) => {

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Chart as ChartJs, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import axios from "../../api/axios";
 
 
 ChartJs.register(ArcElement, Tooltip, Legend);
@@ -27,6 +28,28 @@ function Dashboardjsx() {
     { x: "11v11", y: 89 },
   ];
 
+  const [counts,setCounts] = useState({})
+  
+
+  useEffect(()=>{
+    const token = localStorage.getItem('admin')
+    const getDashboardDetails = async () => {
+      try {
+        let {data} = await axios.get('/admin',{
+          headers:{
+            Authorization:token
+          }
+        })
+        console.table(data)
+        setCounts(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getDashboardDetails()
+  },[])
+
+
   return (
     <div className="p-4 sm:ml-64 bg-[#05445E] h-screen">
       <div className="p-4 mt-12">
@@ -48,7 +71,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Users</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">0</p>
+              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.usersCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -68,7 +91,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Managers</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">0</p>
+              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.vmsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -85,7 +108,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Venues</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">0</p>
+              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.turfsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -106,7 +129,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Bookings</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">0</p>
+              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.bookingsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -127,8 +150,8 @@ function Dashboardjsx() {
               </svg>
             </div>
             <div>
-              <p className="text-[#D4F1F4]">Total Facilities</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">0</p>
+              <p className="text-[#D4F1F4]">Total Sports</p>
+              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.sportsCount}</p>
             </div>
           </div>
         </div>
@@ -142,115 +165,41 @@ function Dashboardjsx() {
                     Venue name
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    Vm Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     place
                   </th>
                   <th scope="col" className="px-6 py-3">
                     sports
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Manager
+                    Price
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    Status
-                  </th>
+                
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    Anfield Turf
-                  </th>
-                  <td class="px-6 py-4">Taliparamba</td>
-                  <td class="px-6 py-4">Football</td>
-                  <td class="px-6 py-4">Ali</td>
-                  <td class="px-6 py-4">
-                    <a
-                      href="#"
-                      class="font-medium text-[#75E6DA] hover:underline"
+                {
+                  counts.pendingTurfs?.length &&
+                  counts.pendingTurfs.map(per=> (
+                  <tr className="bg-[#189AB4] border-b border-[#05445E]">
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
                     >
-                      Pending
-                    </a>
-                  </td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    Anfield Turf
-                  </th>
-                  <td class="px-6 py-4">Taliparamba</td>
-                  <td class="px-6 py-4">Football</td>
-                  <td class="px-6 py-4">Ali</td>
-                  <td class="px-6 py-4">
-                    <a
-                      href="#"
-                      className="font-medium text-[#75E6DA] hover:underline"
-                    >
-                      Pending
-                    </a>
-                  </td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    Anfield Turf
-                  </th>
-                  <td class="px-6 py-4">Taliparamba</td>
-                  <td class="px-6 py-4">Football</td>
-                  <td class="px-6 py-4">Ali</td>
-                  <td class="px-6 py-4">
-                    <a
-                      href="#"
-                      class="font-medium text-[#75E6DA] hover:underline"
-                    >
-                      Pending
-                    </a>
-                  </td>
-                </tr>
-                <tr className="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    Anfield Turf
-                  </th>
-                  <td className="px-6 py-4">Taliparamba</td>
-                  <td className="px-6 py-4">Football</td>
-                  <td className="px-6 py-4">Ali</td>
-                  <td className="px-6 py-4">
-                    <a
-                      href="#"
-                      class="font-medium text-[#75E6DA] hover:underline"
-                    >
-                      Pending
-                    </a>
-                  </td>
-                </tr>
-                <tr class="bg-[#189AB4] border-b border-[#05445E]">
-                  <th
-                    scope="row"
-                    class="px-6 py-4 font-medium text-[#D4F1F4] whitespace-nowrap dark:text-[#D4F1F4]"
-                  >
-                    Anfield Turf
-                  </th>
-                  <td class="px-6 py-4">Taliparamba</td>
-                  <td class="px-6 py-4">Football</td>
-                  <td class="px-6 py-4">Ali</td>
-                  <td class="px-6 py-4">
-                    <a
-                      href="#"
-                      class="font-medium text-[#75E6DA] hover:underline"
-                    >
-                      Pending
-                    </a>
-                  </td>
-                </tr>
+                      {per.venueName}
+                    </th>
+                    <td class="px-6 py-4">{per.vmId.name}</td>
+                    <td class="px-6 py-4">{per.place}</td>
+                    <td class="px-6 py-4">{per.district}</td>
+                    <td class="px-6 py-4">{per.price}</td>
+                   
+                  </tr>
+
+                  ))
+                }
+               
               </tbody>
             </table>
           </div>

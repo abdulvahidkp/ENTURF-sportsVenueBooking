@@ -61,15 +61,27 @@ module.exports = {
     verifyPayment: async ( req,res ) => {
         try {
             const {razorpay_order_id,razorpay_payment_id,razorpay_signature , turfId, slotTime, slotDate, price,sport,facility} = req.body;
+            const setPrice = price/100
             const sign = razorpay_order_id + "|" + razorpay_payment_id
             const expectedSign = crypto.createHmac('sha256',process.env.RAZORPAY_SECRET).update(sign.toString()).digest('hex')
             if(razorpay_signature === expectedSign){
-                await bookings.create({userId:req.id,turfId,slotTime,slotDate,price,sport,facility})
+                await bookings.create({userId:req._id,turfId,slotTime,slotDate,price:setPrice,sport,facility})
                 return res.status(200).json({message:'payment verified succesfully'})
             }
             return res.status(400).json({message:'Invalid signature sent!'})
         } catch (error) {
             console.log(error)
+            res.status(500).json({message:'internal server error'})
+        }
+    },
+
+    getBookings: async (req,res) => {
+        try {
+            bookings.find({userId:req._id}).populate('turfId').then(response=>{
+                res.status(200).json(response)
+            })
+        } catch (error) {
+            conosle.log(error)
             res.status(500).json({message:'internal server error'})
         }
     }

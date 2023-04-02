@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import axios from '../../../api/axios'
 
 function VMDashboardjsx() {
+
+  useEffect(()=>{
+    const getDashboardDetails = async () => {
+      try {
+        const token = localStorage.getItem('vm')
+        let {data} = await axios.get('/vm',{
+          headers:{
+            Authorization:token
+          }
+        })
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getDashboardDetails()
+  },[])
 
     
   return (
@@ -25,7 +43,7 @@ function VMDashboardjsx() {
                 <p className='text-4xl text-gray-700 font-bold'>0</p>
             </div>
         </div>
-        <div className="flex-col sm:flex-row h-auto justify-center md:justify-start mb-4 rounded border bg-gray-50 dark:bg-gray-800">
+        {/* <div className="flex-col sm:flex-row h-auto justify-center md:justify-start mb-4 rounded border bg-gray-50 dark:bg-gray-800">
             <div className='p-2'>
               <h1 className='text-md bg-gradient-to-r from-gray-100 to-gray-300 p-3 border'>QUICK BOOKING</h1>
             </div>
@@ -69,7 +87,7 @@ function VMDashboardjsx() {
                 </div>
               </div>
             </div>
-        </div>
+        </div> */}
         <div className="grid xl:grid-cols-2 gap-4 mb-4">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <p className='my-2'>LATEST BOOKING</p>

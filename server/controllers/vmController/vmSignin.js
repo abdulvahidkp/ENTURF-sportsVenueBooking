@@ -1,7 +1,10 @@
 const vms = require('../../models/vms.model');
+const turfs = require('../../models/turf.model')
 const bcrypt = require('bcrypt');
 require('dotenv/config');
 const jwt = require('jsonwebtoken')
+
+const mongoose = require('mongoose')
 
 
 module.exports = {
@@ -57,5 +60,23 @@ module.exports = {
 
             }
         }
+    },
+    getLanding: async (req,res) => {
+        console.log(req._id);
+        try {
+            const bookedTurfsss = await turfs.aggregate([
+                { $match: { vmId: mongoose.Types.ObjectId(req._id) } },
+                { $lookup: { from: 'bookings', localField: '_id', foreignField: 'turfId', as: 'bookingInfo' } },
+                { $unwind: '$bookingInfo' },
+                { $sort: { 'bookingInfo._id': 1 } },
+                { $group: { _id: '$_id', venueName: { $first: '$venueName' }, bookingInfo: { $push: '$bookingInfo' } } }
+              ]);
+              console.log('bookedTurfssss',bookedTurfsss)
+           const bookedTurfs = await turfs.aggregate([{$match:{vmId:mongoose.Types.ObjectId(req._id)}},{$lookup:{from:'bookings',localField:'_id',foreignField:'turfId',as:'bookingInfo'}},{$project:{venueName:1,bookingInfo:1,_id:0}}])
+           console.log(bookedTurfs)
+        } catch (error) {
+            console.log(error)
+        }
+        // bookings.findOne
     }
 }

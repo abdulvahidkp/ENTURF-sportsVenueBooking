@@ -3,7 +3,7 @@ const userController = require('../controllers/userController/userSignin&Signup'
 const vmController = require('../controllers/userController/vmController')
 const turfController = require('../controllers/userController/turfController')
 
-const verifyToken = require('../middleware/vm.verifyToken')
+const verifyToken = require('../middleware/user.verifyToken')
 
 router.post('/signup', userController.userSignup)
 router.post('/signin', userController.userSignin)
@@ -24,5 +24,7 @@ router.post('/bookedSlot',turfController.getBookedSlots)
 
 router.post('/book', verifyToken, turfController.bookTurf)
 router.post('/verifyPayment',verifyToken,turfController.verifyPayment)
+
+router.get('/bookings',verifyToken,turfController.getBookings)
 
 module.exports = router;

@@ -6,9 +6,7 @@ import UserNavbar from '../../components/user/UserNavbar'
 function Profile() {
   return (
     <div>
-      <UserNavbar/>
       <ProfileAndBooking/>
-      <UserFooter/>
     </div>
   )
 }

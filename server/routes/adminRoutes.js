@@ -6,6 +6,8 @@ const sportsController = require('../controllers/adminController/sportsControlle
 const turfController = require('../controllers/adminController/turfController');
 const verifyToken = require('../middleware/admin.verifyToken');
 
+router.get('/',adminController.getDashboardDetails)
+
 router.post('/signin', adminController.adminLogin);
 
 router.get('/users',userController.getUsers)

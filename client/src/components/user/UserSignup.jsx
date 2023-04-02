@@ -11,7 +11,7 @@ import { setUserDetails } from "../../redux/features/userSlice";
 
 const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_ ]{3,23}$/;
 const MOBILE_REGEX = /^[0-9]{10}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%*]).{8,24}$/;
 const VALID_OTP = /^[0-9]{6}$/;
 
 const SIGNUP_URL = "/signup";

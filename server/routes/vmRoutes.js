@@ -9,6 +9,8 @@ router.get('/sports',turfController.getSports)
 
 router.get('/approve',verifyToken,vmController.isApproved)
 
+router.get('/',verifyToken,vmController.getLanding)
+
 router.post('/turf',verifyToken,turfController.addTurf)
 router.get('/turfs',verifyToken,turfController.getTurfs)
 router.get('/turf/:id',turfController.getTurf)
