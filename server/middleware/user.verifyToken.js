@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const admins = require('../models/users.model');
+const user = require('../models/users.model');
 
 const verifyToken = async (req, res, next) => {
     try {
@@ -9,8 +9,8 @@ const verifyToken = async (req, res, next) => {
         const verified = jwt.verify(authHeader, process.env.JWT_SECRET);
         if (!verified) return res.status(401).json({ msg: "Token verification failed, authorization denied" });
         //else
-        const adminExist = await admins.findById(verified.id)
-        if (!adminExist) return res.status(401).json({ msg: "Token verification failed, authorization denied" });
+        const userExist = await user.findById(verified.id)
+        if (!userExist) return res.status(401).json({ msg: "Token verification failed, authorization denied" });
         req._id = verified.id;
         next();
     } catch (error) {

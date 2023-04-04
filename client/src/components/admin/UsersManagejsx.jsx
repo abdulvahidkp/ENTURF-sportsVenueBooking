@@ -45,7 +45,7 @@ function UsersManagejsx() {
       <Toaster position="top-right" />
       <div className="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full table-fixed text-left text-[#D4F1F4] dark:text-blue-100">
+          <table className="w-full text-left text-[#D4F1F4] dark:text-blue-100">
             <thead class="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
               <p className="text-lg m-1 capitalize">Manage Users</p>
               <tr className="border border-[#189AB4]">

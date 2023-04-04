@@ -32,13 +32,14 @@ module.exports = {
     },
     getDashboardDetails: async (req,res) => {
         try {
-            const bookingsCount = await bookings.find().count()
-            const usersCount = await users.find().count()
-            const vmsCount = await vms.find().count()
-            const turfsCount = await turfs.find().count()
-            const sportsCount = await sports.find().count()
+            const bookingsCount = await bookings.countDocuments()
             const pendingTurfs = await turfs.find({approved:false}).populate('vmId').sort({_id:-1})
-            console.log(pendingTurfs)
+            const sportsCount = await sports.countDocuments()
+            const usersCount = await users.countDocuments()
+            const turfsCount = await turfs.countDocuments()
+            const vmsCount = await vms.countDocuments()
+            const countOfPaymentMethod = await bookings.aggregate([{$project:{paymentType:1}},{$group:{_id:'$paymentMethod',count:{$sum:1}}}])
+            console.log(countOfPaymentMethod)
             res.status(200).json({bookingsCount,usersCount,vmsCount,turfsCount,sportsCount,pendingTurfs})
         } catch (error) {
             console.log(error)

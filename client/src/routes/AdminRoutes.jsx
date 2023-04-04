@@ -9,6 +9,7 @@ import UsersManage from "../pages/admin/UsersManage";
 import AuthenticatedRoute from "../util/admin/authenticatedRoute";
 import UnAuthenticatedRoute from "../util/admin/unauthenticatedRoute";
 import { Route, Routes } from "react-router-dom";
+import BookingManage from '../pages/admin/BookingManage'
 
 function AdminRoutes() {
   return (
@@ -20,6 +21,7 @@ function AdminRoutes() {
         <Route path="turfs" element={<AuthenticatedRoute><TurfManage /></AuthenticatedRoute>} />
         <Route path="vm" element={<AuthenticatedRoute><VMManage /></AuthenticatedRoute>} />
         <Route path="users" element={<AuthenticatedRoute><UsersManage /></AuthenticatedRoute>} />
+        <Route path="bookings" element={<BookingManage/>} />
       </Route>
     </Routes>
   );

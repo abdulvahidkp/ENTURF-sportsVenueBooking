@@ -9,24 +9,14 @@ ChartJs.register(ArcElement, Tooltip, Legend);
 
 function Dashboardjsx() {
   const data = {
-    labels: ['3v3',"5v5","7v7","11v11"],
+    labels: ['online',"offline"],
     datasets:[
       {
-        data: [3,10,5,3],
-        backgroundColor: ['#05445E','#189AB4','#75E6DA',"#D4F1F4"]
+        data: [3,10],
+        backgroundColor: ['#05445E','#189AB4']
       }
     ]
   };
-
-  const options = {
-    
-  }
-
-  const footballData = [
-    { x: "5v5", y: 4 },
-    { x: "7v7", y: 56 },
-    { x: "11v11", y: 89 },
-  ];
 
   const [counts,setCounts] = useState({})
   
@@ -51,13 +41,13 @@ function Dashboardjsx() {
 
 
   return (
-    <div className="p-4 sm:ml-64 bg-[#05445E] h-screen">
+    <div className="p-4 sm:ml-64 bg-[#05445E] min-h-screen h-auto">
       <div className="p-4 mt-12">
-        <div className="grid grid-cols-5 gap-8 mb-4">
+        <div className="grid md:grid-cols-2 xl:grid-cols-5 gap-8 mb-4">
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <svg
-                className="absolute w-12 h-12 text-[#75E6DA] "
+                className="flex-shrink-0 w-12 h-12 text-[#75E6DA] transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,13 +61,14 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Users</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.usersCount}</p>
+              <p className="font-bold text-[#D4F1F4] text-xl text-end">{counts?.usersCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
             <div className="flex items-center">
               <svg
-                className="absolute w-12 h-12 text-[#75E6DA] "
+                aria-hidden='true'
+                className="flex-shrink-0 w-12 h-12 text-[#75E6DA] transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +82,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Managers</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.vmsCount}</p>
+              <p className="font-bold text-[#D4F1F4] text-xl text-end">{counts?.vmsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -108,7 +99,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Venues</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.turfsCount}</p>
+              <p className="font-bold text-[#D4F1F4] text-xl text-end">{counts?.turfsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -129,7 +120,7 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Bookings</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.bookingsCount}</p>
+              <p className="font-bold text-[#D4F1F4] text-xl text-end">{counts?.bookingsCount}</p>
             </div>
           </div>
           <div className="flex items-center justify-between px-6 h-24 rounded bg-[#189AB4] dark:bg-gray-800">
@@ -151,13 +142,13 @@ function Dashboardjsx() {
             </div>
             <div>
               <p className="text-[#D4F1F4]">Total Sports</p>
-              <p className="font-bold text-[#D4F1F4] text-xl">{counts?.sportsCount}</p>
+              <p className="font-bold text-[#D4F1F4] text-xl text-end">{counts?.sportsCount}</p>
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 mt-6 gap-4 mb-4">
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
+        <div className="lg:grid grid-cols-2 mt-6 gap-4 mb-4">
+          <div className="relative overflow-x-auto  sm:rounded-lg">
+            <table className="w-full text-left text-[#D4F1F4] dark:text-blue-100">
               <thead className="text-xs text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
                 <p className="text-lg m-1 capitalize">New Venue Requests</p>
                 <tr className="border border-[#189AB4]">
@@ -171,7 +162,7 @@ function Dashboardjsx() {
                     place
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    sports
+                    district
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Price
@@ -193,8 +184,7 @@ function Dashboardjsx() {
                     <td class="px-6 py-4">{per.vmId.name}</td>
                     <td class="px-6 py-4">{per.place}</td>
                     <td class="px-6 py-4">{per.district}</td>
-                    <td class="px-6 py-4">{per.price}</td>
-                   
+                    <td class="px-6 py-4">{per.actualPrice}</td>
                   </tr>
 
                   ))
@@ -208,7 +198,6 @@ function Dashboardjsx() {
             <div className="p-16 w-50 ">
               <Pie 
                data={data}
-               options = {options}
               /> 
             </div>
           </div>

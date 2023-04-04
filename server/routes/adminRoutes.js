@@ -4,6 +4,7 @@ const userController = require('../controllers/adminController/userController');
 const vmController = require('../controllers/adminController/vmController');
 const sportsController = require('../controllers/adminController/sportsController');
 const turfController = require('../controllers/adminController/turfController');
+const bookingController = require('../controllers/adminController/BookingController')
 const verifyToken = require('../middleware/admin.verifyToken');
 
 router.get('/',adminController.getDashboardDetails)
@@ -19,6 +20,8 @@ router.put('/vm/status',verifyToken,vmController.changeStatus);
 
 router.get('/sports',sportsController.getSports)
 router.put('/sports',sportsController.changeStatus)
+
+router.get('/bookings',verifyToken,bookingController.getBookings)
 
 router.get('/turf',turfController.getTurf)
 router.put('/turf/approve',verifyToken,turfController.approve);

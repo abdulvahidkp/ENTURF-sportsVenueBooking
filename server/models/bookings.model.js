@@ -14,6 +14,11 @@ const bookingSchema = new mongoose.Schema({
     facility:String,
     slotDate:String,
     price:Number,
+    paymentType:{
+        type:String,
+        enum: ['online','offline'],
+        default:'online'
+    }
 })
 
 module.exports = mongoose.model("bookings",bookingSchema)

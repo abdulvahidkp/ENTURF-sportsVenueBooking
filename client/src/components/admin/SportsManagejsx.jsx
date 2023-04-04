@@ -70,7 +70,7 @@ function SportsManagejsx() {
   return (
     <div class="p-4 sm:ml-64 bg-[#05445E] ">
       <Toaster position="top-right" />
-      <div class="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
+      <div class="p-4 border-gray-200 rounded-lg dark:border-gray-700 mt-14">
         <div className="flex items-center justify-between">
           <p className="text-lg m-1 capitalize text-[#D4F1F4]">SPORTS</p>
           {/* <button className="bg-[#189AB4] text-[#D4F1F4] py-1 px-3 rounded-lg mb-1 hover:bg-[#28a2bb]">

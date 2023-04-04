@@ -19,7 +19,6 @@ const bookingSlice = createSlice({
             state.facility = action.payload;
         },
         setSlots: (state, action) => {
-
             state.date = action.payload.date
             state.slot = action.payload.slot
 

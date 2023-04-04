@@ -116,11 +116,11 @@ function TurfManagejsx() {
   };
 
   return (
-    <div className="p-4 sm:ml-64 bg-[#05445E] h-screen">
+    <div className="p-4 sm:ml-64 bg-[#05445E] min-h-screen h-auto">
       <Toaster position="top-right" />
       <div className="p-4 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
         <div className="flex justify-between mb-3">
-          <p className="text-lg m-1 capitalize text-white">Venue Managers</p>
+          <p className="text-lg m-1 capitalize text-white">Turf manage</p>
 
           <div className="relative inline-block text-left">
             <div>
@@ -168,7 +168,7 @@ function TurfManagejsx() {
           </div>
         </div>
         <div className=" overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full table-fixed  text-left text-[#D4F1F4] dark:text-blue-100">
+          <table className="w-full  text-left text-[#D4F1F4] dark:text-blue-100">
             <thead className="text-xs m-1 text-[#D4F1F4] uppercase bg-[#05445E] dark:text-white">
               <tr className="border border-[#189AB4]">
                 <th scope="col" className="px-6 py-3">
