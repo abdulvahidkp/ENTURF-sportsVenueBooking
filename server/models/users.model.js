@@ -5,6 +5,10 @@ const usersSchema = new mongoose.Schema({
     mobile: String,
     email:String,
     password: String,
+    wallet:{
+        type:Number,
+        default:0
+    },
     blockStatus: {
         type:Boolean,
         default:false

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../api/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSport, setFacility, clearBooking } from "../../redux/features/bookingSlice";
+import swal from "sweetalert";
 
 import BookingCalendar from "./BookingCalendar";
 
@@ -27,7 +28,7 @@ function BookingSection({ turf }) {
   const navigate = useNavigate();
 
   const sportAndFacility = useSelector((state) => state.booking);
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn,wallet } = useSelector((state) => state.user);
 
   const setSportAndFacility = (sport, facility) => {
     console.log(sport, facility);
@@ -40,6 +41,35 @@ function BookingSection({ turf }) {
       dispatch(clearBooking());
     };
   }, []);
+
+  function showPaymentOptions() {
+    if(!wallet) handleBooknow()
+    swal({
+      title: 'Select Payment Option',
+      text: 'Choose your preferred payment option',
+      buttons: {
+        offline: {
+          text: 'wallet Payment',
+          value: 'wallet',
+          className: 'bg-green-500 uppercase'
+        },
+        online: {
+          text: 'Online Payment',
+          value: 'online',
+          className: 'bg-green-500 uppercase'
+        },
+      }
+    }).then((value) => {
+      // The value parameter contains the value of the clicked button
+      if (value === 'wallet') {
+        // Handle offline payment option
+        console.log()
+      } else if (value === 'online') {
+        // Handle online payment option
+        handleBooknow()
+      }
+    });
+  }
 
   async function handleBooknow() {
     const token = localStorage.getItem("user");
@@ -62,35 +92,39 @@ function BookingSection({ turf }) {
 
   function initPayment(datas) {
     const token = localStorage.getItem("user");
-    const options = {
-      key: import.meta.env.VITE_RAZORPAY_KEYID,
-      amount: datas.amount,
-      currency: datas.currency,
-      name: turf.venueName,
-      description: "payment for book a slot",
-      image: turf.image,
-      order_id: datas.id,
-      handler: async (response) => {
-        console.log('handler');
-        try {
-          console.log('hey');
-          const { data } = await axios.post("/verifyPayment", {...response,turfId:turf._id, sport: sportAndFacility.sport, facility: sportAndFacility.facility, slotDate: sportAndFacility.date, slotTime: sportAndFacility.slot ,price:datas.amount}, {
-            headers: {
-              Authorization: token,
-            },
-          });
-          console.log(data);
-          navigate('/confirmation')
-        } catch (error) {
-          console.log(error);
-        }
-      },
-      theme: {
-        color: "#3399cc",
-      },
-    };
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
+    try {
+      
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEYID,
+        amount: datas.amount,
+        currency: datas.currency,
+        name: turf.venueName,
+        description: "payment for book a slot",
+        image: turf.image,
+        order_id: datas.id,
+        handler: async (response) => {
+          try {
+            console.log('hey');
+            const { data } = await axios.post("/verifyPayment", {...response,turfId:turf._id, sport: sportAndFacility.sport, facility: sportAndFacility.facility, slotDate: sportAndFacility.date, slotTime: sportAndFacility.slot ,price:datas.amount}, {
+              headers: {
+                Authorization: token,
+              },
+            });
+            console.log(data);
+            navigate('/confirmation')
+          } catch (error) {
+            console.log(error);
+          }
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+      const rzp1 = new window.Razorpay(options);
+      rzp1.open();
+    } catch (error) {
+      console.log(error.message)
+    }
   }
 
   return (
@@ -188,7 +222,7 @@ function BookingSection({ turf }) {
                     </div>
                     <div className="bg-green-400/70 absolute bottom-0 rounded-b-md text-xl w-full">
                       <div className="p-1 text-white">
-                        <button className="bg-green-600/90 rounded py-1 px-2" onClick={handleBooknow}>
+                        <button className="bg-green-600/90 rounded py-1 px-2" onClick={showPaymentOptions}>
                           BOOK NOW{" "}
                         </button>
                       </div>

@@ -6,7 +6,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 import axios from "../../api/axios";
-let GET_USER = "/getUser";
 
 function Landing() {
 

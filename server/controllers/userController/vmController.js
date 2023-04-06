@@ -5,9 +5,10 @@ require('dotenv/config')
 
 module.exports = {
     mobileExist:(req,res) => {
+        if(!req.body.mobile) return res.status(400).json({message:'mobile - field is required'})
         vms.findOne({ mobile: req.body.mobile }).then(async (response) => {
             if (response) {
-                return res.sendStatus(409); //user already exist
+                return res.status(400).json({message:'mobile number already exist'}); //user already exist
             } else {
                 return res.sendStatus(200);
             }
@@ -16,13 +17,11 @@ module.exports = {
             res.status(400).json({ message: 'error occured', err: err.message })
         })
     },
-    
     vmSignup: async (req,res) => {
-        console.log(req.body)
-        console.log(req.body.image)
+        if( !req.body.name || !req.body.mobile || !req.body.password || !req.body.image ) return res.status(400).json({message:'name, mobile, password, image - fields is required'})
         vms.findOne({ mobile: req.body.mobile }).then(async (response) => {
             if (response) {
-                return res.sendStatus(409); //user already exist
+                return res.status(409).json({message:'mobile number already exist'}); //user already exist
             } else {
                 req.body.password = await bcrypt.hash(req.body.password, 10)
                 await vms.create(req.body).then((response) => {

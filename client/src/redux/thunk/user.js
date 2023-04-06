@@ -6,7 +6,6 @@ export const signin = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const { data } = await axios.post("/signin", userData)
-      console.log(data);
       return data;
     } catch (error) {
       console.log(error?.response?.data);

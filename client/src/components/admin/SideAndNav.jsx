@@ -6,6 +6,8 @@ import { setAdminLoggedOut } from "../../redux/features/adminSlice";
 function SideAndNav() {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const handleSignout = () => {
     dispatch(setAdminLoggedOut());
   };

@@ -14,7 +14,8 @@ const verifyToken = async (req, res, next) => {
         req._id = verified.id;
         next();
     } catch (error) {
-        console.log(error.message)
+        console.log('error',error.message)
+        return res.status(400).json({message:'error occured',error:error.message})
     }
 }
 

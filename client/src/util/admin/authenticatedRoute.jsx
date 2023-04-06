@@ -5,7 +5,6 @@ function authenticatedRoute({ children }) {
   if (!checkIfAdminLoggedIn()) {
     return <Navigate to="/admin/signin" replace />;
   }
-
   return children;
 }
 

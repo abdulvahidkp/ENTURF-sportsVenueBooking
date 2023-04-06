@@ -7,9 +7,9 @@ const turfController = require('../controllers/adminController/turfController');
 const bookingController = require('../controllers/adminController/BookingController')
 const verifyToken = require('../middleware/admin.verifyToken');
 
-router.get('/',adminController.getDashboardDetails)
-
 router.post('/signin', adminController.adminLogin);
+
+router.get('/',verifyToken,adminController.getDashboardDetails)
 
 router.get('/users',userController.getUsers)
 router.put('/users/blockStatus/:_id',userController.blockUser)

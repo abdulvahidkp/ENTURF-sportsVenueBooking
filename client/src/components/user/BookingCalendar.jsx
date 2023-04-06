@@ -20,7 +20,6 @@ function BookingCalendar({ slots, turfId }) {
     const slotDate = `${date.getDate()},${date.toLocaleString("default", { month: "long" })},${date.getFullYear()}`
     const {data}  = await axios.post('/bookedSlot',{turfId,slotDate})
     setBookedslot(data)
-    console.log('data fonr backend',data);
   }
 
   useEffect(()=>{

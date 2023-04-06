@@ -5,7 +5,6 @@ export const checkIfAdminLoggedIn = () => {
     const token = localStorage.getItem('admin');
     if (!token) return false;
     const decodedToken = jwtDecode(token);
-    console.log('from adminSlice',decodedToken);
     if (decodedToken.exp * 1000 < Date.now()) {
         localStorage.removeItem('admin');
         return false;
@@ -13,19 +12,21 @@ export const checkIfAdminLoggedIn = () => {
     return true;
 };
 
+const initialState = {
+    isLoggedIn:checkIfAdminLoggedIn(),
+}
+
 
 const adminSlice = createSlice({
     name:'admin',
-    initialState: {
-        isLoggedIn:checkIfAdminLoggedIn(),
-    }
+    initialState,
     reducers:{
         setAdminLoggedIn: (state) => {
-            state.isLoggedIn = false;
+            state.isLoggedIn = true;
         },
         setAdminLoggedOut: (state) => {
-            state.isLoggedIn = false;
             localStorage.removeItem('admin');
+            state.isLoggedIn = false;
         }
     }
 })

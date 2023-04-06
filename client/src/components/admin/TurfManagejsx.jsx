@@ -13,6 +13,7 @@ function TurfManagejsx() {
   const [filteredData, setFilteredData] = useState([]);
 
   const [modal,setModal] = useState(false)
+  const [indexNo,setIndexNo] = useState(null)
 
   useEffect(() => {
     axios
@@ -196,7 +197,7 @@ function TurfManagejsx() {
             </thead>
             {filteredData.length ? (
               <tbody>
-                {filteredData.map((turf) => (
+                {filteredData.map((turf,index) => (
                   <tr className="bg-[#189AB4] border-b border-[#05445E]">
                     <th
                       scope="row"
@@ -248,12 +249,15 @@ function TurfManagejsx() {
                       )}
                     </td>
                     <td className="px-6 py-4 ">
-                      <a onClick={()=>setModal(true)}
+                      <a onClick={()=>{
+                        setIndexNo(index)
+                        setModal(true)
+                      }}
                         className="bg-[#05445E] hover:bg-[#05141a] rounded duration-300 p-2 cursor-pointer"
                       >
                         Know more
                       </a>
-                        {modal && <TurfDetailsModal turfs={turfs} modal={modal} id={turf._id} handleApprove={handleApprove} handleBlock={handleBlock} isBlocked={turf.isBlocked} approved={turf.approved} setModal={setModal} /> }
+                        {modal && index === indexNo && <TurfDetailsModal turfs={turfs} modal={modal} id={turf._id} handleApprove={handleApprove} handleBlock={handleBlock} isBlocked={turf.isBlocked} approved={turf.approved} setModal={setModal} /> }
                     </td>
                   </tr>
                 ))}

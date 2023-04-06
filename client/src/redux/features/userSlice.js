@@ -7,7 +7,6 @@ export const checkIfUserLoggedIn = () => {
     const token = localStorage.getItem('user');
     if (!token) return false;
     const decodedToken = jwtDecode(token);
-
     if (decodedToken.exp * 1000 < Date.now()) {
         localStorage.removeItem('user');
         return false;
@@ -19,6 +18,7 @@ const initialState = {
     isLoggedIn: checkIfUserLoggedIn(),
     mobile: '',
     name:'',
+    wallet:null,
     signin:{
         isLoading:false,
         isErr:false,
@@ -34,6 +34,7 @@ const userSlice = createSlice({
             //the passing object will comes in action.
             state.name = action.payload.name;
             state.mobile = action.payload.mobile;
+            state.wallet = action.payload.wallet
             state.isLoggedIn = true;
         },
         userLogin: (state, action) => {
@@ -43,6 +44,9 @@ const userSlice = createSlice({
             state.isLoggedIn = false;
             localStorage.removeItem('user');
         },
+        updateWallet: (state, action) => {
+            state.wallet = action.payload.wallet
+        }
     },
     extraReducers: (builder) => {
 
@@ -51,12 +55,13 @@ const userSlice = createSlice({
         });
 
         builder.addCase(signin.fulfilled, (state, action) => {
-           state.signin.isLoading = false;
-           state.signin.errMsg = ''
             localStorage.setItem('user',action.payload.accessToken);
-            state.isLoggedIn = true;
             state.mobile = action.payload.mobile
             state.name = action.payload.name
+            state.wallet = action.payload.wallet
+            state.signin.isLoading = false;
+            state.signin.errMsg = ''
+            state.isLoggedIn = true;
         });
 
         builder.addCase(signin.rejected, (state, action) => {
@@ -66,5 +71,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUserDetails, userLogout, userLogin } = userSlice.actions;
+export const { setUserDetails, userLogout, userLogin, updateWallet } = userSlice.actions;
 export default userSlice.reducer;
