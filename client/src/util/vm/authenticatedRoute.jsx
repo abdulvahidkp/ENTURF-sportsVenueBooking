@@ -9,6 +9,7 @@ const AuthenticatedRoute = ({ children }) => {
   let location = useLocation();
 
   const vm = useSelector(slice => slice.vm)
+  console.log(vm.status)
 
   if (!checkIfVmLoggedIn()) {
     return <Navigate to='/vm/signin' replace />;

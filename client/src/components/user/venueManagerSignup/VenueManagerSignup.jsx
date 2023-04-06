@@ -7,6 +7,8 @@ import axios from "../../../api/axios";
 import setUpRecaptcha from "../../../context/UserAuth";
 import jwtDecode from "jwt-decode";
 import PreviewImage from "../PreviewImage";
+import { setVmDetails } from "../../../redux/features/vmSlice";
+import { useDispatch } from "react-redux";
 
 const NUMBER_REGEX = /^[0-9]{10}$/;
 const OTP_REGEX = /^[0-9]{6}$/;
@@ -21,6 +23,8 @@ function VenueManagerSignup() {
   const [err, setErr] = useState("");
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -86,12 +90,12 @@ function VenueManagerSignup() {
         formik.values.image = data.secure_url;
         console.log(formik.values.image);
         await confirm.confirm(values.otp).then(async () => {
-          const response = await axios.post(SIGN_UP, JSON.stringify(formik.values), {
+          const {data} = await axios.post(SIGN_UP, JSON.stringify(formik.values), {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
           });
-          console.log(response.data);
-          // localStorage.setItem("admins", JSON.stringify(response.data));
+          dispatch(setVmDetails(data))
+          localStorage.setItem("vm", data.accessToken);
           navigate("/vm/signin");
         });
       } catch (error) {

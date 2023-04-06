@@ -55,6 +55,7 @@ function ProfileAndBooking() {
               Authorization:token
             }
           })
+          console.log('data on 58 line on ProfileAndBookingJsx',data)
           dispatch(updateWallet({wallet:data.wallet}))
           toast.success(`refunded to wallet`);
           const newArray = [...bookings]

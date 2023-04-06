@@ -30,7 +30,7 @@ module.exports = {
                     }, process.env.JWT_SECRET,
                         { expiresIn: '7d' }
                     )
-                    res.status(201).json({ accessToken })
+                    res.status(201).json({ accessToken,name:response.name,mobile:response.mobile,image:response.image,status:response.status,reason:response.reason })
                 }).catch(err=>{
                     console.log(err.message)
                     res.status(400).json({ message: 'error occured', err: err.message })

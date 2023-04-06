@@ -18,7 +18,7 @@ const initialState = {
     isLoggedIn: checkIfUserLoggedIn(),
     mobile: '',
     name:'',
-    wallet:null,
+    wallet:0,
     signin:{
         isLoading:false,
         isErr:false,

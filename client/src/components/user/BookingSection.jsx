@@ -4,6 +4,8 @@ import axios from "../../api/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSport, setFacility, clearBooking } from "../../redux/features/bookingSlice";
 import swal from "sweetalert";
+import { updateWallet } from "../../redux/features/userSlice";
+import toast from "react-hot-toast";
 
 import BookingCalendar from "./BookingCalendar";
 
@@ -28,7 +30,7 @@ function BookingSection({ turf }) {
   const navigate = useNavigate();
 
   const sportAndFacility = useSelector((state) => state.booking);
-  const { isLoggedIn,wallet } = useSelector((state) => state.user);
+  const { isLoggedIn, wallet } = useSelector((state) => state.user);
 
   const setSportAndFacility = (sport, facility) => {
     console.log(sport, facility);
@@ -43,49 +45,53 @@ function BookingSection({ turf }) {
   }, []);
 
   function showPaymentOptions() {
-    if(!wallet) handleBooknow()
+    if (!wallet) return handleBooknow("online");
     swal({
-      title: 'Select Payment Option',
-      text: 'Choose your preferred payment option',
+      title: "Select Payment Option",
+      text: `Choose your preferred payment option, wallet balance Rs.${wallet}.00 , amount to be paid in online ${
+        turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100) - wallet < 0 ? "0" : (turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100)) - wallet
+      }`,
       buttons: {
         offline: {
-          text: 'wallet Payment',
-          value: 'wallet',
-          className: 'bg-green-500 uppercase'
+          text: "include wallet",
+          value: "wallet",
+          className: "bg-green-500 uppercase",
         },
         online: {
-          text: 'Online Payment',
-          value: 'online',
-          className: 'bg-green-500 uppercase'
+          text: "fully Online Payment",
+          value: "online",
+          className: "bg-green-500 uppercase",
         },
-      }
+      },
     }).then((value) => {
       // The value parameter contains the value of the clicked button
-      if (value === 'wallet') {
-        // Handle offline payment option
-        console.log()
-      } else if (value === 'online') {
-        // Handle online payment option
-        handleBooknow()
-      }
+      if (value === "wallet") return handleBooknow("wallet");
+      else if (value === "online") return handleBooknow("online");
     });
   }
 
-  async function handleBooknow() {
+  async function handleBooknow(method) {
     const token = localStorage.getItem("user");
     try {
-      let { data } = await axios.post(
+      let response = await axios.post(
         "/book",
-        { turf: turf._id},
+        { turf: turf._id, method, sport: sportAndFacility.sport, facility: sportAndFacility.facility, slotDate: sportAndFacility.date, slotTime: sportAndFacility.slot },
         {
           headers: {
             Authorization: token,
           },
         }
       );
-      initPayment(data);
+      console.log("response", response);
+      if (response.status === 201) {
+        dispatch(updateWallet({ wallet: response.data.wallet }));
+        toast.success(`turf Booked Successfully`);
+        navigate("/confirmation");
+        return;
+      }
+      initPayment(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.log(error.message);
     }
   }
@@ -93,7 +99,6 @@ function BookingSection({ turf }) {
   function initPayment(datas) {
     const token = localStorage.getItem("user");
     try {
-      
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEYID,
         amount: datas.amount,
@@ -104,14 +109,26 @@ function BookingSection({ turf }) {
         order_id: datas.id,
         handler: async (response) => {
           try {
-            console.log('hey');
-            const { data } = await axios.post("/verifyPayment", {...response,turfId:turf._id, sport: sportAndFacility.sport, facility: sportAndFacility.facility, slotDate: sportAndFacility.date, slotTime: sportAndFacility.slot ,price:datas.amount}, {
-              headers: {
-                Authorization: token,
+            console.log("hey");
+            const { data } = await axios.post(
+              "/verifyPayment",
+              {
+                ...response,
+                turfId: turf._id,
+                sport: sportAndFacility.sport,
+                facility: sportAndFacility.facility,
+                slotDate: sportAndFacility.date,
+                slotTime: sportAndFacility.slot,
+                price: datas.amount,
               },
-            });
-            console.log(data);
-            navigate('/confirmation')
+              {
+                headers: {
+                  Authorization: token,
+                },
+              }
+            );
+            dispatch(updateWallet({wallet:data.wallet}))
+            navigate("/confirmation");
           } catch (error) {
             console.log(error);
           }
@@ -123,7 +140,7 @@ function BookingSection({ turf }) {
       const rzp1 = new window.Razorpay(options);
       rzp1.open();
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   }
 
