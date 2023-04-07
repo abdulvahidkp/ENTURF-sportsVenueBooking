@@ -10,7 +10,6 @@ function CalendarComponent({ onDateSelect }) {
     .toISOString()
     .split("T")[0];
     
-  console.log(maxDate)
 
   const handleDateChange = (date) => {
     setSelectedDate(date);

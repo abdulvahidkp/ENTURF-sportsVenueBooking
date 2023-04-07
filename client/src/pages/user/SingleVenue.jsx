@@ -17,7 +17,6 @@ function SingleVenue() {
     const getPerTurf = async () => {
       try {
         let { data } = await axios.get(`/venue/${id}`);
-        console.log(data);
         setTurf(data);
       } catch (error) {
         console.log(error.message);
@@ -27,7 +26,7 @@ function SingleVenue() {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen h-auto bg-[#F3F5F9]">
       <SingleVenuejsx turf={turf} part={part} setPart={setPart} />
       {part === "bookingSection" ? <BookingSection turf={turf} /> : <TurfDetailsPart turf={turf} />}
     </div>

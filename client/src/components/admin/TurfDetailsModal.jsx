@@ -17,9 +17,6 @@ const Geocoder = () => {
   useControl(() => ctrl);
   ctrl.on("result", (e) => {
     const coords = e.result.geometry.coordinates;
-    console.log("coords" + coords);
-    console.log("coords[0]" + coords[0]);
-    console.log("coords[1]", coords[1]);
   });
   return null;
 };
@@ -38,13 +35,11 @@ function TurfDetailsModal({ turfs,setModal, id, handleBlock, handleApprove }) {
         },
       })
       .then(({ data }) => {
-        console.log('hey',data);
         setTurf(data);
       })
       .catch((err) => {
         console.log(err.message);
       })
-      .finally(() => console.log("completed"));
   }, [turfs]);
 
   return (

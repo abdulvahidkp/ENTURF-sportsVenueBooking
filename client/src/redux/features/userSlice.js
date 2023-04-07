@@ -46,6 +46,9 @@ const userSlice = createSlice({
         },
         updateWallet: (state, action) => {
             state.wallet = action.payload.wallet
+        },
+        changeName: (state,action) => {
+            state.name = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -71,5 +74,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { setUserDetails, userLogout, userLogin, updateWallet } = userSlice.actions;
+export const { setUserDetails, userLogout, userLogin, updateWallet, changeName } = userSlice.actions;
 export default userSlice.reducer;

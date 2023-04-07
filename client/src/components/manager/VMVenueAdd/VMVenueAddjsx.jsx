@@ -33,11 +33,7 @@ function VMVenueAddjsx() {
     });
     useControl(() => ctrl);
     ctrl.on("result", (e) => {
-      console.log("e", e);
       const coords = e.result.geometry.coordinates;
-      console.log("coords" + coords);
-      console.log("coords[0]" + coords[0]);
-      console.log("coords[1]", coords[1]);
       setLng(coords[0]);
       setLat(coords[1]);
     });
@@ -47,7 +43,6 @@ function VMVenueAddjsx() {
   useEffect(() => {
     try {
       axios.get(GET_SPORTS).then(({ data }) => {
-        console.log(data.response);
         setSports(data.response);
       });
     } catch (error) {
@@ -107,7 +102,6 @@ function VMVenueAddjsx() {
       try {
         var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
         values.image = data.secure_url;
-        console.log(data.secure_url);
         formData.append("file", values.document);
         formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
         var { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
@@ -125,7 +119,6 @@ function VMVenueAddjsx() {
           },
           withCredentials: true,
         });
-        console.log(response);
         toast.success(`Turf added successfully!`);
       } catch (error) {
         toast.error("There was an occured when adding turf");

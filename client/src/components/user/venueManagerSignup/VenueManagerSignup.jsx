@@ -52,9 +52,7 @@ function VenueManagerSignup() {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         });
-        console.log("+91" + values.mobile);
         const otpResponse = await setUpRecaptcha("+91" + values.mobile);
-        console.log(otpResponse);
         setConfirm(otpResponse);
         setSuccess(true);
         setErr("");
@@ -88,7 +86,6 @@ function VenueManagerSignup() {
         formData.append("upload_preset", import.meta.env.VITE_uploadPreset);
         const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_cloudName}/image/upload`, formData);
         formik.values.image = data.secure_url;
-        console.log(formik.values.image);
         await confirm.confirm(values.otp).then(async () => {
           const {data} = await axios.post(SIGN_UP, JSON.stringify(formik.values), {
             headers: { "Content-Type": "application/json" },

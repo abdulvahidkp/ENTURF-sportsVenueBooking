@@ -46,11 +46,7 @@ function VmVenueAddNew() {
     });
     useControl(() => ctrl);
     ctrl.on("result", (e) => {
-      console.log("e", e);
       const coords = e.result.geometry.coordinates;
-      console.log("coords" + coords);
-      console.log("coords[0]" + coords[0]);
-      console.log("coords[1]", coords[1]);
       setLng(coords[0]);
       setLat(coords[1]);
     });

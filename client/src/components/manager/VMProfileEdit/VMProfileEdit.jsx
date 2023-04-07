@@ -52,7 +52,6 @@ function VMProfileEdit() {
             Authorization:token
            }
         });
-        console.log(data);
         dispatch(setVmDetails({...data}))
 
       } catch (error) {

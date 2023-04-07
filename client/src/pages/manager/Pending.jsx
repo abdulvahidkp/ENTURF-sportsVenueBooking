@@ -23,7 +23,6 @@ function Pending() {
           Authorization:token
         }
       })
-      console.log('data :',data)
       dispatch(setVmDetails({...data}))
     }
     isApproved();

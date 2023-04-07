@@ -38,7 +38,6 @@ module.exports = {
     getPerTurf: async (req,res) => {
         const {_id} = req.params
         await turfs.findOne({_id}).populate('vmId').then(response=>{
-            console.log(response);
             res.status(200).json(response)
         }).catch(err=>{
             console.log(err.message);

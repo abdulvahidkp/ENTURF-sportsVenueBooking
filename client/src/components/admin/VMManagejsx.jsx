@@ -68,7 +68,6 @@ function VMManagejsx() {
           },
         }
       );
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

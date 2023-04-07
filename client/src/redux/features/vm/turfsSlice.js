@@ -16,24 +16,26 @@ const vmTurfsSlice = createSlice({
             const turfToUpdate = state.turfs.find(turf => turf._id === id);
             if (turfToUpdate) {
                 console.log(turfToUpdate);
-              turfToUpdate.vmIsBlocked = !turfToUpdate.vmIsBlocked;
+                turfToUpdate.vmIsBlocked = !turfToUpdate.vmIsBlocked;
             }
-          }
+        }
     },
-    extraReducers: {
-        [turfs.pending]: (state) => {
+    extraReducers: (builder) => {
+        builder.addCase(turfs.pending, (state) => {
             state.loading = true
             state.error = null
-        },
-        [turfs.fulfilled]: (state, action) => {
+        })
+
+        builder.addCase(turfs.fulfilled, (state, action) => {
             state.loading = false
             state.turfs = action.payload
-        },
-        [turfs.rejected]: (state, action) => {
+        })
+        builder.addCase(turfs.rejected, (state, action) => {
             console.log(action.error)
             state.loading = false
             state.error = action.error.message
-        }
+        })
+
     }
 })
 

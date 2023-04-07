@@ -10,7 +10,6 @@ const verifyToken = async (req, res, next) => {
         if (!verified) return res.status(401).json({ msg: "Token verification failed, authorization denied" });
         //else
         const userExist = await vms.findById(verified.id)
-        console.log(userExist);
         if (!userExist) return res.status(401).json({ msg: "Token verification failed, authorization denied" });
         req._id = verified.id;
         next();

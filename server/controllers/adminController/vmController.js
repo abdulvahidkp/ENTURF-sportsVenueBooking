@@ -3,7 +3,6 @@ const twilio = require('twilio')
 
 const sendMessage = (mobile,reason,status)=> {
     mobile = Number(mobile)
-    console.log('at sendMessage ;',mobile, reason, status)
     const accountSid = process.env.accountSid;
     const authToken = process.env.authToken;
     const client = twilio(accountSid, authToken);
@@ -14,7 +13,6 @@ const sendMessage = (mobile,reason,status)=> {
         from: process.env.myMobile,
         to: `+91${mobile}`
       })
-      .then(message => console.log(message.sid))
       .catch(error =>{
         console.error(error)
       });
@@ -40,7 +38,6 @@ module.exports = {
     },
     changeStatus: async (req,res) => {
         const { vmId,status,reason } = req.body;
-        console.log(req.body);
         await vms.findOneAndUpdate({_id:vmId},{"$set":{status,reason}}).then(async (response)=>{
             sendMessage(response.mobile,reason,status)
             res.sendStatus(200);

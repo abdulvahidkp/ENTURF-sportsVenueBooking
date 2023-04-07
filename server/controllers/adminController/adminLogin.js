@@ -39,7 +39,6 @@ module.exports = {
             const turfsCount = await turfs.countDocuments()
             const vmsCount = await vms.countDocuments()
             const countOfPaymentMethod = await bookings.aggregate([{$project:{paymentType:1}},{$group:{_id:'$paymentMethod',count:{$sum:1}}}])
-            console.log(countOfPaymentMethod)
             res.status(200).json({bookingsCount,usersCount,vmsCount,turfsCount,sportsCount,pendingTurfs})
         } catch (error) {
             console.log(error)

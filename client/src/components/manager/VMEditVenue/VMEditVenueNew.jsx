@@ -185,7 +185,6 @@ function VmVenueAddNew() {
     });
     useControl(() => ctrl);
     ctrl.on("result", (e) => {
-      console.log("e", e);
       const coords = e.result.geometry.coordinates;
       setLng(coords[0]);
       setLat(coords[1]);
@@ -251,7 +250,6 @@ function VmVenueAddNew() {
           },
         }
       );
-      console.log(data);
       navigate("/vm/venues");
     } catch (error) {
       console.log(error);

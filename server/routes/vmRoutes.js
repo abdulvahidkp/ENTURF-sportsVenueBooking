@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const vmController = require('../controllers/vmController/vmSignin');
 const turfController = require('../controllers/vmController/turfController')
+const bookingController = require('../controllers/vmController/bookingController')
 
 const verifyToken = require('../middleware/vm.verifyToken')
 
@@ -16,6 +17,8 @@ router.get('/turfs',verifyToken,turfController.getTurfs)
 router.get('/turf/:id',turfController.getTurf)
 router.put('/turf',turfController.updateTurf)
 router.put('/turf/block',verifyToken,turfController.changeBlock)
+
+router.get('/bookings',verifyToken,bookingController.getBookings)
 
 router.put('/profile',verifyToken,vmController.updateProfile)
 

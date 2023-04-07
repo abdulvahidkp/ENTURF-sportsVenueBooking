@@ -25,7 +25,6 @@ module.exports = {
     getBookedSlots:async (req,res) => {
         try {
             if(!req.body.turfId || !req.body.slotDate) res.status(400).json({message:'turfId, slotDate - fields required'})
-            console.log('getBookedSlots',req.body);
             const response = await bookings.find({...req.body,refund:'not processed'}, { slotTime: 1, _id: 0 })
             res.status(200).json(response)
         } catch (error) {

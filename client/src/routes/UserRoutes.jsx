@@ -12,6 +12,7 @@ import ForgotPwd from "../pages/user/ForgotPwd";
 import AuthenticatedRoute from "../util/authenticatedRoute";
 import UnAuthenticatedRoute from "../util/unAuthenticatedRoute";
 import ConfirmationPage from "../pages/user/Confirmation";
+import CancellationPolicy from "../pages/user/CancellationPolicy";
 
 function UserRoutes() {
   return (
@@ -26,6 +27,7 @@ function UserRoutes() {
         <Route path="venue/:id" element={<SingleVenue />} />
         <Route path="profile" element={<AuthenticatedRoute><Profile /></AuthenticatedRoute>} />
         <Route path="confirmation" element={<AuthenticatedRoute><ConfirmationPage/></AuthenticatedRoute>} />
+        <Route path="cancellation" element={<CancellationPolicy/>} />
         {/* <Route element={<RequireAuth />}>
           <Route path="profile" element={<Profile />} />
         </Route> */}

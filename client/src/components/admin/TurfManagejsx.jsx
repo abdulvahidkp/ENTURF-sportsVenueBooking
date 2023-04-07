@@ -53,7 +53,6 @@ function TurfManagejsx() {
                 withCredentials: true,
               }
             );
-            console.log(data);
           } catch (error) {
             console.log(error.message);
           }
@@ -72,7 +71,6 @@ function TurfManagejsx() {
               withCredentials: true,
             })
             .then(({ data }) => {
-              console.log(data);
               setTurfs(turfs.filter((turf) => turf._id !== id));
             })
             .catch((error) => console.log(error.message));

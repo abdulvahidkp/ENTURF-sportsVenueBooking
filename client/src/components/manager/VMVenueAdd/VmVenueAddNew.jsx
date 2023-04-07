@@ -99,7 +99,7 @@ function VmVenueAddNew() {
       const selectedDay = updatedDays[indexOf]; // create a copy of the selected day object
       const slotIndex = selectedDay.slots.indexOf(slot);
       if (slotIndex === -1) {
-        let index = selectedDay.slots.findIndex((item) => Number(item.substring(0,2)) > Number(slot.substring(0,2)));
+        let index = selectedDay.slots.findIndex((item) => Number(item.substring(0, 2)) > Number(slot.substring(0, 2)));
         if (index === -1) index = selectedDay.slots.length;
         selectedDay.slots.splice(index, 0, slot);
       } else {
@@ -159,7 +159,6 @@ function VmVenueAddNew() {
     });
     useControl(() => ctrl);
     ctrl.on("result", (e) => {
-      console.log("e", e);
       const coords = e.result.geometry.coordinates;
       setLng(coords[0]);
       setLat(coords[1]);
@@ -249,7 +248,7 @@ function VmVenueAddNew() {
             <input
               type="number"
               name="mobile"
-              className="bg-gray-100/50 block  focus:outline-none rounded  focus:border-b-2 focus:border-green-600 p-2 w-full shadow-inner "
+              className="bg-gray-100/50 block focus:outline-none rounded focus:border-b-2 focus:border-green-600 p-2 w-full shadow-inner "
               placeholder="Enter Mobile"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}

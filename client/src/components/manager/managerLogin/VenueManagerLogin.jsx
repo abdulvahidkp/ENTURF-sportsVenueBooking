@@ -38,7 +38,6 @@ function VenueManagerLogin() {
         }
       );
       // console.log(JSON.stringify(response?.data));
-      console.log(data);
       // localStorage.setItem("user",response.data);
       localStorage.setItem("vm",data.accessToken);
       setMobile("");

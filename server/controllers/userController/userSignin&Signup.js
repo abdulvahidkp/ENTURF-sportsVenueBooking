@@ -121,13 +121,10 @@ module.exports = {
         })
     },
     googleSignin: async (req, res) => {
-        console.log(req.body);
         if(!req.body.email || !req.body.fullName) return res.status(400).json({message:'email, fullName - fields is required'});
         const { email, fullName } = req.body
         users.findOne({ email }).then(async (response) => {
             if (response) {
-
-                console.log('haveresponse');
                 const accessToken = jwt.sign({ id: response._id, }, process.env.JWT_SECRET, { expiresIn: '7d' });
                 res.status(200).json({ accessToken, name: response.name, mobile: response.email })
             } else {
@@ -136,5 +133,16 @@ module.exports = {
                 res.status(200).json({ accessToken, name: data.name, mobile: data.email })
             }
         })
+    },
+    setName: async (req,res) => {
+        const {name} = req.body
+        if(!name) return res.status(400).json({message:'name - field is required'});
+        try {
+            let user = await users.findOneAndUpdate({_id:req._id},{$set:{name}},{new:true})
+            return res.status(200).json({message:'name changed succesfully',name:user.name});
+        } catch (error) {
+            console.log(error.message)
+            res.status(400).json({message:'error occured',error:error.messaage})
+        }
     }
 }

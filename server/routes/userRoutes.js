@@ -12,6 +12,7 @@ router.post('/mobileExist', userController.mobileExist) //
 router.get('/getUser', userController.getUser) //no needed
 router.get('/forgotPwd/mobileExist', userController.MobileExistForForgot) //
 router.post('/forgotPwd', userController.newPassSet) //
+router.put('/changeName',verifyToken,userController.setName)
 
 router.post('/signin/google', userController.googleSignin) //
 

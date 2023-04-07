@@ -19,7 +19,6 @@ function SportsManagejsx() {
   useEffect(() => {
     try {
       axios.get(SPORTS_GET).then(({ data }) => {
-        console.log(data.sportsDatas);
         setSports(data.sportsDatas);
       });
     } catch (error) {

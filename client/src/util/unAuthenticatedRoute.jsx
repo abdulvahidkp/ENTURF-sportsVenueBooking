@@ -6,7 +6,6 @@ const UnAuthenticatedRoute = ({children}) => {
 
   const {isLoggedIn} = useSelector((state) => state);
   const location = useLocation();
-  console.log(isLoggedIn);
 
   if (checkIfUserLoggedIn()) {
     return <Navigate to='/' replace/>;

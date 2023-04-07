@@ -33,7 +33,6 @@ function BookingSection({ turf }) {
   const { isLoggedIn, wallet } = useSelector((state) => state.user);
 
   const setSportAndFacility = (sport, facility) => {
-    console.log(sport, facility);
     dispatch(setSport(sport));
     dispatch(setFacility(facility));
   };
@@ -49,7 +48,7 @@ function BookingSection({ turf }) {
     swal({
       title: "Select Payment Option",
       text: `Choose your preferred payment option, wallet balance Rs.${wallet}.00 , amount to be paid in online ${
-        turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100) - wallet < 0 ? "0" : (turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100)) - wallet
+        turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100) - wallet < 0 ? "0" : turf.actualPrice - turf.actualPrice * (turf.discountPercentage / 100) - wallet
       }`,
       buttons: {
         offline: {
@@ -82,17 +81,15 @@ function BookingSection({ turf }) {
           },
         }
       );
-      console.log("response", response);
       if (response.status === 201) {
         dispatch(updateWallet({ wallet: response.data.wallet }));
         toast.success(`turf Booked Successfully`);
         navigate("/confirmation");
         return;
       }
-      initPayment(response.data);
+      initPayment(response.data.order);
     } catch (error) {
       console.log(error);
-      console.log(error.message);
     }
   }
 
@@ -109,7 +106,6 @@ function BookingSection({ turf }) {
         order_id: datas.id,
         handler: async (response) => {
           try {
-            console.log("hey");
             const { data } = await axios.post(
               "/verifyPayment",
               {
@@ -127,7 +123,7 @@ function BookingSection({ turf }) {
                 },
               }
             );
-            dispatch(updateWallet({wallet:data.wallet}))
+            dispatch(updateWallet({ wallet: data.wallet }));
             navigate("/confirmation");
           } catch (error) {
             console.log(error);
@@ -147,24 +143,24 @@ function BookingSection({ turf }) {
   return (
     <div className="bg-[#F3F5F9]">
       <div className="container">
-        <div className="flex space-x-10">
+        <div className="flex flex-col md:flex-row space-x-10">
           {isLoggedIn ? (
             <>
-              <div className="w-8/12 my-11 space-y-6   ">
+              <div className=" md:mx-0 md:w-8/12 my-11 space-y-6   ">
                 <div className="bg-white rounded-lg">
-                  <div className="py-2">
+                  <div className="py-2 hidden sm:block">
                     <span className=" py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full">1</span>
                     <a className="text-2xl font-roboto font-semibold mx-2 text-[#504a4a] ">Choose an Activity</a>
                   </div>
-                  <div className="flex px-4 py-5  space-x-9 ">
+                  <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-4 px-4 py-5">
                     {turf.sportFacility?.length &&
                       turf.sportFacility.map((per, index) => (
-                        <div className="border rounded-md">
+                        <div key={index} className="border w-44 rounded-md flex flex-col mt-3 ">
                           <div className="p-2">
                             <h1 className="font-semibold text-xl text-[#504a4ad0] ">{per.sport}</h1>
                             <p className="text-[#504a4ad0]">facility available : {per.facility}</p>
                           </div>
-                          <div className="pt-3">
+                          <div className="pt-3 mt-auto">
                             <div className="border p-1 flex justify-between items-center bg-[#F3F5F9]">
                               <div>
                                 {/* <h1 className="text-bold text-xl">{per.facility}</h1> */}
@@ -200,7 +196,7 @@ function BookingSection({ turf }) {
                </div> */}
                 {!sportAndFacility.sport ? (
                   <div className="bg-[#a7b4ca3c] rounded-lg">
-                    <div className="py-2 ">
+                    <div className="py-2 hidden sm:block">
                       <span className=" py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full">2</span>
                       <a className="text-2xl font-roboto font-semibold mx-2 text-[#504a4a] ">Select Slots</a>
                     </div>
@@ -211,7 +207,7 @@ function BookingSection({ turf }) {
                 ) : (
                   turf.slots?.length && (
                     <div className="bg-white rounded-lg">
-                      <div className="py-2 ">
+                      <div className="py-2 hidden sm:block">
                         <span className=" py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full">2</span>
                         <a className="text-2xl font-roboto font-semibold mx-2 text-[#504a4a] ">Select Slots</a>
                       </div>
@@ -224,10 +220,10 @@ function BookingSection({ turf }) {
               </div>
               {sportAndFacility.slot ? (
                 <>
-                  <div className="basis-4/12 bg-white h-80 rounded-lg my-11 grid p-2 relative">
-                    <div className="text-[#504a4a64] h-16 rounded bg-[#a7b4ca3c] flex items-start justify-between px-2 w-full text-2xl">
+                  <div className="md:basis-4/12 bg-white h-80 rounded-lg my-4 md:my-11 grid p-2 relative">
+                    <div className="xl:text-2xl h-16 rounded bg-[#a7b4ca3c] flex items-start justify-between px-2 w-full lg:text-xl text-sm">
                       <div>
-                        <p>{sportAndFacility.date}</p>
+                        <p className="text-black">{sportAndFacility.date}</p>
                         <p className="text-sm">
                           {sportAndFacility.sport} {sportAndFacility.facility}
                         </p>
@@ -247,24 +243,22 @@ function BookingSection({ turf }) {
                   </div>
                 </>
               ) : (
-                <>
-                  <div className="basis-4/12 bg-white h-80 rounded-lg my-11 grid justify-items-center relative">
-                    <div className="mt-16 justify-items-center space-y-5 grid absolute top-0">
-                      <div className="text-[#504a4a64] text-8xl">
-                        <EmptyCart />
-                      </div>
-                      <h1 className="font-bold text-[#504a4ad0]">Hudle Up!</h1>
-                      <p className="text-[#504a4ad0]">Book your game now! &#129321;</p>
+                <div className="ml-16 md:basis-4/12 bg-white h-80 rounded-lg my-6 md:my-11 grid justify-items-center relative">
+                  <div className="md:mt-8 flex flex-col justify-center items-center top-0">
+                    <div className="text-[#504a4a64] text-8xl">
+                      <EmptyCart />
                     </div>
-                    <div className="bg-green-400/70 absolute bottom-0 rounded-b-md text-xl py-2 w-full">
-                      <h1 className="ml-4 text-white">Please select slots</h1>
-                    </div>
+                    <h1 className="font-bold text-[#504a4ad0]">Hudle Up!</h1>
+                    <p className="text-[#504a4ad0]">Book your game now! &#129321;</p>
                   </div>
-                </>
+                  <div className="bg-green-400/70 absolute bottom-0 rounded-b-md text-xl py-2 w-full">
+                    <h1 className="ml-4 text-white">Please select slots</h1>
+                  </div>
+                </div>
               )}
             </>
           ) : (
-            <div className="w-full my-11 space-y-6   ">
+            <div className="w-full my-11 space-y-6 ">
               {/* <div className='bg-[#a7b4ca3c] rounded-lg'>
                 <div className='py-2 '>
                   <span className=' py-2 px-3 w-3 -ml-7 bg-[#1a273a] text-white rounded-full'>2</span>
@@ -275,9 +269,9 @@ function BookingSection({ turf }) {
                 </div>
                </div> */}
               <div className="bg-[#a7b4ca3c] rounded-lg">
-                <div className="flex px-4 justify-between py-5 space-x-9 ">
+                <div className="flex flex-col items-center gap-y-2 sm:gap-y-0 sm:flex-row  px-4 justify-between py-5 space-x-9 ">
                   <p className="text-[#504a4ad0]">Please login to see available facility and slots</p>
-                  <Link to="/signin" className="bg-green-700 hover:bg-green-800 text-white rounded px-4 py-2">
+                  <Link to="/signin" className="bg-green-700 text-center hover:bg-green-800 text-white rounded px-4 py-2">
                     LOGIN
                   </Link>
                 </div>

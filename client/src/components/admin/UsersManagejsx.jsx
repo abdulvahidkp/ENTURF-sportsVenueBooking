@@ -13,7 +13,6 @@ function UsersManagejsx() {
   useEffect(()=>{
      axios.get(GET_USERS).then(({data})=>{
       setUsers(data.userDatas)
-      console.log(data.userDatas)
     }).catch(err=>{
       console.log(err.message)
   })

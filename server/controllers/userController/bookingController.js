@@ -13,8 +13,6 @@ function isSlotTimePassed(bookedDate, bookedTime) {
     const bookingDate = new Date(`${bookedDate} ${bookedTime.substring(0, 5)}`);
     const now = new Date();
     const eightHoursAdd = new Date(now.getTime() + (8 * 60 * 60 * 1000));
-    console.log(bookingDate)
-    console.log(eightHoursAdd)
     // Check if the booking time is in the future and is less than 8 hours away
     if (bookingDate < eightHoursAdd) return true;
     return false;
@@ -49,7 +47,7 @@ module.exports = {
                     return res.status(500).json({ message: 'something went wrong', error: error.messaage });
                 }
                 console.log(order);
-                res.status(200).json(order);
+                res.status(200).json({order});
             })
         } catch (error) {
             console.log(error.message);
