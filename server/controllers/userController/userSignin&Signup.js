@@ -38,7 +38,7 @@ module.exports = {
                     }, process.env.JWT_SECRET,
                         { expiresIn: '7d' }
                     );
-                    res.status(201).json({ accessToken })
+                    res.status(201).json(accessToken)
                 }).catch(err => {
                     console.log(err.message)
                     res.status(400).json({ message: 'error occured', err: err.message })

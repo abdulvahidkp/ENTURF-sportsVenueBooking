@@ -59,20 +59,15 @@ module.exports = {
         try {
             const { razorpay_order_id, razorpay_payment_id, razorpay_signature, turfId, slotTime, slotDate, price, sport, facility } = req.body;
             if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !turfId || !slotTime || !slotDate || !price || !sport || !facility) return res.status(400).json({ messaage: 'razorpay_order_id, razorpay_payment_id, razorpay_signature, turfId, slotTime, slotDate, price, sport, facility - fields required' })
-            console.log(req.body)
             const sign = razorpay_order_id + "|" + razorpay_payment_id
             const expectedSign = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET).update(sign.toString()).digest('hex')
             if (razorpay_signature === expectedSign) {
                 const turf = await turfs.findById(turfId)
                 const setPrice = turf.actualPrice - (turf.actualPrice * turf.discountPercentage / 100);
-                console.log('setPrice', setPrice)
                 let user = await users.findOne({_id:req._id})
-                console.log(user)
                 if(price/100 < setPrice){
                     const amountToBeReduce = setPrice - (price/100)
-                    console.log('amountToBeReduce',amountToBeReduce)
                     user = await users.findOneAndUpdate({ _id: req._id }, { $inc: { wallet: -amountToBeReduce } }, { new: true })
-                    console.log('if user',user)
                 }
                 await bookings.create({ orderId: razorpay_order_id, userId: req._id, turfId, slotTime, slotDate, price: setPrice, sport, facility })
                 return res.status(200).json({ message: 'payment verified succesfully', wallet:user.wallet })

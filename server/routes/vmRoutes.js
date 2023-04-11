@@ -19,6 +19,7 @@ router.put('/turf',turfController.updateTurf)
 router.put('/turf/block',verifyToken,turfController.changeBlock)
 
 router.get('/bookings',verifyToken,bookingController.getBookings)
+router.post('/offlineBook',bookingController.makeOfflineBook)
 
 router.put('/profile',verifyToken,vmController.updateProfile)
 

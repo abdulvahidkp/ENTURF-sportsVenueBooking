@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import turfImage from "../../../assets/turfImage.jpeg";
 import { ShareIcon } from "../../../assets/ShareIcon";
 import { Cricket, Football } from "../../../assets/Sports";
 import { Link, useNavigate } from "react-router-dom";

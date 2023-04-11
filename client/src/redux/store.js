@@ -7,6 +7,7 @@ import loadingReducer from "./features/loadingSlice";
 import userReducer from "./features/userSlice";
 import adminReducer from "./features/adminSlice";
 import bookingReducer from './features/bookingSlice'
+import offlineBookingReducer from './features/vm/offlineBookingSlice'
 
 //vm
 import vmReducer from './features/vmSlice'
@@ -23,7 +24,8 @@ const reducer = combineReducers({
     admin: adminReducer,
     vm: vmReducer,
     vmTurfs: vmTurfsReducer,
-    booking: bookingReducer
+    booking: bookingReducer,
+    offlineBooking:offlineBookingReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

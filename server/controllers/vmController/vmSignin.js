@@ -69,6 +69,7 @@ module.exports = {
             //       ]);
             //    const bookedTurfs = await turfs.aggregate([{$match:{vmId:mongoose.Types.ObjectId(req._id)}},{$lookup:{from:'bookings',localField:'_id',foreignField:'turfId',as:'bookingInfo'}},{$project:{venueName:1,bookingInfo:1,_id:0}}])
             //    console.log(bookedTurfs)
+            const quickBookTurfs = await turfs.find({vmId:req._id,approved:true,isBlocked:false,vmIsBlocked:false})
             const latestBooking = await bookings.aggregate([{ $match: { refund: 'not processed' } },  { $lookup: { from: 'users', localField: 'userId', foreignField: '_id', as: 'userDetails' } }, { $unwind: '$userDetails' }
                 , { $lookup: { from: 'turfs', localField: 'turfId', foreignField: '_id', as: 'turfDetails' } }, { $unwind: '$turfDetails' }, { $match: { 'turfDetails.vmId': new ObjectId(req._id) } },
             {
@@ -89,7 +90,8 @@ module.exports = {
             {$sort:{_id:-1}},
             {$limit:5}
             ])
-            res.status(200).json({latestBooking});
+            console.log('latestBooking',latestBooking);
+            res.status(200).json({latestBooking,quickBookTurfs});
         } catch (error) {
             console.log(error)
             res.status(400).json({message:'error occured',error:error.message});

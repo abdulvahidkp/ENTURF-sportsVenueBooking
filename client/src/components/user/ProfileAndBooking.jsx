@@ -4,7 +4,8 @@ import axios from "../../api/axios";
 import toast,{ Toaster } from "react-hot-toast";
 import swal from 'sweetalert'
 import { Wallet } from "../../assets/Wallet";
-import { updateWallet, changeName } from '../../redux/features/userSlice'
+import { updateWallet, changeName,userLogout } from '../../redux/features/userSlice'
+import { Navigate } from "react-router-dom";
 
 function ProfileAndBooking() {
   const user = useSelector((state) => state.user);
@@ -45,9 +46,13 @@ function ProfileAndBooking() {
           Authorization:token
         }
       })
+      console.log('data',data)
       dispatch(changeName(data.name))
     } catch (error) {
       console.log(error)
+      if(error.response.data.message === 'User is blocked'){
+        dispatch(userLogout())
+      }
     }
   }
 
@@ -86,6 +91,7 @@ function ProfileAndBooking() {
   const [aside, setAside] = useState("booking");
   return (
     <div>
+      {!user.isLoggedIn && <Navigate to='/signin' />}
       <Toaster position="top-right" />
       <div className=" w-full min-h-screen h-auto bg-[#F3F5F9]">
         <div className="container">
@@ -119,7 +125,7 @@ function ProfileAndBooking() {
               </div>
             </div>
             {aside === "booking" ? (
-              <div className="bg-white basis-3/4 p-4 space-y-5 ">
+              <div className="bg-white min-h-screen h-auto basis-3/4 p-4 space-y-5 ">
                 <h1 className="font-semibold text-2xl font-roboto text-green-700 ">Bookings</h1>
                 {bookings.length ? (
                   bookings.map((per, index) => (

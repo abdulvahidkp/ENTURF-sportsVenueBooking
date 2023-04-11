@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import turfImage from "../../assets/turfImage.jpeg";
 import toast, { Toaster } from "react-hot-toast";
 import swal from "sweetalert";
 import VMManagerTable from "./VMManagerTable";
@@ -144,7 +143,6 @@ function VMManagejsx() {
                   key={key}
                   handleImageClick={handleImageClick}
                   showTurfs={showTurfs}
-                  turfImage={turfImage}
                   handleStatus={handleStatus}
                   selectedImage={selectedImage}
                   handleClose={handleClose}

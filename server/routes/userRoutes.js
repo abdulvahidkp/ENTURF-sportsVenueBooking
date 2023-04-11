@@ -27,7 +27,7 @@ router.post('/bookedSlot',turfController.getBookedSlots) //
 router.post('/book', verifyToken, bookingController.bookTurf) //
 router.post('/verifyPayment',verifyToken,bookingController.verifyPayment) //
 
-router.get(`/booking/:bookingId/refund`,verifyToken,bookingController.refundToWallet)
+router.get(`/booking/:bookingId/refund`,verifyToken,bookingController.refundToWallet)//
 
 router.get('/bookings',verifyToken,bookingController.getBookings) //
 
