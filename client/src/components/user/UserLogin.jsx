@@ -105,7 +105,7 @@ function UserLogin() {
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <SignImage />
             <div className="py-8 sm:pt-40">
-              <div className="rounded-lg shadow-xl w-96 h-auto">
+              <div className="rounded-lg sm:shadow-xl w-96 h-auto">
                 <div className="px-10 sm:px-4">
                   <h1 className="text-4xl select-none font-semibold font-roboto ">Sign in</h1>
                   <p className="text-md py-2 font-sans">Keep playing stay healthy</p>
@@ -164,10 +164,10 @@ function UserLogin() {
                 </div>
                 <div className="place-content-center">
                   <p className="px-16 py-10">
-                    Don't have an account?
+                    Don't have an account? &nbsp;
                     <Link to="/signup" className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
                       {" "}
-                      Signup
+                      signup
                     </Link>
                   </p>
                 </div>

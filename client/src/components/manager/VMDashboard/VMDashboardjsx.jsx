@@ -113,7 +113,7 @@ function VMDashboardjsx() {
                     ))
                   ) : //else
                   !offlineBooking.sport ? (
-                    offlineBooking.turfDetails.sportFacility.map((perSport, index) => (
+                    offlineBooking.turfDetails?.sportFacility?.map((perSport, index) => (
                       <div key={index} className="border w-44 rounded-md flex flex-col mt-3 ">
                         <div className="p-2">
                           <h1 className="font-semibold text-xl text-[#504a4ad0] ">{perSport.sport}</h1>

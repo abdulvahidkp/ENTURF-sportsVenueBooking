@@ -19,6 +19,7 @@ router.post('/signin/google', userController.googleSignin) //
 router.post('/vmMobile', vmController.mobileExist) //
 router.post('/vmSignup', vmController.vmSignup) //
 
+router.get('/venues',turfController.getAllTurfs)
 router.get('/venues/:district', turfController.getTurfs) //
 router.get('/venue/:_id', turfController.getTurf) //
 

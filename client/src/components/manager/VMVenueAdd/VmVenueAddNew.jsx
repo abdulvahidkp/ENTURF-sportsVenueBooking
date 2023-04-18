@@ -167,8 +167,13 @@ function VmVenueAddNew() {
   };
 
   useEffect(() => {
+    let token = localStorage.getItem('vm');
     try {
-      axios.get(GET_SPORTS).then(({ data }) => {
+      axios.get(GET_SPORTS,{
+        headers:{
+          Authorization:token
+        }
+      }).then(({ data }) => {
         setSports(data.response);
       });
     } catch (error) {

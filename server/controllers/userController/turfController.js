@@ -4,6 +4,14 @@ const Razorpay = require('razorpay')
 const crypto = require('crypto')
 
 module.exports = {
+    getAllTurfs:async (req,res)=> {
+        turfs.find({ approved: true, isBlocked: false, vmIsBlocked: false}).then(response=>{
+            res.status(200).json(response)
+        }).catch(err=>{
+            console.log(err)
+            res.status(400).json({ message: 'error occured ',error:err.message });
+        })
+    },
     getTurfs: async (req, res) => {
         const { district } = req.params;
         turfs.find({ district, approved: true, isBlocked: false, vmIsBlocked: false }).then(response => {

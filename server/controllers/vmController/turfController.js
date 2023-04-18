@@ -39,6 +39,9 @@ module.exports = {
     }
   },
   addTurf: async (req, res) => {
+    console.log(req.body);
+    const {venueName, mobile, district, place, actualPrice, discountPercentage, description, image, document, slots, sportFacility, lat, lng} = req.body
+    if(!venueName || !mobile || !district || !place || !actualPrice || !discountPercentage || !description || !image || !document || !slots || !sportFacility || !lat || !lng) return res.status(400).json({message:'venueName, mobile, district, place, actualPrice, discountPercentage, description, image, document, slots, sportFacility, lat, lng - fields required'})
     turfs.create({ vmId: req._id, ...req.body }).then(response => {
       res.status(200).json({ message: 'success' })
     }).catch(err => {

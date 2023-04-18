@@ -194,7 +194,7 @@ function UserSignup() {
             </div>
             {success ? (
               <div className="py-10 sm:pt-40">
-                <div className="rounded-lg shadow-xl w-96 h-auto py-4">
+                <div className="rounded-lg sm:shadow-xl w-96 h-auto py-4">
                   <div className="px-10 sm:px-4">
                     <h1 className="text-4xl select-none font-semibold font-roboto ">
                       Enter your OTP that send to you mobile
@@ -260,7 +260,7 @@ function UserSignup() {
               </div>
             ) : (
               <div className="py-10 sm:pt-40">
-                <div className="rounded-lg shadow-xl w-96 h-auto">
+                <div className="rounded-lg sm:shadow-xl w-96 h-auto">
                   <div className="px-10 sm:px-4">
                     <h1 className="text-4xl select-none font-semibold font-roboto ">
                       Sign up
@@ -465,10 +465,10 @@ function UserSignup() {
                   </div>
                   <div className="place-content-center">
                     <p className="px-16 py-10">
-                      already have an account?
+                      already have an account? &nbsp;
                       <Link to="/signin">
                         <span className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
-                          Signin
+                           signin
                         </span>
                       </Link>
                     </p>

@@ -44,7 +44,7 @@ module.exports = {
     },
     updateProfile: async (req, res) => {
         const id = req._id;
-        const { name, mobile, image, rejectUpdate } = req.body
+        const { name, mobile, image, rejectUpdate } = req.body;
         if (rejectUpdate) {
             if (image) {
                 vms.findOneAndUpdate({ _id: id }, { '$set': { name, image, reason: '', status: 'pending' } }).then(response => {
@@ -54,7 +54,6 @@ module.exports = {
                 vms.findOneAndUpdate({ _id: id }, { '$set': { name, reason: '', status: 'pending' } }).then(response => {
                     res.status(200).json(response)
                 })
-
             }
         }
     },

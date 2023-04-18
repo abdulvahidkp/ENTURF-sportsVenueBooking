@@ -111,7 +111,7 @@ function VenueManagerSignup() {
   });
 
   return (
-    <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 py-32 sm:px-16 lg:px-32 xl:px-72 ">
+    <div className="bg-gradient-to-r min-h-screen from-emerald-50 to-emerald-100 py-32 sm:px-16 lg:px-32 xl:px-72 ">
       <div className="container">
         <div className="w-full h-45 bg-white shadow-md rounded-md p-8 space-y-6 ">
           <div className="space-y-1">
