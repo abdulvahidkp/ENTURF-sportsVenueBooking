@@ -18,7 +18,8 @@ function SportsManagejsx() {
 
   useEffect(() => {
     try {
-      axios.get(SPORTS_GET).then(({ data }) => {
+      const token = localStorage.getItem('admin')
+      axios.get(SPORTS_GET,{headers:{Authorization:token}}).then(({ data }) => {
         setSports(data.sportsDatas);
       });
     } catch (error) {
@@ -41,8 +42,9 @@ function SportsManagejsx() {
     })
     .then((confirm)=>{
       if(confirm){
+        const token = localStorage.getItem('admin')
         try {
-          axios.put(SPORTS_STATUS, facilityData).then((response) => {
+          axios.put(SPORTS_STATUS, facilityData,{headers:{Authorization:token}}).then((response) => {
             setSports(
               sports.map((sport) =>
                 sport._id === _id

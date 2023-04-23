@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
     adminLogin: async (req, res) => {
+        if(!req.body.name || !req.body.password)  return res.status(400).json({message:'name, password - field is required'})
         await admins.findOne({ name: req.body.name }).then(admin => {
             if (!admin) {
                 return res.sendStatus(401); //unauthorized

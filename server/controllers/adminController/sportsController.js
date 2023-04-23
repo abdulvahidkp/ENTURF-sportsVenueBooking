@@ -11,6 +11,7 @@ module.exports = {
     },
     changeStatus: async (req, res) => {
         const { _id, facility, status } = req.body
+        if(!_id || !facility || !status) return res.status(400).json({message:"_id, facility, status  - fields is required"})
          sports.updateOne({ _id }, { $set: { 'facilityDetails.$[elem].status': status } }, { arrayFilters: [{ 'elem.facility': facility }] })
         .then(()=>res.sendStatus(200)).catch(err=>{
             console.log(err.message);

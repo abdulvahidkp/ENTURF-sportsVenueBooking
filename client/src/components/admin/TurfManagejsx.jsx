@@ -16,8 +16,9 @@ function TurfManagejsx() {
   const [indexNo,setIndexNo] = useState(null)
 
   useEffect(() => {
+    const token = localStorage.getItem('admin')
     axios
-      .get("/admin/turf")
+      .get("/admin/turf",{headers:{Authorization:token}})
       .then(({ data }) => {
         setTurfs(data.response);
       })

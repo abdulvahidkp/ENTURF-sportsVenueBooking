@@ -18,12 +18,13 @@ function VMManagejsx() {
  
 
   useEffect(() => {
-    axios.get(GET_VMS).then(({ data }) => {
+    const token = localStorage.getItem('admin')
+    axios.get(GET_VMS,{headers:{Authorization:token}}).then(({ data }) => {
       setVms(data.vmsDatas);
     });
   }, []);
 
-  const handleBlock = (id, status) => {
+  const handleBlock = (_id, status) => {
     swal({
       title: `${status ? "Unblock Manager?" : "Block Manager?"}`,
       text: `Are you sure you want to ${status ? "Unblock" : "Block"} this Manager?`,
@@ -32,10 +33,11 @@ function VMManagejsx() {
       dangerMode: status ? false : true,
     }).then((confirm) => {
       if (confirm) {
+        const token = localStorage.getItem('admin');
         axios
-          .put(CHANGE_BLOCK + `/${id}`)
+          .put(CHANGE_BLOCK ,{_id},{headers:{Authorization:token}})
           .then((response) => {
-            setVms(vms.map((vm) => (vm._id === id ? { ...vm, blockStatus: !vm.blockStatus } : vm)));
+            setVms(vms.map((vm) => (vm._id === _id ? { ...vm, blockStatus: !vm.blockStatus } : vm)));
             toast.success(`User ${status ? "unblocked" : "blocked"} successfully!`);
           })
           .catch((err) => {
