@@ -16,6 +16,7 @@ router.post('/turf',verifyToken,turfController.addTurf)
 router.get('/turfs',verifyToken,turfController.getTurfs) 
 router.get('/turf/:id',turfController.getTurf)
 router.put('/turf',turfController.updateTurf)
+router.put('/turf/:id',turfController.updateTurfFlutter) //for flutter 
 router.put('/turf/block',verifyToken,turfController.changeBlock)
 
 router.get('/bookings',verifyToken,bookingController.getBookings)

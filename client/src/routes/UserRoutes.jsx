@@ -13,6 +13,7 @@ import AuthenticatedRoute from "../util/authenticatedRoute";
 import UnAuthenticatedRoute from "../util/unAuthenticatedRoute";
 import ConfirmationPage from "../pages/user/Confirmation";
 import CancellationPolicy from "../pages/user/CancellationPolicy";
+import ClusterMap from "../components/user/map/ClusterMap";
 
 function UserRoutes() {
   return (
@@ -31,6 +32,9 @@ function UserRoutes() {
         {/* <Route element={<RequireAuth />}>
           <Route path="profile" element={<Profile />} />
         </Route> */}
+
+        <Route path="map" element={<ClusterMap/>} />
+
       </Route>
     </Routes>
   );
