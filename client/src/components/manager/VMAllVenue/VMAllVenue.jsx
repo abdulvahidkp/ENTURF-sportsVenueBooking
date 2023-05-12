@@ -44,6 +44,7 @@ function VMAllVenue() {
             toast.success(`Turf ${status ? "unblocked" : "blocked"} successfully!`);
           })
           .catch((err) => {
+            console.log(err)
             console.log(err.message);
           });
       }
